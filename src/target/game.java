@@ -1,36 +1,39 @@
 package target;
 
-import java.awt.Frame;
-import java.awt.Window;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
 
 public class game {
-	//dsfdsafsdfdsfa
+	static String ID ;
+	static long launchTime;
 	public static void main(String[] args) {
-		System.out.println("fuck!!!!!!!!!!!!!!!!!!!");
-		
+		ID = args[4];
+		System.out.println(ID+".start");
+		launchTime = System.currentTimeMillis();
 		try{
-			Socket socket=new Socket(args[0],Integer.parseInt(args[1]));
-			BufferedReader sin=new BufferedReader(new InputStreamReader(System.in));
+			Socket socket=new Socket(args[0],Integer.parseInt(args[1]),InetAddress.getByName(args[2]),Integer.parseInt(args[3]));
 			PrintWriter os=new PrintWriter(socket.getOutputStream());
 			BufferedReader is=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			String readline;
-			readline=sin.readLine();
-			while(!readline.equals("bye")){
-				os.println(readline);
-				os.flush();
-				System.out.println("Client:"+readline);
-				System.out.println("Server:"+is.readLine());
-				readline=sin.readLine();
-				} 
+			os.print("reg:ID jude");
+			String line;
+			
+			while(true){
+				
+				if((line = is.readLine())!=null){
+					System.out.println(line);
+					break;
+				}
+				if(System.currentTimeMillis()-launchTime>5000){
+					System.out.println(ID+".wait for respones time out");
+					break;
+				}
+				
+			}
 			os.close(); 
 			is.close(); 
 			socket.close(); 
