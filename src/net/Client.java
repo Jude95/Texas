@@ -9,6 +9,7 @@ import config.Config;
 import framework.Manager;
 import util.Log;
 
+
 public class Client {
 	Socket socket;
 	String ID;
@@ -46,7 +47,6 @@ public class Client {
 		mObservers.remove(observer);
 	}
 	
-	
 	void dispatchMessage(String msg){
 		for(IMessageObserver obs:mObservers){
 			obs.onMessageReceive(msg);
@@ -62,7 +62,6 @@ public class Client {
 		};
 	}
 
-	
 	public void finish(){
 		try {
 			socket.close();
