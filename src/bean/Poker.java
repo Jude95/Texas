@@ -9,6 +9,10 @@ public class Poker implements Comparable<Poker>{
 	 */
 	private int point;
 	
+	public Poker(String point){
+		this(Color.NULL,point);
+	}
+	
 	public Poker(Color color, String point) {
 		this.color = color;
 		this.point = parsePoint(point);
@@ -25,6 +29,22 @@ public class Poker implements Comparable<Poker>{
 	}
 	public void setPoint(String point) {
 		this.point = parsePoint(point);
+	}
+
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(this.point != ((Poker)obj).point){
+			return false;
+		}
+		if(this.getColor() == Color.NULL || ((Poker)obj).getColor() == Color.NULL){
+			return true;
+		}
+		if(this.getColor() == ((Poker)obj).getColor()){
+			return true;
+		}
+		return false;
 	}
 
 	public int compareTo(Poker o) {

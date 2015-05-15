@@ -1,6 +1,6 @@
 package bean;
 
-public class Person {
+public class Person implements Comparable<Person>{
 	private String id;
 	private int jetton;
 	private int money;
@@ -29,6 +29,11 @@ public class Person {
 	}
 	public void setMoney(int money) {
 		this.money = money;
+	}
+
+	@Override
+	public int compareTo(Person o) {
+		return (this.jetton < o.jetton)?-1:1;
 	}
 
 }
