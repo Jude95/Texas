@@ -11,13 +11,13 @@ import bean.*;
 public class Probability{
 	
 	
-	public static void main(String[] args) {
-		Probability p = new Probability();
-		Poker[] poker = {new Poker("A"),new Poker("K")};
-		System.out.println(p.get2HighCard(poker));
-		System.out.println(p.get2OnePair(poker));
-		System.out.println(p.get2TwoPair(poker));
-	}
+//	public static void main(String[] args) {
+//		Probability p = new Probability();
+//		Poker[] poker = {new Poker("A"),new Poker("K")};
+//		System.out.println(p.get2HighCard(poker));
+//		System.out.println(p.get2OnePair(poker));
+//		System.out.println(p.get2TwoPair(poker));
+//	}
 	
 	public Action getProbabilityAction(ISceneReader reader){
 		Action mAction= null;
