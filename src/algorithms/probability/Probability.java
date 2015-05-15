@@ -1,12 +1,7 @@
 package algorithms.probability;
-
-
-import framework.record.ISceneReader;
-import algorithm.IAlgorithm;
-import bean.Action;
 import bean.Poker;
 
-public class Probability implements IAlgorithm{
+public class Probability{
 
 	
 	public double getProbability(Poker[] poker){
@@ -14,14 +9,7 @@ public class Probability implements IAlgorithm{
 		
 		return 0;
 	}
-
-	@Override
-	public Action calculate(ISceneReader reader) {
-		
-		
-		return null;
-	}
-	
 	
 	
 }
+
