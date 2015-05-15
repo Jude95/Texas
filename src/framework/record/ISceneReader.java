@@ -12,7 +12,7 @@ public interface ISceneReader {
 	public int pot();
 	//人员数组，庄家 小盲注 大盲注………依次
 	public Person[] person();
-	//当前第几手
+	//当前第几圈
 	public int roundNum();
 	//座位序号
 	public int seatNum();

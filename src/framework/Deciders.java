@@ -2,8 +2,10 @@ package framework;
 
 import java.util.Map;
 
+import framework.record.ISceneReader;
 import framework.translate.IActionObserver;
 import framework.translate.IActionPoster;
+import bean.Action;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
@@ -11,14 +13,33 @@ import bean.Result;
 
 public class Deciders implements IActionObserver{
 	private IActionPoster mActionPoster;
-	
-	public Deciders(IActionPoster actionPoster) {
+	private ISceneReader mSceneReader;
+	public Deciders(IActionPoster actionPoster,ISceneReader sceneReader) {
 		mActionPoster = actionPoster;
+		mSceneReader = sceneReader;
 	}
 
 	@Override
 	public void inquire(Incident[] action, int total) {
-		mActionPoster.raise(50);
+		Action[] actions = new Action[]{Action.check,Action.call,Action.raise,Action.all_in,Action.fold};
+		int i = (int) (Math.random()*actions.length);
+		switch (actions[i]) {
+		case check:
+			mActionPoster.check();
+			break;
+		case call:
+			mActionPoster.call();
+			break;
+		case raise:
+			mActionPoster.raise(200);
+			break;
+		case all_in:
+			mActionPoster.all_in();
+			break;
+		default:
+			mActionPoster.fold();
+			break;
+		}
 	}
 	
 	
