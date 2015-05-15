@@ -3,6 +3,7 @@ package framework.record;
 import java.util.Map;
 
 import framework.translate.IActionObserver;
+import bean.Action;
 import bean.Combination;
 import bean.Incident;
 import bean.Person;
@@ -103,7 +104,7 @@ public class SceneRecorder implements IActionObserver,ISceneReader{
 	}
 
 	@Override
-	public Combination[] combinations() {
+	public Action[] combinations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
