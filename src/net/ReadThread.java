@@ -8,7 +8,7 @@ import util.Log;
 
 
 class ReadThread extends Thread {
-	private static final int TIMEOUT = 100000;
+	private static final int TIMEOUT = 10000;
 	
 	private Client mClient;
 
@@ -42,7 +42,7 @@ class ReadThread extends Thread {
 				}
 				
 				if(System.currentTimeMillis()-mDutyTime>TIMEOUT){
-					mClient.dispatchMessage("Server time out");
+					mClient.dispatchMessage("/Server time out");
 					mClient.finish();
 				}
 			}

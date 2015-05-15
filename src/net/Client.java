@@ -14,9 +14,9 @@ public class Client {
 	Socket socket;
 	String ID;
 	
-	private Manager mManager;
 	private ReadThread mReadThread;
 	private WriteThread mWriteThread;
+	private NetLogObserver mNetLogObserver;
 	private ArrayList<IMessageObserver> mObservers = new ArrayList<IMessageObserver>();
 	
 	private Client(String serverIP,int serverPort,String localIP,int localPort,String ID){
@@ -29,14 +29,15 @@ public class Client {
 	}
 	
 	private void init(){
-		registerObserver(new NetLogObserver());
+		mNetLogObserver = new NetLogObserver();
+		registerObserver(mNetLogObserver);
 		Log.setDefaultDir(String.format(Config.LogDir, ID));
 		mReadThread = new ReadThread(this);
 		mReadThread.start();
 		mWriteThread = new WriteThread(this);
 		mWriteThread.start();
 		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+"\n");
-		mManager = new Manager(this);
+		Manager.init(this);
 	}
 	
 	public void registerObserver(IMessageObserver observer){
@@ -48,15 +49,27 @@ public class Client {
 	}
 	
 	void dispatchMessage(String msg){
+		if(interceptMessage(msg)){
+			return;
+		}
 		for(IMessageObserver obs:mObservers){
 			obs.onMessageReceive(msg);
 		}
+	}
+	
+	boolean interceptMessage(String msg){
+		if(msg.trim().equals("game-over")){
+			finish();
+			return true;
+		}
+		return false;
 	}
 	
 	public IMessagePoster obtainMessagePoster(){
 		return new IMessagePoster() {
 			@Override
 			public void send(String msg) {
+				mNetLogObserver.onMessageReceive("output/\n"+msg+"\n/output");
 				mWriteThread.addMessage(msg);
 			}
 		};
