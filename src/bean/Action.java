@@ -2,7 +2,16 @@ package bean;
 
 public enum Action {
 	blind,check ,call ,raise ,all_in,fold;
-	
+	private int num;
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	public static Action params(String str){
 		if(str.equals(blind.name())){
 			return blind;
