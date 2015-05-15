@@ -17,7 +17,7 @@ public interface ISceneReader {
 	//座位序号
 	public int seatNum();
 	//当前可进行操作
-	public Action[] combinations();
+	public Action[] availableAction();
 	//取所有公牌
 	public Poker[] common();
 	//取当前跟注大小

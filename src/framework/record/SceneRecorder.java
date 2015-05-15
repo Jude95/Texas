@@ -104,7 +104,7 @@ public class SceneRecorder implements IActionObserver,ISceneReader{
 	}
 
 	@Override
-	public Action[] combinations() {
+	public Action[] availableAction() {
 		// TODO Auto-generated method stub
 		return null;
 	}
