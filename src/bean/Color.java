@@ -1,6 +1,6 @@
 package bean;
 public enum Color{
-	SPADES,HEARTS,CLUBS,DIAMONDS;
+	NULL,SPADES,HEARTS,CLUBS,DIAMONDS;
 	
 	public static Color params(String str){
 		if(str.equals(SPADES.name())){
@@ -9,8 +9,10 @@ public enum Color{
 			return HEARTS;
 		}else if(str.equals(CLUBS.name())){
 			return CLUBS;
-		}else{
+		}else if(str.equals(DIAMONDS.name())){
 			return DIAMONDS;
+		}else{
+			return NULL;
 		}
 	}
 }
