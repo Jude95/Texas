@@ -3,17 +3,25 @@ package framework.translate;
 import java.util.ArrayList;
 
 import util.Log;
+import framework.IActionProcessor;
 import framework.IProgressObserver;
 import framework.translate.SimpleOrderFitter.OrderCallback;
+import bean.Action;
 import bean.Color;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
 import net.IMessageObserver;
+import net.IMessagePoster;
 
 public class Translator implements IMessageObserver , OrderCallback{
 	private DispatchProgressObserver dispatcher = new DispatchProgressObserver();
+	private IMessagePoster poster;
 	private SimpleOrderFitter simpleOrderFitter = new SimpleOrderFitter(this);
+	
+	public Translator(IMessagePoster poster){
+		this.poster = poster;
+	}
 	
 	public void registerObserver(IProgressObserver observer){
 		dispatcher.registerObserver(observer);
@@ -28,6 +36,36 @@ public class Translator implements IMessageObserver , OrderCallback{
 		simpleOrderFitter.append(msg);
 	}
 	
+	public IActionProcessor obtainActionProcessor(){
+		return new IActionProcessor() {
+			
+			@Override
+			public void raise(int num) {
+				poster.send(Action.raise.name()+" "+num);
+			}
+			
+			@Override
+			public void fold() {
+				poster.send(Action.fold.name());
+			}
+			
+			@Override
+			public void check() {
+				poster.send(Action.fold.name());
+			}
+			
+			@Override
+			public void call() {
+				poster.send(Action.call.name());
+			}
+			
+			@Override
+			public void all_in() {
+				poster.send(Action.all_in.name());
+			}
+		};
+	}
+	
 	@Override
 	public void onOrderCallback(String order, String[] content) {
 		if(order.equals("seat")){
@@ -36,6 +74,14 @@ public class Translator implements IMessageObserver , OrderCallback{
 			bind(content);
 		}else if(order.equals("hold")){
 			hold(content);
+		}else if(order.equals("inquire")){
+			inquire(content);
+		}else if(order.equals("flop")){
+			flop(content);
+		}else if(order.equals("turn")){
+			turn(content);
+		}else if(order.equals("river")){
+			river(content);
 		}
 	}
 	
@@ -63,10 +109,40 @@ public class Translator implements IMessageObserver , OrderCallback{
 		ArrayList<Poker> pokers = new ArrayList<Poker>();
 		for(String line:content){
 			String[] params = line.split(" ");
-			pokers.add(new Poker(Color.params(params[0]), Integer.parseInt(params[1])));
+			pokers.add(new Poker(Color.params(params[0]), params[1]));
 		}
 		dispatcher.hold(pokers.toArray(new Poker[0]));
 	}
 	
+	public void inquire(String[] content){
+		ArrayList<Incident> incidents = new ArrayList<Incident>();
+		for(int i = 0;i<content.length-1;i++){
+			String[] params = content[i].split(" ");
+			Incident incident = new Incident(new Person(params[0], Integer.parseInt(params[1]), Integer.parseInt(params[2])),Integer.parseInt(params[3]),Action.params(params[4]));
+			incidents.add(incident);
+		}
+		String[] params1 = content[content.length-1].split(" ");
+		int total = Integer.parseInt(params1[params1.length-1]);
+		dispatcher.inquire(incidents.toArray(new Incident[0]),total);
+	}
+	
+	public void flop(String[] content){
+		ArrayList<Poker> pokers = new ArrayList<Poker>();
+		for(String line:content){
+			String[] params = line.split(" ");
+			pokers.add(new Poker(Color.params(params[0]), params[1]));
+		}
+		dispatcher.flop(pokers.toArray(new Poker[0]));
+	}
+	
+	public void turn(String[] content){
+		String[] params = content[0].split(" ");
+		dispatcher.turn(new Poker(Color.params(params[0]), params[1]));
+	}
+	
+	public void river(String[] content){
+		String[] params = content[0].split(" ");
+		dispatcher.river(new Poker(Color.params(params[0]), params[1]));
+	}
 	
 }

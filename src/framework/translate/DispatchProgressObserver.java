@@ -42,9 +42,9 @@ class DispatchProgressObserver implements IProgressObserver{
 	}
 
 	@Override
-	public void inquire(Incident[] action) {
+	public void inquire(Incident[] action,int total) {
 		for(IProgressObserver ob:mObservers){
-			ob.inquire(action);
+			ob.inquire(action,total);
 		}
 	}
 

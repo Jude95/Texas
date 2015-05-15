@@ -15,7 +15,7 @@ public interface IProgressObserver {
 	//手牌，只有2张
 	public void hold(Poker[] poker);
 	//本轮在你之前的操作
-	public void inquire(Incident[] action);
+	public void inquire(Incident[] action,int total);
 	//公牌消息,3张poker
 	public void flop(Poker[] poker);
 	//转牌消息,1张poker

@@ -17,6 +17,7 @@ public class Client {
 	private Manager mManager;
 	private ReadThread mReadThread;
 	private WriteThread mWriteThread;
+	private NetLogObserver mNetLogObserver;
 	private ArrayList<IMessageObserver> mObservers = new ArrayList<IMessageObserver>();
 	
 	private Client(String serverIP,int serverPort,String localIP,int localPort,String ID){
@@ -29,7 +30,8 @@ public class Client {
 	}
 	
 	private void init(){
-		registerObserver(new NetLogObserver());
+		mNetLogObserver = new NetLogObserver();
+		registerObserver(mNetLogObserver);
 		Log.setDefaultDir(String.format(Config.LogDir, ID));
 		mReadThread = new ReadThread(this);
 		mReadThread.start();
@@ -57,6 +59,7 @@ public class Client {
 		return new IMessagePoster() {
 			@Override
 			public void send(String msg) {
+				mNetLogObserver.onMessageReceive("output/\n"+msg+"\n/output");
 				mWriteThread.addMessage(msg);
 			}
 		};

@@ -10,11 +10,13 @@ import net.Client;
 public class Manager {
 	private Client mClient;
 	private Translator mTranslator;
+	private IActionProcessor mActionProcessor;
 	
 	public Manager(Client client){
 		this.mClient = client;
-		mTranslator = new Translator();
+		mTranslator = new Translator(client.obtainMessagePoster());
 		mClient.registerObserver(mTranslator);
+		mActionProcessor = mTranslator.obtainActionProcessor();
 		mTranslator.registerObserver(new IProgressObserver() {
 			
 			@Override
@@ -35,9 +37,8 @@ public class Manager {
 			}
 			
 			@Override
-			public void inquire(Incident[] action) {
-				// TODO Auto-generated method stub
-				
+			public void inquire(Incident[] action,int total) {
+				mActionProcessor.raise(100);
 			}
 			
 			@Override

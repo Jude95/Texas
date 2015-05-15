@@ -26,7 +26,7 @@ public class SceneRecorder implements IProgressObserver{
 	}
 
 	@Override
-	public void inquire(Incident[] action) {
+	public void inquire(Incident[] action,int total) {
 		// TODO Auto-generated method stub
 		
 	}
