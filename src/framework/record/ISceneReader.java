@@ -1,5 +1,6 @@
 package framework.record;
 
+import bean.Action;
 import bean.Combination;
 import bean.Person;
 import bean.Poker;
@@ -16,7 +17,7 @@ public interface ISceneReader {
 	//座位序号
 	public int seatNum();
 	//当前可进行操作
-	public Combination[] combinations();
+	public Action[] combinations();
 	//取所有公牌
 	public Poker[] common();
 	//取当前跟注大小
