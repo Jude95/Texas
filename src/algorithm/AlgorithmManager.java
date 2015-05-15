@@ -14,15 +14,11 @@ public class AlgorithmManager implements IAlgorithm{
 	
 	@Override
 	public Action calculate(ISceneReader reader) {
-		
 		return mSkill.getSkillAK(reader);
 	}
 	
 	private void init(){
 		mSkill = new Skill();
 	}
-
-
 	
-
 }
