@@ -1,6 +1,6 @@
 package bean;
 
-public class Poker {
+public class Poker implements Comparable<Poker>{
 	private Color color;
 	
 	/*
@@ -26,6 +26,12 @@ public class Poker {
 	public void setPoint(int point) {
 		this.point = point;
 	}
+	
+	@Override
+	public int compareTo(Poker o) {
+		return this.point>o.point?1:-1;
+	}
+	
 }
 
 	
