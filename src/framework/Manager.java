@@ -6,6 +6,7 @@ import util.Log;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
+import bean.Result;
 import framework.translate.Translator;
 import net.Client;
 
@@ -68,6 +69,12 @@ public class Manager {
 
 			@Override
 			public void pot_win(Map<String, Integer> pot) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void showdown(Result[] results) {
 				// TODO Auto-generated method stub
 				
 			}

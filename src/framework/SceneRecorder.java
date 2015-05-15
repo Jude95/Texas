@@ -5,6 +5,7 @@ import java.util.Map;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
+import bean.Result;
 
 public class SceneRecorder implements IProgressObserver{
 
@@ -59,6 +60,12 @@ public class SceneRecorder implements IProgressObserver{
 
 	@Override
 	public void pot_win(Map<String, Integer> pot) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showdown(Result[] results) {
 		// TODO Auto-generated method stub
 		
 	}
