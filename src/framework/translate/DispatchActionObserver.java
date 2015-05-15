@@ -7,23 +7,23 @@ import bean.Incident;
 import bean.Person;
 import bean.Poker;
 import bean.Result;
-import framework.IProgressObserver;
+import framework.IActionObserver;
 
-class DispatchProgressObserver implements IProgressObserver{
-	private ArrayList<IProgressObserver> mObservers = new ArrayList<IProgressObserver>();
+class DispatchActionObserver implements IActionObserver{
+	private ArrayList<IActionObserver> mObservers = new ArrayList<IActionObserver>();
 	
-	public void registerObserver(IProgressObserver observer){
+	public void registerObserver(IActionObserver observer){
 		mObservers.add(observer);
 	}
 	
-	public void unRegisterObserver(IProgressObserver observer){
+	public void unRegisterObserver(IActionObserver observer){
 		mObservers.remove(observer);
 	}
 	
 	
 	@Override
 	public void seat(Person[] person) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.seat(person);
 		}
 	}
@@ -31,49 +31,49 @@ class DispatchProgressObserver implements IProgressObserver{
 	@Override
 	public void blind(String smallId, int smallJetton, String bigId,
 			int bigJetton) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.blind(smallId,smallJetton,bigId,bigJetton);
 		}
 	}
 
 	@Override
 	public void hold(Poker[] poker) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.hold(poker);
 		}
 	}
 
 	@Override
 	public void inquire(Incident[] action,int total) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.inquire(action,total);
 		}
 	}
 
 	@Override
 	public void flop(Poker[] poker) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.flop(poker);
 		}
 	}
 
 	@Override
 	public void turn(Poker poker) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.turn(poker);
 		}
 	}
 
 	@Override
 	public void river(Poker poker) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.river(poker);
 		}
 	}
 
 	@Override
 	public void blind(String smallId, int smallJetton) {
-		for(IProgressObserver ob:mObservers){
+		for(IActionObserver ob:mObservers){
 			ob.blind(smallId,smallJetton);
 		}
 	}

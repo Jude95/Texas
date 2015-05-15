@@ -10,75 +10,25 @@ import bean.Result;
 import framework.translate.Translator;
 import net.Client;
 
-public class Manager {
+public class Manager{
 	private Client mClient;
 	private Translator mTranslator;
-	private IActionProcessor mActionProcessor;
-	
+	private Deciders mDeciders;
+	private SceneRecorder mSceneRecorder;
+
 	public Manager(Client client){
 		this.mClient = client;
+		//初始化翻译机，与client双向绑定
 		mTranslator = new Translator(client.obtainMessagePoster());
 		mClient.registerObserver(mTranslator);
-		mActionProcessor = mTranslator.obtainActionProcessor();
-		mTranslator.registerObserver(new IProgressObserver() {
-			
-			@Override
-			public void turn(Poker poker) {
-				
-			}
-			
-			@Override
-			public void seat(Person[] person) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void river(Poker poker) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void inquire(Incident[] action,int total) {
-				mActionProcessor.raise(100);
-			}
-			
-			@Override
-			public void hold(Poker[] poker) {
-				Log.Log("hold poker :"+poker[0].getPoint());
-			}
-			
-			@Override
-			public void flop(Poker[] poker) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void blind(String smallId, int smallJetton) {
-				Log.Log("blind :"+smallId);
-			}
-			
-			@Override
-			public void blind(String smallId, int smallJetton, String bigId,
-					int bigJetton) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void pot_win(Map<String, Integer> pot) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void showdown(Result[] results) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
+		//初始化决策者，与翻译机双向绑定
+		mDeciders = new Deciders(mTranslator.obtainActionPoster());
+		mTranslator.registerObserver(mDeciders);
+		
+		mSceneRecorder = new SceneRecorder();
+		mTranslator.registerObserver(mSceneRecorder);
+		
 	}
 
 }

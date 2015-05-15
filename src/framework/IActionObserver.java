@@ -8,7 +8,7 @@ import bean.Person;
 import bean.Poker;
 import bean.Result;
 
-public interface IProgressObserver {
+public interface IActionObserver {
 	//座次信息。按顺序排，依次为庄家，小盲注，大盲注
 	public void seat(Person[] person);
 	//小盲注，大盲注下注

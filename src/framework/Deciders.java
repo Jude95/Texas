@@ -7,7 +7,12 @@ import bean.Person;
 import bean.Poker;
 import bean.Result;
 
-public class SceneRecorder implements IActionObserver{
+public class Deciders implements IActionObserver{
+	private IActionPoster mActionPoster;
+	
+	public Deciders(IActionPoster actionPoster) {
+		mActionPoster = actionPoster;
+	}
 
 	@Override
 	public void seat(Person[] person) {
@@ -23,13 +28,19 @@ public class SceneRecorder implements IActionObserver{
 	}
 
 	@Override
+	public void blind(String smallId, int smallJetton) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void hold(Poker[] poker) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void inquire(Incident[] action,int total) {
+	public void inquire(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -48,12 +59,6 @@ public class SceneRecorder implements IActionObserver{
 
 	@Override
 	public void river(Poker poker) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void blind(String smallId, int smallJetton) {
 		// TODO Auto-generated method stub
 		
 	}

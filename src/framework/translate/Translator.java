@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.Log;
-import framework.IActionProcessor;
-import framework.IProgressObserver;
+import framework.IActionPoster;
+import framework.IActionObserver;
 import framework.translate.SimpleOrderFitter.OrderCallback;
 import bean.Action;
 import bean.Color;
@@ -18,7 +18,7 @@ import net.IMessageObserver;
 import net.IMessagePoster;
 
 public class Translator implements IMessageObserver , OrderCallback{
-	private DispatchProgressObserver dispatcher = new DispatchProgressObserver();
+	private DispatchActionObserver dispatcher = new DispatchActionObserver();
 	private IMessagePoster poster;
 	private SimpleOrderFitter simpleOrderFitter = new SimpleOrderFitter(this);
 	
@@ -26,11 +26,11 @@ public class Translator implements IMessageObserver , OrderCallback{
 		this.poster = poster;
 	}
 	
-	public void registerObserver(IProgressObserver observer){
+	public void registerObserver(IActionObserver observer){
 		dispatcher.registerObserver(observer);
 	}
 	
-	public void unRegisterObserver(IProgressObserver observer){
+	public void unRegisterObserver(IActionObserver observer){
 		dispatcher.unRegisterObserver(observer);
 	}
 	
@@ -39,8 +39,8 @@ public class Translator implements IMessageObserver , OrderCallback{
 		simpleOrderFitter.append(msg);
 	}
 	
-	public IActionProcessor obtainActionProcessor(){
-		return new IActionProcessor() {
+	public IActionPoster obtainActionPoster(){
+		return new IActionPoster() {
 			
 			@Override
 			public void raise(int num) {
