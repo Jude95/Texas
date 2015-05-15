@@ -14,8 +14,6 @@ public enum Combination{
 	public static Combination parse(String str){
 		if (str.equals(HIGH_CARD.name())){
 			return HIGH_CARD;
-		}else if (str.equals(HIGH_CARD.name())){
-			return HIGH_CARD;
 		}else if (str.equals(ONE_PAIR.name())){
 			return ONE_PAIR;
 		}else if (str.equals(TWO_PAIR.name())){

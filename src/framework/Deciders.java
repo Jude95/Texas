@@ -17,6 +17,19 @@ public class Deciders implements IActionObserver{
 	}
 
 	@Override
+	public void inquire(Incident[] action, int total) {
+		mActionPoster.raise(50);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
 		
@@ -37,12 +50,6 @@ public class Deciders implements IActionObserver{
 
 	@Override
 	public void hold(Poker[] poker) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void inquire(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		
 	}
