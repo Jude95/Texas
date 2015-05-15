@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.Map;
+
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
@@ -51,6 +53,12 @@ public class SceneRecorder implements IProgressObserver{
 
 	@Override
 	public void blind(String smallId, int smallJetton) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pot_win(Map<String, Integer> pot) {
 		// TODO Auto-generated method stub
 		
 	}

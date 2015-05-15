@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.Map;
+
 import util.Log;
 import bean.Incident;
 import bean.Person;
@@ -60,6 +62,12 @@ public class Manager {
 			@Override
 			public void blind(String smallId, int smallJetton, String bigId,
 					int bigJetton) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void pot_win(Map<String, Integer> pot) {
 				// TODO Auto-generated method stub
 				
 			}

@@ -1,6 +1,7 @@
 package framework.translate;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import bean.Incident;
 import bean.Person;
@@ -74,6 +75,12 @@ class DispatchProgressObserver implements IProgressObserver{
 		for(IProgressObserver ob:mObservers){
 			ob.blind(smallId,smallJetton);
 		}
+	}
+
+	@Override
+	public void pot_win(Map<String, Integer> pot) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

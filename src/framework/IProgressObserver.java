@@ -1,9 +1,12 @@
 package framework;
 
+import java.util.Map;
+
 import bean.Action;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
+import bean.Result;
 
 public interface IProgressObserver {
 	//座次信息。按顺序排，依次为庄家，小盲注，大盲注
@@ -22,6 +25,9 @@ public interface IProgressObserver {
 	public void turn(Poker poker);
 	//河牌消息,1张poker
 	public void river(Poker poker);
+	//奖池分配
+	public void pot_win(Map<String,Integer> pot);
+	//摊牌
+	public void showdown(Result[] results);
 	
-	//这尼玛等收到消息在写
 }

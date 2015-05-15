@@ -1,6 +1,7 @@
 package framework.translate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import util.Log;
 import framework.IActionProcessor;
@@ -8,9 +9,11 @@ import framework.IProgressObserver;
 import framework.translate.SimpleOrderFitter.OrderCallback;
 import bean.Action;
 import bean.Color;
+import bean.Combination;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
+import bean.Result;
 import net.IMessageObserver;
 import net.IMessagePoster;
 
@@ -82,6 +85,10 @@ public class Translator implements IMessageObserver , OrderCallback{
 			turn(content);
 		}else if(order.equals("river")){
 			river(content);
+		}else if(order.equals("pot-win")){
+			pot_win(content);
+		}else if(order.equals("showdown")){
+			showdown(content);
 		}
 	}
 	
@@ -145,4 +152,26 @@ public class Translator implements IMessageObserver , OrderCallback{
 		dispatcher.river(new Poker(Color.params(params[0]), params[1]));
 	}
 	
+	public void pot_win(String[] content){
+		HashMap<String, Integer> pots = new HashMap<String, Integer>();
+		for(String line:content){
+			String[] params = line.split(" ");
+			pots.put(params[0], Integer.parseInt(params[1]));
+		}
+		dispatcher.pot_win(pots);
+	}
+	
+	public void showdown(String[] content){
+		ArrayList<Result> result = new ArrayList<Result>();
+		for(String line:content){
+			String[] params = line.split(" ");
+			int index = Integer.parseInt(params[0].charAt(0)+"");
+			String id = params[1];
+			Poker poker1 = new Poker(Color.params(params[2]), params[3]);
+			Poker poker2 = new Poker(Color.params(params[4]), params[5]);
+			Combination com = Combination.parse(params[6]);
+			result.add(new Result(index, id, poker1, poker2, com));
+		}
+		dispatcher.showdown(result.toArray(new Result[0]));
+	}
 }
