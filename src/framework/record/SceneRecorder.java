@@ -1,13 +1,15 @@
-package framework;
+package framework.record;
 
 import java.util.Map;
 
+import framework.translate.IActionObserver;
+import bean.Combination;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
 import bean.Result;
 
-public class SceneRecorder implements IActionObserver{
+public class SceneRecorder implements IActionObserver,ISceneReader{
 
 	@Override
 	public void seat(Person[] person) {
@@ -68,6 +70,60 @@ public class SceneRecorder implements IActionObserver{
 	public void showdown(Result[] results) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Poker[] hold() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int pot() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Person[] person() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int roundNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int seatNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Combination[] combinations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Poker[] common() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int callJetton() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int lastJetton() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

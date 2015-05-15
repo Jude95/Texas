@@ -14,7 +14,6 @@ public class Client {
 	Socket socket;
 	String ID;
 	
-	private Manager mManager;
 	private ReadThread mReadThread;
 	private WriteThread mWriteThread;
 	private NetLogObserver mNetLogObserver;
@@ -38,7 +37,7 @@ public class Client {
 		mWriteThread = new WriteThread(this);
 		mWriteThread.start();
 		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+"\n");
-		mManager = new Manager(this);
+		Manager.init(this);
 	}
 	
 	public void registerObserver(IMessageObserver observer){
@@ -50,9 +49,20 @@ public class Client {
 	}
 	
 	void dispatchMessage(String msg){
+		if(interceptMessage(msg)){
+			return;
+		}
 		for(IMessageObserver obs:mObservers){
 			obs.onMessageReceive(msg);
 		}
+	}
+	
+	boolean interceptMessage(String msg){
+		if(msg.trim().equals("game-over")){
+			finish();
+			return true;
+		}
+		return false;
 	}
 	
 	public IMessagePoster obtainMessagePoster(){

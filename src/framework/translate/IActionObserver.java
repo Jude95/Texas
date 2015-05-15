@@ -1,4 +1,4 @@
-package framework;
+package framework.translate;
 
 import java.util.Map;
 

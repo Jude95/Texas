@@ -1,4 +1,4 @@
-package framework;
+package framework.translate;
 
 public interface IActionPoster {
 	public void check ();

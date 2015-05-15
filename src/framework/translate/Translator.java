@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.Log;
-import framework.IActionPoster;
-import framework.IActionObserver;
 import framework.translate.SimpleOrderFitter.OrderCallback;
 import bean.Action;
 import bean.Color;

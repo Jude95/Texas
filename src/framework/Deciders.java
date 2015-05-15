@@ -2,6 +2,8 @@ package framework;
 
 import java.util.Map;
 
+import framework.translate.IActionObserver;
+import framework.translate.IActionPoster;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;

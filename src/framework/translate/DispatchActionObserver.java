@@ -7,7 +7,6 @@ import bean.Incident;
 import bean.Person;
 import bean.Poker;
 import bean.Result;
-import framework.IActionObserver;
 
 class DispatchActionObserver implements IActionObserver{
 	private ArrayList<IActionObserver> mObservers = new ArrayList<IActionObserver>();
