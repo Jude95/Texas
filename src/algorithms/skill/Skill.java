@@ -57,7 +57,8 @@ public class Skill {
 				return jetton;
 			}
 		}
-	}
-	
+
+	}	
+
 	
 }
