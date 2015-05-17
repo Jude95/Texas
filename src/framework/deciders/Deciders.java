@@ -1,6 +1,8 @@
-package framework;
+package framework.deciders;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 import framework.record.ISceneReader;
 import framework.translate.IActionObserver;
@@ -14,9 +16,9 @@ import bean.Poker;
 import bean.Result;
 
 public class Deciders implements IActionObserver{
-	private IActionPoster mActionPoster;
-	private ISceneReader mSceneReader;
-	private IAlgorithm mAlgorithmManager;
+	protected IActionPoster mActionPoster;
+	protected ISceneReader mSceneReader;
+	protected IAlgorithm mAlgorithmManager;
 	
 	public Deciders(IActionPoster actionPoster,ISceneReader sceneReader) {
 		mActionPoster = actionPoster;
@@ -57,7 +59,6 @@ public class Deciders implements IActionObserver{
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -8,6 +8,7 @@ public class Poker implements Comparable<Poker>{
 	 * 2	3	4	5	6	7	8	9	10	11	12	13	14
 	 */
 	private int point;
+	private String pointStr;
 	
 	public Poker(String point){
 		this(Color.NULL,point);
@@ -15,6 +16,7 @@ public class Poker implements Comparable<Poker>{
 	
 	public Poker(Color color, String point) {
 		this.color = color;
+		this.pointStr = point;
 		this.point = parsePoint(point);
 	}
 	
@@ -28,9 +30,12 @@ public class Poker implements Comparable<Poker>{
 		return point;
 	}
 	public void setPoint(String point) {
+		this.pointStr = point;
 		this.point = parsePoint(point);
 	}
-
+	public String getPointStr(){
+		return pointStr;
+	}
 	
 	
 	@Override

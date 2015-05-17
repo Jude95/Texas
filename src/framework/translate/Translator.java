@@ -2,6 +2,8 @@ package framework.translate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import util.Log;
 import framework.translate.SimpleOrderFitter.OrderCallback;
 import bean.Action;
 import bean.Color;
