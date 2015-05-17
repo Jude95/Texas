@@ -1,12 +1,8 @@
 package framework;
 
-import java.util.Map;
 
-import util.Log;
-import bean.Incident;
-import bean.Person;
-import bean.Poker;
-import bean.Result;
+import algorithm.AlgorithmManager;
+import algorithm.IAlgorithm;
 import framework.record.SceneRecorder;
 import framework.translate.Translator;
 import net.Client;
@@ -36,7 +32,6 @@ public class Manager{
 		mDeciders = new Deciders(mTranslator.obtainActionPoster(),mSceneRecorder);
 		mTranslator.registerObserver(mDeciders);
 		
-
 		
 	}
 
