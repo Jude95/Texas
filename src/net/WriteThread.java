@@ -30,7 +30,9 @@ class WriteThread extends Thread {
 	
 	public void finish(){
 		live = false;
-		this.notify();
+		synchronized (this) {
+			this.notify();
+		}
 	}
 	
 	public void run() {
