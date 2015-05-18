@@ -18,6 +18,12 @@ public class Poker implements Comparable<Poker>{
 		this.point = parsePoint(point);
 	}
 	
+	public Poker(Color color,int point){
+		this.color = color;
+		this.point = point;
+	}
+	
+	
 	public Color getColor() {
 		return color;
 	}
