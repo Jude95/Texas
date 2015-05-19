@@ -1,6 +1,6 @@
 package test;
 
-import java.util.Arrays;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -34,19 +34,18 @@ public class StateProducer {
 	
 	public static void main(String[] args) {
 		StateProducer s = new StateProducer(null);
-		for(int i=0;i<10;i++){
-			System.out.println("第"+i+"局 ： ");
+		int winer = 0;
+		for(int i=0;i<1000000000;i++){
 			s.initCards();
-			for(int j=0;j<s.pokers.length;j++){
-				Arrays.sort(s.pokers[j]);
-				for(int k=0;k<s.pokers[j].length;k++){
-					String str = s.pokers[j][k].getPoint()+","+s.pokers[j][k].getColor().name();
-					System.out.print(str+"\t");
-				}
-				System.out.println();
+			StateJudger sj = new StateJudger();
+			int win = sj.getResult(s.pokers);
+			if(win ==0){
+				winer++;
 			}
 			s.reset();
 		}
+		System.out.println(winer);
+		System.out.println(winer/1000000000);
 	}
 	
 	
