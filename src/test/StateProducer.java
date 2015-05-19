@@ -22,7 +22,7 @@ import framework.translate.IActionObserver;
 public class StateProducer {
 	
 	private static final int PERSON_NUM  = 8;
-	private static final float TIMES = 100;//每手牌统计次数
+	private static final float TIMES = 1000000;//每手牌统计次数
 	private static final int BEGIN = 2;//牌最小
 	private static final int END = 14;//牌最大
 	private static final int KIND =2;//两种是否同花
