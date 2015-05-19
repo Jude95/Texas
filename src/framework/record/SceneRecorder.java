@@ -27,7 +27,13 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		this.person = person;
 		roundNum = 1;
-		seatNum = 0;
+		if(person.length>3){
+			seatNum = 3;
+		}else {
+			//2个人或3个人的时候
+			seatNum = 0;
+		}
+		
 		isPersonAlive = new boolean[person.length];
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			isPersonAlive[i] = true;
@@ -56,7 +62,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		preIncident = action;
 		this.total = total;
 		// 如果上一个人弃牌，则把他的isPersonAlive置为false
-		if (preIncident[preIncident.length - 1].getAction().getNum() == Action
+		if (!isFirststart && preIncident[preIncident.length - 1].getAction().getNum() == Action
 				.params("fold").getNum()) {
 			isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
 		}
