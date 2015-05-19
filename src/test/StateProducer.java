@@ -1,7 +1,15 @@
 package test;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -12,9 +20,11 @@ import framework.translate.IActionObserver;
 public class StateProducer {
 	
 	private static final int PERSON_NUM  = 8;
-	private static int SELF_POKER_ONE = 14;
-	private static int SELF_POKER_TWO = 14;
-	private static final boolean isSameColor = false;
+	private static final int TIMES = 1000000;//每手牌统计次数
+	private static final int BEGIN = 2;//牌最小
+	private static final int END = 14;//牌最大
+	private static final int KIND =2;//两种是否同花
+	
 	private IActionObserver mIActionObserver;
 	private Random mRandom = new Random();
 	private Poker fPoker;
@@ -27,25 +37,47 @@ public class StateProducer {
 	public StateProducer(IActionObserver mIActionObserver){
 		this.mIActionObserver = mIActionObserver;
 		initAllPokers();
-		initHand();
 		
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
 		StateProducer s = new StateProducer(null);
-		int winer = 0;
-		for(int i=0;i<10000000;i++){
-			s.initCards();
-			StateJudger sj = new StateJudger();
-			int win = sj.getResult(s.pokers);
-			if(win ==0){
-				winer++;
+		List<Recoder> list = new ArrayList<Recoder>();
+		for(int k =2;k<=14;k++){
+			for(int t = 2;t<=14;t++){
+				for(int h = 0;h<=1;h++){
+					if(t==k){
+						if(h ==1){
+							continue;
+						}
+					}
+					s.initHand(k,t,h);
+					int winer = 0;
+					for(int i=0;i<10;i++){
+						s.initCards();
+						StateJudger sj = new StateJudger();
+						int win = sj.getResult(s.pokers);
+						if(win ==0){
+							winer++;
+						}
+						s.reset();
+					}
+					Recoder r = s.new Recoder();
+					r.a = k;
+					r.b = t;
+					r.c = h;
+					r.d = winer;
+					r.e = winer/10;
+					list.add(r);
+				}
 			}
-			s.reset();
 		}
-		System.out.println(winer);
-		System.out.println(winer/1000000000);
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("oos.txt")));
+		for(int i=0;i<list.size();i++){
+			oos.writeObject(list.get(i));
+		}
+		oos.close();
 	}
 	
 	
@@ -100,17 +132,17 @@ public class StateProducer {
 		}
 	}
 	
-	private void initHand(){
-		if(isSameColor){
-			fPoker = allPoker[(SELF_POKER_ONE-2)*4+1];
-			sPoker = allPoker[(SELF_POKER_TWO-2)*4+1];
-			set.add((SELF_POKER_ONE-2)*4+1);
-			set.add((SELF_POKER_TWO-2)*4+1);
+	public void initHand(int a,int b,int isSameColor){
+		if(isSameColor==1){
+			fPoker = allPoker[(a-2)*4+1];
+			sPoker = allPoker[(b-2)*4+1];
+			set.add((a-2)*4+1);
+			set.add((b-2)*4+1);
 		}else{
-			fPoker = allPoker[(SELF_POKER_ONE-2)*4+2];
-			sPoker = allPoker[(SELF_POKER_TWO-2)*4+1];
-			set.add((SELF_POKER_ONE-2)*4+2);
-			set.add((SELF_POKER_TWO-2)*4+1);
+			fPoker = allPoker[(a-2)*4+2];
+			sPoker = allPoker[(b-2)*4+1];
+			set.add((a-2)*4+2);
+			set.add((b-2)*4+1);
 		}
 	}
 	
@@ -141,5 +173,12 @@ public class StateProducer {
 		return Math.abs(mRandom.nextInt())%52;
 	}
 	
+	class Recoder implements Serializable{
+		int a;
+		int b;
+		int c;
+		int d;
+		float e;
+	}
 	
 }
