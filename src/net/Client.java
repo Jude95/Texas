@@ -12,7 +12,7 @@ import util.Log;
 
 public class Client {
 	Socket socket;
-	String ID;
+	public static String ID;
 	
 	private ReadThread mReadThread;
 	private WriteThread mWriteThread;
