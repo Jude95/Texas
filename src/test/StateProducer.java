@@ -174,10 +174,6 @@ public class StateProducer {
 	}
 	
 	class Recoder implements Serializable{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 		int a;
 		int b;
 		int c;
