@@ -12,8 +12,8 @@ import framework.translate.IActionObserver;
 public class StateProducer {
 	
 	private static final int PERSON_NUM  = 8;
-	private static final int SELF_POKER_ONE = 14;
-	private static final int SELF_POKER_TWO = 14;
+	private static int SELF_POKER_ONE = 14;
+	private static int SELF_POKER_TWO = 14;
 	private static final boolean isSameColor = false;
 	private IActionObserver mIActionObserver;
 	private Random mRandom = new Random();
@@ -35,7 +35,7 @@ public class StateProducer {
 	public static void main(String[] args) {
 		StateProducer s = new StateProducer(null);
 		int winer = 0;
-		for(int i=0;i<1000000000;i++){
+		for(int i=0;i<10000000;i++){
 			s.initCards();
 			StateJudger sj = new StateJudger();
 			int win = sj.getResult(s.pokers);
