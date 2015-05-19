@@ -21,6 +21,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private Incident[] preIncident;// 当前玩家之前其他玩家的操作
 	private Result[] results;
 	private Map<String, Integer> pot_win_map;
+
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
@@ -103,7 +104,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public void pot_win(Map<String, Integer> pot) {
 		// TODO Auto-generated method stub
-		this.pot_win_map =pot;
+		this.pot_win_map = pot;
+
 	}
 
 	@Override
@@ -150,11 +152,12 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		if (preIncident.length == 0) {
 			return null;
 		}
-		
-		if(preIncident.length==1 || preIncident.length==2){
+
+		if (preIncident.length == 1 || preIncident.length == 2) {
 			availableAtion = new Action[1];
 			return availableAtion;
 		}
+
 		// 如果剩余人数为2或者如果上一个人加注
 		if (getAlivePersonNum() == 2
 				|| preIncident[preIncident.length - 1].getAction().getNum() == Action
@@ -166,16 +169,16 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			availableAtion[3] = Action.all_in;
 			return availableAtion;
 		}
-		
-		
-		availableAtion  = new Action[5];
+
+		availableAtion = new Action[5];
 		availableAtion[0] = Action.call;
 		availableAtion[1] = Action.raise;
 		availableAtion[2] = Action.fold;
 		availableAtion[3] = Action.check;
 		availableAtion[4] = Action.all_in;
 		return availableAtion;
-//。。。。。。。。。。。。未完待续。。。。。。。。
+
+		// 。。。。。。。。。。。。未完待续。。。。。。。。
 	}
 
 	@Override

@@ -1,13 +1,13 @@
 package framework;
 
-import java.util.Map;
 
 import util.Log;
-import bean.Incident;
-import bean.Person;
-import bean.Poker;
-import bean.Result;
+import algorithm.AlgorithmManager;
+import algorithm.IAlgorithm;
+import framework.deciders.AlwaysCallDeciders;
+import framework.deciders.Deciders;
 import framework.record.SceneRecorder;
+import framework.statistics.Statistics;
 import framework.translate.Translator;
 import net.Client;
 
@@ -33,11 +33,10 @@ public class Manager{
 		mTranslator.registerObserver(mSceneRecorder);
 		
 		//初始化决策者，与翻译机双向绑定
-		mDeciders = new Deciders(mTranslator.obtainActionPoster(),mSceneRecorder);
+		mDeciders = new AlwaysCallDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
 		mTranslator.registerObserver(mDeciders);
 		
-
-		
+		mTranslator.registerObserver(new Statistics());
 	}
 
 }

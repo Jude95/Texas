@@ -1,10 +1,14 @@
-package framework;
+package framework.deciders;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 import framework.record.ISceneReader;
 import framework.translate.IActionObserver;
 import framework.translate.IActionPoster;
+import algorithm.AlgorithmManager;
+import algorithm.IAlgorithm;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -12,18 +16,20 @@ import bean.Poker;
 import bean.Result;
 
 public class Deciders implements IActionObserver{
-	private IActionPoster mActionPoster;
-	private ISceneReader mSceneReader;
+	protected IActionPoster mActionPoster;
+	protected ISceneReader mSceneReader;
+	protected IAlgorithm mAlgorithmManager;
+	
 	public Deciders(IActionPoster actionPoster,ISceneReader sceneReader) {
 		mActionPoster = actionPoster;
 		mSceneReader = sceneReader;
+		mAlgorithmManager = new AlgorithmManager();
 	}
 
 	@Override
-	public void inquire(Incident[] action, int total) {
-		Action[] actions = new Action[]{Action.check,Action.call,Action.raise,Action.all_in,Action.fold};
-		int i = (int) (Math.random()*actions.length);
-		switch (actions[i]) {
+	public void inquire(Incident[] actions, int total) {
+		Action action = mAlgorithmManager.calculate(mSceneReader);
+		switch (action) {
 		case check:
 			mActionPoster.check();
 			break;
@@ -53,7 +59,6 @@ public class Deciders implements IActionObserver{
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

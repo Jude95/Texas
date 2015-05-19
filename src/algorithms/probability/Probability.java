@@ -74,6 +74,7 @@ public class Probability{
 			return (int) (arrangementor(3,10)*Math.pow(4, 3))*11*6; 
 		}
 	}
+	
 	//最终是两对的样本数
 	private int get2TwoPair(Poker[] poker){
 		if(is2OnePair(poker)){
@@ -88,6 +89,7 @@ public class Probability{
 					(arrangementor(3,11)*Math.pow(4, 3))*3*3); 
 		}
 	}
+	
 	//最终是三条的样本数
 	private int get2ThreeKind(Poker[] poker){
 		if(is2OnePair(poker)){
@@ -100,6 +102,7 @@ public class Probability{
 					arrangementor(3,11)*Math.pow(4,3)*2*3);
 		}
 	}
+	
 	
 	//顺子，最不好做的东西------未完成
 	private int get2Flush(Poker[] poker){

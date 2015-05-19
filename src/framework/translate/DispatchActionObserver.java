@@ -79,14 +79,16 @@ class DispatchActionObserver implements IActionObserver{
 
 	@Override
 	public void pot_win(Map<String, Integer> pot) {
-		// TODO Auto-generated method stub
-		
+		for(IActionObserver ob:mObservers){
+			ob.pot_win(pot);
+		}
 	}
 
 	@Override
 	public void showdown(Result[] results) {
-		// TODO Auto-generated method stub
-		
+		for(IActionObserver ob:mObservers){
+			ob.showdown(results);
+		}
 	}
 	
 }
