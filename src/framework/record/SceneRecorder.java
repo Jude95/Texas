@@ -27,7 +27,15 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		this.person = person;
 		roundNum = 1;
-		seatNum = 0;
+		// 初始位置为小盲注后面一个人
+		if (person.length > 3) {
+			seatNum = 3;
+		} else if (person.length == 3) {
+			seatNum = 0;
+		} else {
+			seatNum = 1;
+		}
+
 		isPersonAlive = new boolean[person.length];
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			isPersonAlive[i] = true;
@@ -55,14 +63,15 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		preIncident = action;
 		this.total = total;
-		// 如果上一个人弃牌，则把他的isPersonAlive置为false
-		if (preIncident[preIncident.length - 1].getAction().getNum() == Action
-				.params("fold").getNum()) {
-			isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
-		}
-		if (isFirststart) {// 起始时，不用改变位置
+
+		if (isFirststart) {// 下大小盲注时，不用改变位置
 			isFirststart = false;
 		} else {
+			// 如果上一个人弃牌，则把他的isPersonAlive置为false
+			if (preIncident[preIncident.length - 1].getAction().getNum() == Action
+					.params("fold").getNum()) {
+				isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
+			}
 			seatNum++;
 			if (seatNum == person.length) {
 				seatNum = 0;
@@ -148,37 +157,30 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public Action[] availableAction() {
 		// TODO Auto-generated method stub
 		Action[] availableAtion;
-		// 开局，如果是庄家没有操作
-		if (preIncident.length == 0) {
+		// 开局，还没下完盲注时
+		if (preIncident.length < 2) {
 			return null;
 		}
 
-		if (preIncident.length == 1 || preIncident.length == 2) {
-			availableAtion = new Action[1];
-			return availableAtion;
-		}
-
-		// 如果剩余人数为2或者如果上一个人加注
-		if (getAlivePersonNum() == 2
-				|| preIncident[preIncident.length - 1].getAction().getNum() == Action
-						.params("raise").getNum()) {
-			availableAtion = new Action[4];
+		// 当上一个人跟牌，所以操作都可以
+		if (preIncident[preIncident.length - 1].getAction().getNum() == Action
+				.params("check").getNum()) {
+			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
 			availableAtion[2] = Action.fold;
-			availableAtion[3] = Action.all_in;
+			availableAtion[3] = Action.check;
+			availableAtion[4] = Action.all_in;
 			return availableAtion;
 		}
 
-		availableAtion = new Action[5];
+		availableAtion = new Action[4];
 		availableAtion[0] = Action.call;
 		availableAtion[1] = Action.raise;
 		availableAtion[2] = Action.fold;
-		availableAtion[3] = Action.check;
-		availableAtion[4] = Action.all_in;
+		availableAtion[3] = Action.all_in;
 		return availableAtion;
 
-		// 。。。。。。。。。。。。未完待续。。。。。。。。
 	}
 
 	@Override
@@ -201,13 +203,4 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return tempJetton - callJetton();
 	}
 
-	private int getAlivePersonNum() {
-		int num = 0;
-		for (int i = 0; i < isPersonAlive.length; i++) {
-			if (isPersonAlive[i]) {
-				num++;
-			}
-		}
-		return num;
-	}
 }
