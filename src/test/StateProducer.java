@@ -1,15 +1,17 @@
 package test;
 
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ import framework.translate.IActionObserver;
 public class StateProducer {
 	
 	private static final int PERSON_NUM  = 8;
-	private static final int TIMES = 1000000;//每手牌统计次数
+	private static final float TIMES = 100;//每手牌统计次数
 	private static final int BEGIN = 2;//牌最小
 	private static final int END = 14;//牌最大
 	private static final int KIND =2;//两种是否同花
@@ -37,16 +39,17 @@ public class StateProducer {
 	public StateProducer(IActionObserver mIActionObserver){
 		this.mIActionObserver = mIActionObserver;
 		initAllPokers();
-		
 	}
 	
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		StateProducer s = new StateProducer(null);
-		List<Recoder> list = new ArrayList<Recoder>();
-		for(int k =2;k<=14;k++){
-			for(int t = 2;t<=14;t++){
-				for(int h = 0;h<=1;h++){
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("oos.txt")));
+		 BufferedWriter bw = new BufferedWriter(new FileWriter(new File("test.txt")));
+		String str = "";
+		for(int k =BEGIN;k<=END;k++){
+			for(int t = BEGIN;t<=END;t++){
+				for(int h = 0;h<KIND;h++){
 					if(t==k){
 						if(h ==1){
 							continue;
@@ -54,7 +57,7 @@ public class StateProducer {
 					}
 					s.initHand(k,t,h);
 					int winer = 0;
-					for(int i=0;i<10;i++){
+					for(int i=0;i<TIMES;i++){
 						s.initCards();
 						StateJudger sj = new StateJudger();
 						int win = sj.getResult(s.pokers);
@@ -63,20 +66,19 @@ public class StateProducer {
 						}
 						s.reset();
 					}
-					Recoder r = s.new Recoder();
+					Recoder r = new Recoder();
 					r.a = k;
 					r.b = t;
 					r.c = h;
 					r.d = winer;
-					r.e = winer/10;
-					list.add(r);
+					r.e = (float) (winer/TIMES);
+					str = k + " "+t+" "+h+" "+winer+" "+r.e+"\n";
+					oos.writeObject(r);
+					bw.write(str);
 				}
 			}
 		}
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("oos.txt")));
-		for(int i=0;i<list.size();i++){
-			oos.writeObject(list.get(i));
-		}
+		bw.close();
 		oos.close();
 	}
 	
@@ -173,12 +175,11 @@ public class StateProducer {
 		return Math.abs(mRandom.nextInt())%52;
 	}
 	
-	class Recoder implements Serializable{
-		int a;
-		int b;
-		int c;
-		int d;
-		float e;
-	}
-	
+}
+class Recoder implements Serializable{
+	int a;
+	int b;
+	int c;
+	int d;
+	float e;
 }
