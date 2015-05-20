@@ -96,17 +96,17 @@ public class Statistics implements IActionObserver{
 		
 	}
 	
-	public static void main(String[] args) {
-		Statistics statistics = new Statistics();
-		Result[] results = new Result[1];
-		Client.ID = "8888";
-		Poker[] pokers = new Poker[]{new Poker("J"),new Poker("K")};
-		for(int i = 0;i<10;i++){
-			results[0] = new Result(i%3, "8888", pokers[0],pokers[1], Combination.FLUSH);
-			statistics.hold(pokers);
-			statistics.showdown(results);
-		}
-	}
+//	public static void main(String[] args) {
+//		Statistics statistics = new Statistics();
+//		Result[] results = new Result[1];
+//		Client.ID = "8888";
+//		Poker[] pokers = new Poker[]{new Poker("J"),new Poker("K")};
+//		for(int i = 0;i<10;i++){
+//			results[0] = new Result(i%3, "8888", pokers[0],pokers[1], Combination.FLUSH);
+//			statistics.hold(pokers);
+//			statistics.showdown(results);
+//		}
+//	}
 
 	@Override
 	public void regist() {
@@ -116,7 +116,6 @@ public class Statistics implements IActionObserver{
 
 	@Override
 	public void gameover() {
-		// TODO Auto-generated method stub
 		
 	}
 
