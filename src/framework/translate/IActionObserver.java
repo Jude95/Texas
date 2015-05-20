@@ -9,6 +9,9 @@ import bean.Poker;
 import bean.Result;
 
 public interface IActionObserver {
+	public void regist();
+	public void gameover();
+	public void notifly(Incident[] action,int total);
 	//座次信息。按顺序排，依次为庄家，小盲注，大盲注
 	public void seat(Person[] person);
 	//小盲注，大盲注下注
