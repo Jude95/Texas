@@ -23,6 +23,7 @@ public class Poker implements Comparable<Poker>{
 	public Poker(Color color,int point){
 		this.color = color;
 		this.point = point;
+		this.pointStr = parsePoint(point);
 	}
 	
 	
@@ -73,6 +74,20 @@ public class Poker implements Comparable<Poker>{
 			return 14;
 		}else{
 			return Integer.parseInt(point);
+		}
+	}
+	
+	public String parsePoint(int point){
+		if(point == 11){
+			return "J";
+		}else if(point == 12){
+			return "Q";
+		}else if(point == 13){
+			return "K";
+		}else if(point == 14){
+			return "A";
+		}else{
+			return point+"";
 		}
 	}
 	

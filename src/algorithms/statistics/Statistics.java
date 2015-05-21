@@ -31,18 +31,18 @@ public class Statistics implements IActionObserver{
 	@Override
 	public void seat(Person[] person) {
 		if(!(lastCount == person.length)){
-			changeRecord(lastCount, person.length);
+			changeRecord( person.length);
 		}
 	}
 	
-	private void changeRecord(int lastCount,int curCount){
+	private void changeRecord(int curCount){
 		File last = new File(String.format(Config.StandDir, lastCount));
 		if(!last.exists()){
 			last.mkdirs();
 		}
 		ObjectSave.witeObjectToFile(bag, new File(last,"hand"));
-		File cur = new File(String.format(Config.StandDir, curCount));
-		bag = (HashMap<String, Float>) ObjectSave.readObjectFromFile(new File(cur,"hand"));
+		File curFile = new File(String.format(Config.StandDir, curCount));
+		bag = (HashMap<String, Float>) ObjectSave.readObjectFromFile(new File(curFile,"hand"));
 		if(bag == null){
 			 bag = new HashMap<String, Float>();
 		}
@@ -50,8 +50,8 @@ public class Statistics implements IActionObserver{
 	}
 	
 	private void showBag(){
-		for(int i = 2;i<8;i++){
-			changeRecord(lastCount,i);
+		for(int i = 2;i<9;i++){
+			changeRecord(i);
 			System.out.println("---------------"+lastCount+"---------------------");
 			for(Entry<String,Float> entry:bag.entrySet()){
 				if(debug){
@@ -85,7 +85,6 @@ public class Statistics implements IActionObserver{
 		}else{
 			prob = PROB;
 			prob=((flag?1f:0)+Math.round((prob-(int)prob)*10*(int)prob))/(((int)prob+1)*10)+(int)prob+1;
-			
 		}
 		bag.put(key.toString(), prob);
 	}
