@@ -22,6 +22,8 @@ import framework.translate.IActionObserver;
 
 public class Statistics implements IActionObserver{
 	private HashMap<String, Float> bag = new HashMap<String, Float>(); 
+	private static final boolean debug =true;
+	
 	Result result = new Result();
 	int lastCount = 0;
 	
@@ -45,13 +47,16 @@ public class Statistics implements IActionObserver{
 		if(bag == null){
 			 bag = new HashMap<String, Float>();
 		}
-		showBag();
 	}
 	
 	private void showBag(){
 		System.out.println("---------------"+lastCount+"---------------------");
 		for(Entry<String,Float> entry:bag.entrySet()){
-			System.out.println(entry.getKey()+"  :  "+entry.getValue());
+			if(debug){
+				System.out.println(entry.getKey()+"  :  "+entry.getValue());
+			}else{
+				Log.Log(entry.getKey()+"  :  "+entry.getValue());
+			}
 		}
 		System.out.println("----------------"+lastCount+"--------------------");
 	}
@@ -79,42 +84,39 @@ public class Statistics implements IActionObserver{
 			
 		}
 		bag.put(key.toString(), prob);
-		//Log.Log(key+"  :  "+prob);
-		
 	}
 	
-	public static void main(String[] args) {
-		Statistics statistics = new Statistics();
-		
-		Client.ID = "1111";
-		Poker[] pokers = new Poker[]{new Poker("J"),new Poker("K")};
-		statistics.regist();
-		for(int i = 0;i<100;i++){
-			int l = ((int)(Math.random()*7+2));
-			System.out.println(l);
-			Result[] results = new Result[l];
-			Person[] persons = new Person[l];
-			for(int p = 0 ; p < l ; p++){
-				results[p] = new Result(((int)(Math.random()*100))%l, "1111", pokers[0],pokers[1], Combination.FLUSH);
-				persons[p] = new Person(1111*p+"", 2000, 10000);
-			}
-			statistics.seat(persons);
-			statistics.hold(pokers);
-			statistics.showdown(results);
-		}
-		statistics.gameover();
-	}
+//	public static void main(String[] args) {
+//		Statistics statistics = new Statistics();
+//		
+//		Client.ID = "1111";
+//		Poker[] pokers = new Poker[]{new Poker("J"),new Poker("K")};
+//		statistics.regist();
+//		for(int i = 0;i<100;i++){
+//			int l = ((int)(Math.random()*7+2));
+//			System.out.println(l);
+//			Result[] results = new Result[l];
+//			Person[] persons = new Person[l];
+//			for(int p = 0 ; p < l ; p++){
+//				results[p] = new Result(((int)(Math.random()*100))%l, "1111", pokers[0],pokers[1], Combination.FLUSH);
+//				persons[p] = new Person(1111*p+"", 2000, 10000);
+//			}
+//			statistics.seat(persons);
+//			statistics.hold(pokers);
+//			statistics.showdown(results);
+//		}
+//		statistics.gameover();
+//	}
 
 	@Override
 	public void regist() {
-		for(Entry<String, Float> e:bag.entrySet()){
-			System.out.println(e.getKey()+"  :  "+e.getValue());
-		}
+		showBag();
 	}
 
 	@Override
 	public void gameover() {
 		changeRecord(lastCount,0);
+		showBag();
 	}
 
 
