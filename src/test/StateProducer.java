@@ -1,3 +1,4 @@
+
 package test;
 
 import java.io.BufferedWriter;
@@ -180,3 +181,4 @@ class Recoder implements Serializable{
 	int d;
 	float e;
 }
+
