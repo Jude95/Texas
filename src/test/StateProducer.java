@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
 import bean.Color;
 import bean.Poker;
 import framework.translate.IActionObserver;
@@ -19,7 +18,7 @@ import framework.translate.IActionObserver;
 public class StateProducer {
 	
 	private static final int PERSON_NUM  = 8;
-	private static final float TIMES = 1000000;//每手牌统计次数
+	private static final float TIMES = 100;//每手牌统计次数
 	private static final int BEGIN = 2;//牌最小
 	private static final int END = 14;//牌最大
 	private static final int KIND =2;//两种是否同花
@@ -41,9 +40,7 @@ public class StateProducer {
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		StateProducer s = new StateProducer(null);
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("oos.txt")));
-		 BufferedWriter bw = new BufferedWriter(new FileWriter(new File("test.txt")));
-		String str = "";
+		
 		for(int k =BEGIN;k<=END;k++){
 			for(int t = BEGIN;t<=END;t++){
 				for(int h = 0;h<KIND;h++){
@@ -69,14 +66,11 @@ public class StateProducer {
 					r.c = h;
 					r.d = winer;
 					r.e = (float) (winer/TIMES);
-					str = k + " "+t+" "+h+" "+winer+" "+r.e+"\n";
-					oos.writeObject(r);
-					bw.write(str);
+					
 				}
 			}
 		}
-		bw.close();
-		oos.close();
+		
 	}
 	
 	
