@@ -13,8 +13,8 @@ import framework.translate.IActionObserver;
 
 public class StateProducer {
 
-	private final int PERSON_NUM = 8;
-	public  static final float TIMES = 10;// 每手牌统计次数
+	public  static  int PERSON_NUM = 8;
+	public  static final float TIMES = 100000;// 每手牌统计次数
 	public  static  int BEGIN = 2;// 牌最小
 	public 	static final int END = 14;// 牌最大
 	public  static final int KIND = 2;// 两种是否同花
@@ -27,13 +27,11 @@ public class StateProducer {
 	private Poker[][] pokers = new Poker[PERSON_NUM][7];
 	private Poker[] hold = new Poker[2];
 	private Poker[] allPoker = new Poker[52];
-	private Person[] person = new Person[PERSON_NUM];
+	private Person[] person ;
 	private Result[] results = { new Result(1, 0 + "", null, null, null) };
 
 	public StateProducer(IActionObserver mIActionObserver) {
 		this.mIActionObserver = mIActionObserver;
-		initPerson();
-		mIActionObserver.seat(person);
 		Client.ID = 0 + "";
 		initAllPokers();
 	}
@@ -64,10 +62,12 @@ public class StateProducer {
 		set.clear();
 	}
 
-	private void initPerson() {
+	public void initPerson() {
+		person = new Person[PERSON_NUM];
 		for (int i = 0; i < person.length; i++) {
 			person[i] = new Person(i + "", 0, 0);
 		}
+		mIActionObserver.seat(person);
 	}
 
 	public void initCards() {
