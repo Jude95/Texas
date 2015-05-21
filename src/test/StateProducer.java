@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.Set;
 
 import net.Client;
-import algorithms.statistics.Statistics;
 import bean.Color;
 import bean.Person;
 import bean.Poker;

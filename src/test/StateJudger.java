@@ -53,6 +53,7 @@ public class StateJudger {
 		} else {
 			sum += l;
 		}
+		resetMap();
 		return sum;
 	}
 
@@ -231,11 +232,13 @@ public class StateJudger {
 		Poker [][] res;
 		int temp =0;
 		int win = 0;
+		int s = 0;
 		for(int i=0;i<poker.length;i++){
 			res = combine(poker[i], 5);
 			for(int j=0;j<res.length;j++){
-				if(temp<getCode(res[j])){
-					temp = getCode(res[j]);
+				s = getCode(res[j]);
+				if(temp<s){
+					temp = s;
 					win =i;
 				}
 			}

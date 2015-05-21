@@ -19,14 +19,14 @@ public class Test {
 					for (int i = 0; i < StateProducer.TIMES; i++) {
 						s.initCards();
 						int win = sj.getResult(s.getPokers());
+						System.out.println(win);
 						s.setResult(win+1);
 						s.reset();
 					}
-					s.gameover();
 				}
 			}
 		}
-
+		s.gameover();
 	}
 
 }
