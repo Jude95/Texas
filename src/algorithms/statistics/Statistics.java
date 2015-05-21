@@ -50,15 +50,19 @@ public class Statistics implements IActionObserver{
 	}
 	
 	private void showBag(){
-		System.out.println("---------------"+lastCount+"---------------------");
-		for(Entry<String,Float> entry:bag.entrySet()){
-			if(debug){
-				System.out.println(entry.getKey()+"  :  "+entry.getValue());
-			}else{
-				Log.Log(entry.getKey()+"  :  "+entry.getValue());
+		for(int i = 2;i<8;i++){
+			changeRecord(lastCount,i);
+			System.out.println("---------------"+lastCount+"---------------------");
+			for(Entry<String,Float> entry:bag.entrySet()){
+				if(debug){
+					System.out.println(entry.getKey()+"  :  "+entry.getValue());
+				}else{
+					Log.Log(entry.getKey()+"  :  "+entry.getValue());
+				}
 			}
+			System.out.println("----------------"+lastCount+"--------------------");
 		}
-		System.out.println("----------------"+lastCount+"--------------------");
+
 	}
 
 
@@ -94,7 +98,6 @@ public class Statistics implements IActionObserver{
 //		statistics.regist();
 //		for(int i = 0;i<100;i++){
 //			int l = ((int)(Math.random()*7+2));
-//			System.out.println(l);
 //			Result[] results = new Result[l];
 //			Person[] persons = new Person[l];
 //			for(int p = 0 ; p < l ; p++){
@@ -115,7 +118,6 @@ public class Statistics implements IActionObserver{
 
 	@Override
 	public void gameover() {
-		changeRecord(lastCount,0);
 		showBag();
 	}
 
