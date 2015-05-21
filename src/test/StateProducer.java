@@ -24,7 +24,7 @@ public class StateProducer {
 	private Poker sPoker;
 	private Poker[] cPoker = new Poker[5];
 	private Set<Integer> set = new HashSet<Integer>();
-	private Poker[][] pokers = new Poker[PERSON_NUM][7];
+	private Poker[][] pokers ;
 	private Poker[] hold = new Poker[2];
 	private Poker[] allPoker = new Poker[52];
 	private Person[] person ;
@@ -71,6 +71,7 @@ public class StateProducer {
 	}
 
 	public void initCards() {
+		pokers = new Poker[PERSON_NUM][7];
 		int temp;
 		for (int i = 0; i < 5; i++) {
 			while (true) {
