@@ -16,7 +16,13 @@ public class SimpleOrderFitter {
 	}
 	
 	public void append(String input){
-		if(input.startsWith("/")){
+		if(input.equals("reg")){
+			mCallback.onOrderCallback("reg",null);
+			mContent.clear();
+		}else if(input.equals("gameover")){
+			mCallback.onOrderCallback("gameover",null);
+			mContent.clear();
+		}else if(input.startsWith("/")){
 			mCallback.onOrderCallback(input.substring(1, input.length()).trim(),mContent.toArray(new String[0]));
 			mContent.clear();
 		}else if(input.charAt(input.length()-2)=='/'){

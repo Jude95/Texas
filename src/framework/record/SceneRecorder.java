@@ -203,4 +203,22 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return tempJetton - callJetton();
 	}
 
+	@Override
+	public void regist() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gameover() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifly(Incident[] action, int total) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

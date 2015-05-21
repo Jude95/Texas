@@ -5,6 +5,9 @@ public class Result {
 	private String id;
 	private Poker poker1;
 	private Poker poker2;
+	public Result() {
+		super();
+	}
 	private Combination combination;
 	public int getIndex() {
 		return index;

@@ -87,6 +87,12 @@ public class Translator implements IMessageObserver , OrderCallback{
 			pot_win(content);
 		}else if(order.equals("showdown")){
 			showdown(content);
+		}else if(order.equals("notyfly")){
+			notifly(content);
+		}else if(order.equals("reg")){
+			dispatcher.regist();
+		}else if(order.equals("gameover")){
+			dispatcher.gameover();
 		}
 	}
 	
@@ -172,4 +178,18 @@ public class Translator implements IMessageObserver , OrderCallback{
 		}
 		dispatcher.showdown(result.toArray(new Result[0]));
 	}
+	
+	public void notifly(String[] content){
+		ArrayList<Incident> incidents = new ArrayList<Incident>();
+		for(int i = 0;i<content.length-1;i++){
+			String[] params = content[i].split(" ");
+			Incident incident = new Incident(new Person(params[0], Integer.parseInt(params[1]), Integer.parseInt(params[2])),Integer.parseInt(params[3]),Action.params(params[4]));
+			incidents.add(incident);
+		}
+		String[] params1 = content[content.length-1].split(" ");
+		int total = Integer.parseInt(params1[params1.length-1]);
+		dispatcher.notifly(incidents.toArray(new Incident[0]),total);
+	}
+	
+	
 }

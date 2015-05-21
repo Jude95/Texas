@@ -36,7 +36,7 @@ public class Client {
 		mReadThread.start();
 		mWriteThread = new WriteThread(this);
 		mWriteThread.start();
-		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+"\n");
+		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+" need_notify"+"\n");
 		Manager.init(this);
 	}
 	
@@ -60,7 +60,7 @@ public class Client {
 	boolean interceptMessage(String msg){
 		if(msg.trim().equals("game-over")){
 			finish();
-			return true;
+			return false;
 		}
 		return false;
 	}
