@@ -32,7 +32,6 @@ public class Statistics implements IActionObserver{
 	public void seat(Person[] person) {
 		if(!(lastCount == person.length)){
 			changeRecord(lastCount, person.length);
-			lastCount = person.length;
 		}
 	}
 	
@@ -47,6 +46,7 @@ public class Statistics implements IActionObserver{
 		if(bag == null){
 			 bag = new HashMap<String, Float>();
 		}
+		lastCount = curCount;
 	}
 	
 	private void showBag(){
