@@ -4,10 +4,10 @@ package framework;
 import util.Log;
 import algorithm.AlgorithmManager;
 import algorithm.IAlgorithm;
+import algorithms.statistics.Statistics;
 import framework.deciders.AlwaysCallDeciders;
 import framework.deciders.Deciders;
 import framework.record.SceneRecorder;
-import framework.statistics.Statistics;
 import framework.translate.Translator;
 import net.Client;
 
