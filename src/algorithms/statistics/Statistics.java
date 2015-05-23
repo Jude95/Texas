@@ -28,11 +28,13 @@ public class Statistics implements IActionObserver{
 	int lastCount = 0;
 	
 	
-	public float getProbability(Poker[] poker){
+	public float getProbability(Poker[] poker,int count){
+		File curFile = new File(String.format(Config.StandDir, count));
+		HashMap<String, Float> tempBag = (HashMap<String, Float>) ObjectSave.readObjectFromFile(new File(curFile,"hand"));
 		StringBuilder key = new StringBuilder();
 		key.append(poker[0].compareTo(poker[1])>0?poker[0].getPointStr()+poker[1].getPointStr():poker[1].getPointStr()+poker[0].getPointStr());
 		key.append(poker[0].getColor()==poker[1].getColor()?"s":"o");
-		Float PROB = bag.get(key.toString());
+		Float PROB = tempBag.get(key.toString());
 		if(PROB!=null){
 			float prob = PROB;
 			return (prob-(int)prob)*10;
