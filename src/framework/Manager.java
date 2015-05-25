@@ -1,12 +1,18 @@
 package framework;
 
 
+import java.util.Random;
+
+import config.Config;
 import util.Log;
 import algorithm.AlgorithmManager;
 import algorithm.IAlgorithm;
-import algorithms.statistics.Statistics;
+import algorithms.statistics.HandStatistics;
+import framework.deciders.AlwaysAllinDeciders;
 import framework.deciders.AlwaysCallDeciders;
+import framework.deciders.AlwaysFlodDeciders;
 import framework.deciders.Deciders;
+import framework.deciders.HandAllinDeciders;
 import framework.record.SceneRecorder;
 import framework.translate.Translator;
 import net.Client;
@@ -16,7 +22,6 @@ public class Manager{
 	
 	private Client mClient;
 	private Translator mTranslator;
-	private Deciders mDeciders;
 	private SceneRecorder mSceneRecorder;
 
 	public static void init(Client client){
@@ -29,14 +34,34 @@ public class Manager{
 		mTranslator = new Translator(client.obtainMessagePoster());
 		mClient.registerObserver(mTranslator);
 		
+		//初始化统计记录器
+		mTranslator.registerObserver(new HandStatistics());
+		
+		//初始化场景记录器
 		mSceneRecorder = new SceneRecorder();
 		mTranslator.registerObserver(mSceneRecorder);
 		
 		//初始化决策者，与翻译机双向绑定
-		mDeciders = new AlwaysCallDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
-		mTranslator.registerObserver(mDeciders);
+		mTranslator.registerObserver(birth());
 		
-		mTranslator.registerObserver(new Statistics());
+	}
+	
+	private Deciders birth(){
+		Random random = new Random(Integer.parseInt(Client.ID));
+		switch(random.nextInt(4)){
+		case 0:
+			Config.NAME = "CallGod";
+			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
+		case 1:
+			Config.NAME = "FlodFather";
+			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
+		case 2:
+			Config.NAME = "HandDog";
+			return new HandAllinDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
+		default:
+			Config.NAME = "AllinBoss";
+			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),mSceneRecorder);
+		}
 	}
 
 }

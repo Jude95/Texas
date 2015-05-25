@@ -98,6 +98,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			}
 			// 如果位置+1后，后面的人已经弃牌，则继续+1
 			while (!isPersonAlive[seatNum]) {
+				Log.Log("check",seatNum+"");
 				seatNum++;
 				if (seatNum == person.length) {
 					seatNum = 0;

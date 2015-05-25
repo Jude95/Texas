@@ -4,7 +4,38 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.Client;
+import config.Config;
+
 public class FileUtil {
+	static{
+		if(!getTempDir().exists()){
+			getTempDir().mkdir();
+		}
+		if(!getStandDir().exists()){
+			getStandDir().mkdir();
+		}
+	}
+	
+	private static File UserDir ;
+	
+	public static void init(String ID){
+		UserDir = new File(getTempDir(),"Player"+ID);
+		DeleteFolder(UserDir);
+		UserDir.mkdir();
+	}
+	
+	public static File getUserDir(){
+		return UserDir;
+	}
+	
+	public static File getTempDir(){
+		return new File(Config.TempDir);
+	}
+	
+	public static File getStandDir(){
+		return new File(Config.StandDir);
+	}
 	
 	public static void writeToFile(File file,String content){
 		 try {

@@ -93,20 +93,23 @@ class DispatchActionObserver implements IActionObserver{
 
 	@Override
 	public void regist() {
-		// TODO Auto-generated method stub
-		
+		for(IActionObserver ob:mObservers){
+			ob.regist();
+		}
 	}
 
 	@Override
 	public void gameover() {
-		// TODO Auto-generated method stub
-		
+		for(IActionObserver ob:mObservers){
+			ob.gameover();
+		}
 	}
 
 	@Override
 	public void notifly(Incident[] action, int total) {
-		// TODO Auto-generated method stub
-		
+		for(IActionObserver ob:mObservers){
+			ob.notifly(action,total);
+		}
 	}
 
 	

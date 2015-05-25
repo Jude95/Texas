@@ -3,17 +3,12 @@ package util;
 import java.io.File;
 
 public class Log {
-	private static File dir = new File("Log");
-	private static final String defaultTag = "Log";
-	{
-		FileUtil.DeleteFolder(dir);
-		dir.mkdirs();
-	}
+	private static String defaultTag = "Log";
+	private static File Log ;
 	
-	public static void setDefaultDir(String dirPath){
-		dir = new File(dirPath);
-		FileUtil.DeleteFolder(dir);
-		dir.mkdirs();
+	public static void init(){
+		//Log = new File(FileUtil.getUserDir(), "Log");
+		Log = FileUtil.getUserDir();
 	}
 	
 	public static void Log(String content){
@@ -21,8 +16,7 @@ public class Log {
 	}
 	
 	public static void Log(String tag,String content){
-		FileUtil.writeToFile(new File(dir, tag), content+"\n");
+		FileUtil.writeToFile(new File(Log,tag), content+"\n");
 	}
 
-	
 }

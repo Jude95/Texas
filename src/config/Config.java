@@ -1,10 +1,10 @@
 package config;
 
 public class Config {
-	public static final String NAME = "Miracle";
+	public static String NAME = "Miracle";
 	
-	public static final String LogDir = "PlayerLog/PlayerLog%s";
-	public static final String StandDir = "StandData/hand%d";
+	public static final String TempDir = "TempData";
+	public static final String StandDir = "StandData";
 	public static class AlgorithmConfig{
 		//技巧的配置权重
 		public static final double SKILL_WEIGHT = 1/15; 

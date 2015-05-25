@@ -69,6 +69,7 @@ public class Translator implements IMessageObserver , OrderCallback{
 	
 	@Override
 	public void onOrderCallback(String order, String[] content) {
+		Log.Log("order",order);
 		if(order.equals("seat")){
 			seat(content);
 		}else if(order.equals("bind")){
@@ -91,7 +92,7 @@ public class Translator implements IMessageObserver , OrderCallback{
 			notifly(content);
 		}else if(order.equals("reg")){
 			dispatcher.regist();
-		}else if(order.equals("gameover")){
+		}else if(order.equals("game-over")){
 			dispatcher.gameover();
 		}
 	}

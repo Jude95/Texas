@@ -19,8 +19,8 @@ public class SimpleOrderFitter {
 		if(input.equals("reg")){
 			mCallback.onOrderCallback("reg",null);
 			mContent.clear();
-		}else if(input.equals("gameover")){
-			mCallback.onOrderCallback("gameover",null);
+		}else if(input.trim().equals("game-over")){
+			mCallback.onOrderCallback("game-over",null);
 			mContent.clear();
 		}else if(input.startsWith("/")){
 			mCallback.onOrderCallback(input.substring(1, input.length()).trim(),mContent.toArray(new String[0]));

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import config.Config;
 import framework.Manager;
+import util.FileUtil;
 import util.Log;
 
 
@@ -20,24 +21,32 @@ public class Client {
 	private ArrayList<IMessageObserver> mObservers = new ArrayList<IMessageObserver>();
 	
 	private Client(String serverIP,int serverPort,String localIP,int localPort,String ID){
-		this.ID = ID;
 		try {
+			this.ID = ID;
 			socket = new Socket(serverIP,serverPort,InetAddress.getByName(localIP),localPort);
+			init(ID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void init(){
-		mNetLogObserver = new NetLogObserver();
-		registerObserver(mNetLogObserver);
-		Log.setDefaultDir(String.format(Config.LogDir, ID));
+	private void init(String ID){
+		FileUtil.init(ID);
+		Log.init();
+		//注册基础通信Log
+		registerObserver(mNetLogObserver = new NetLogObserver());
+		
+		//开启读写线程
 		mReadThread = new ReadThread(this);
 		mReadThread.start();
 		mWriteThread = new WriteThread(this);
 		mWriteThread.start();
-		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+" need_notify"+"\n");
+		
 		Manager.init(this);
+		
+		//注册
+		mWriteThread.addMessage("reg: "+ID+" "+Config.NAME+" need_notify"+"\n");
+		dispatchMessage("reg");
 	}
 	
 	public void registerObserver(IMessageObserver observer){
@@ -87,7 +96,6 @@ public class Client {
 
 	public static void main(String[] args) {
 		Client client = new Client(args[0], Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), args[4]);
-		client.init();
 	}
 
 }
