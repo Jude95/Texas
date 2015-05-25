@@ -225,7 +225,6 @@ public class StateJudger {
 		} while (find);
 		
 		return res;
-
 	}
 
 	public int getResult(Poker[][] poker) {
