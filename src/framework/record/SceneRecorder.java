@@ -1,5 +1,8 @@
 package framework.record;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import util.Log;
@@ -47,7 +50,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			isPersonAlive[i] = true;
 		}
-Log.Log("record", "seat: "+isPersonAlive.length);
 	}
 
 	@Override
@@ -78,17 +80,15 @@ Log.Log("record", "seat: "+isPersonAlive.length);
 		inquireIncident = action;
 		this.total = total;
 
-		Log.Log("record","--------------"
-				+ action[action.length - 1].getAction().getNum());
+		Log.Log("record", "--------------"+action[0].getPerson().getName()+ "" + action[0].getAction());
+
 		if (isFirststart) {// 下大小盲注时，不用改变位置
 			isFirststart = false;
 		} else {
 			// 如果上一个人弃牌，则把他的isPersonAlive置为false
 
-			if (inquireIncident[inquireIncident.length - 1].getAction()
-					.getNum() == Action.params("fold").getNum()) {
-				Log.Log("record", "isPersonAlive.length: "+ isPersonAlive.length);
-				Log.Log("record", "seatNum: " + seatNum);
+			if (inquireIncident[0].getAction().equals(
+					Action.fold)) {
 				isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
 			}
 			seatNum++;
@@ -182,8 +182,8 @@ Log.Log("record", "seat: "+isPersonAlive.length);
 		}
 
 		// 当上一个人跟牌，所以操作都可以
-		if (inquireIncident[inquireIncident.length - 1].getAction().getNum() == Action
-				.params("check").getNum()) {
+		if (inquireIncident[0].getAction().equals(
+				Action.check)) {
 			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
@@ -211,13 +211,13 @@ Log.Log("record", "seat: "+isPersonAlive.length);
 	@Override
 	public int callJetton() {
 		// TODO Auto-generated method stub
-		return inquireIncident[inquireIncident.length - 1].getBet();
+		return inquireIncident[0].getBet();
 	}
 
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		int tempJetton = inquireIncident[inquireIncident.length - 1]
+		int tempJetton = inquireIncident[0]
 				.getPerson().getJetton();
 		return tempJetton - callJetton();
 	}
