@@ -1,7 +1,11 @@
 package framework.record;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import util.Log;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -15,12 +19,12 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private Poker[] commonPocker;// 公牌
 	private int total;// 奖池
 	private int seatNum;// 座位序号，从0开始
-	private boolean isFirststart = true;
+	private boolean isFirststart;
 	private boolean isPersonAlive[];// 本局是否存活
 	private int roundNum;// 圈数，从1开始
 	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
 	private Incident[] notifyIncident;
- 	private Result[] results;
+	private Result[] results;
 	private Map<String, Integer> pot_win_map;
 	private String smallId;
 	private String bigId;
@@ -31,6 +35,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
 		this.person = person;
+		isFirststart = true;
 		roundNum = 1;
 		// 初始位置为小盲注后面一个人
 		if (person.length > 3) {
@@ -75,12 +80,15 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		inquireIncident = action;
 		this.total = total;
 
+		Log.Log("record", "--------------"+action[0].getPerson().getName()+ "" + action[0].getAction());
+
 		if (isFirststart) {// 下大小盲注时，不用改变位置
 			isFirststart = false;
 		} else {
 			// 如果上一个人弃牌，则把他的isPersonAlive置为false
-			if (inquireIncident[inquireIncident.length - 1].getAction().getNum() == Action
-					.params("fold").getNum()) {
+
+			if (inquireIncident[0].getAction().equals(
+					Action.fold)) {
 				isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
 			}
 			seatNum++;
@@ -174,8 +182,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 
 		// 当上一个人跟牌，所以操作都可以
-		if (inquireIncident[inquireIncident.length - 1].getAction().getNum() == Action
-				.params("check").getNum()) {
+		if (inquireIncident[0].getAction().equals(
+				Action.check)) {
 			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
@@ -203,34 +211,34 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int callJetton() {
 		// TODO Auto-generated method stub
-		return inquireIncident[inquireIncident.length - 1].getBet();
+		return inquireIncident[0].getBet();
 	}
 
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		int tempJetton = inquireIncident[inquireIncident.length - 1].getPerson()
-				.getJetton();
+		int tempJetton = inquireIncident[0]
+				.getPerson().getJetton();
 		return tempJetton - callJetton();
 	}
 
 	@Override
 	public void regist() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void gameover() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void notifly(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		this.notifyIncident = action;
-		
+
 	}
 
 }
