@@ -106,6 +106,7 @@ public class StateProducer {
 		}
 	}
 
+	
 	// 初始化全套poker
 	private void initAllPokers() {
 		for (int i = 0; i < 13; i++) {
@@ -115,6 +116,7 @@ public class StateProducer {
 		}
 	}
 
+	
 	private void initHand(int a, int b, int isSameColor) {
 		if (isSameColor == 1) {
 			fPoker = allPoker[(a - 2) * 4 + 1];
