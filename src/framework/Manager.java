@@ -7,6 +7,7 @@ import util.Log;
 import algorithm.AlgorithmManager;
 import algorithm.IAlgorithm;
 import algorithms.statistics.HandStatistics;
+import framework.deciders.AlgorithmDeciders;
 import framework.deciders.AlwaysAllinDeciders;
 import framework.deciders.AlwaysCallDeciders;
 import framework.deciders.AlwaysFlodDeciders;
@@ -47,7 +48,7 @@ public class Manager {
 
 	private Deciders birth() {
 		Random random = new Random(Integer.parseInt(Client.ID));
-		switch (random.nextInt(4)) {
+		switch (random.nextInt(5)) {
 		case 0:
 			Config.NAME = "CallGod";
 			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
@@ -60,11 +61,13 @@ public class Manager {
 			Config.NAME = "HandDog";
 			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
+		case 3:
+			Config.NAME = "Algorithm";
+			return new AlgorithmDeciders(mTranslator.obtainActionPoster(), mSceneRecorder);
 		default:
 			Config.NAME = "AllinBoss";
 			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		}
 	}
-
 }
