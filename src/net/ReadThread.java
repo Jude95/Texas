@@ -35,7 +35,7 @@ class ReadThread extends Thread {
 			is = new BufferedReader(new InputStreamReader(mClient.socket.getInputStream()));
 			String line;
 			while(live){
-				
+				//Log.Log("connect", System.currentTimeMillis()+"");
 				if((line = is.readLine())!=null){
 					mDutyTime = System.currentTimeMillis();
 					mClient.dispatchMessage(line);
