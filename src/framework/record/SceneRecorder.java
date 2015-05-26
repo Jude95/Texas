@@ -51,10 +51,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			isPersonAlive[i] = true;
 		}
 
-		Log.Log("record", "---------------jushu: " + (count++)
-				+ ";person.length: " + person.length);
-		Log.Log("record", "person[0] name: " + person[0].getName()
-				+ ";person[1] name: " + person[1].getName());
 	}
 
 	@Override

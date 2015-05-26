@@ -17,7 +17,7 @@ public class StatisticsInfoImpl implements IStatisticsInfo{
 	
 	@Override
 	public Map<Integer, Integer> getPokerInfoMap() {
-		Map<Integer,Integer> map = new HashMap<>();
+		Map<Integer,Integer> map = new HashMap<Integer,Integer>();
 		for (int i = 0; i < poker.length; i++) {
 			if (map.containsKey(poker[i].getPoint())) {
 				map.put(poker[i].getPoint(), (map.get(poker[i].getPoint()) + 1));
