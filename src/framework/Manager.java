@@ -63,7 +63,8 @@ public class Manager {
 					mSceneRecorder);
 		case 3:
 			Config.NAME = "Algorithm";
-			return new AlgorithmDeciders(mTranslator.obtainActionPoster(), mSceneRecorder);
+			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
 		default:
 			Config.NAME = "AllinBoss";
 			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
