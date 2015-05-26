@@ -1,5 +1,6 @@
 package framework.deciders;
 
+import util.Log;
 import algorithms.statistics.HandStatistics;
 import bean.Incident;
 import framework.record.ISceneReader;
@@ -15,7 +16,10 @@ public class HandAllinDeciders extends Deciders {
 	
 	@Override
 	public void inquire(Incident[] actions, int total) {
-		if(HandStatistics.getInstance().getProbability(mSceneReader.hold(), mSceneReader.person().length)>HandStatistics.getInstance().getMaxProbability(mSceneReader.person().length)*0.78){
+		float mine = HandStatistics.getInstance().getProbability(mSceneReader.hold(), mSceneReader.person().length);
+		float max = HandStatistics.getInstance().getMaxProbability(mSceneReader.person().length);
+		Log.Log("hand", "mine:"+mine+"    max"+max);
+		if(mine>max*0.55){
 			mActionPoster.all_in();
 		}else{
 			mActionPoster.fold();

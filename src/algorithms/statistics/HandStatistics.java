@@ -40,15 +40,18 @@ public class HandStatistics implements IActionObserver{
 	Result result = new Result();
 	int lastCount = 0;
 	
-	public HandStatistics(){
+	private  HandStatistics(){
 		 dir = new File(FileUtil.getStandDir(),"Hand");
 		 if(!dir.exists()){
 			 dir.mkdir();
 		 }
-		 instance = this;
+		 init();
 	}
 	
 	public static HandStatistics getInstance(){
+		if(instance == null){
+			instance = new HandStatistics();
+		}
 		return instance;
 	}
 	
@@ -60,7 +63,7 @@ public class HandStatistics implements IActionObserver{
 			return new HashMap<String, Float>();
 	}
 	
-	public void init(){
+	private void init(){
 		bag2 = readMapByCount(2);
 		bag3 = readMapByCount(3);
 		bag4 = readMapByCount(4);
@@ -151,7 +154,7 @@ public class HandStatistics implements IActionObserver{
 	public void showdown(Result[] results) {
 		boolean flag = false;
 		for(Result r:results){
-			if(r.getIndex() == 1 && r.getId().equals(Client.ID)){
+			if(r.getIndex() == 1){
 				result = r;
 				flag = true;
 			}
