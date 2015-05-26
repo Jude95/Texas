@@ -16,7 +16,8 @@ import framework.translate.IActionObserver;
 public class SceneRecorder implements IActionObserver, ISceneReader {
 	private Person[] person;
 	private Poker[] holdPoker;// 手牌
-	private Poker[] commonPocker;// 公牌
+
+	private List<Poker> commonPocker;//公牌
 	private int total;// 奖池
 	private int seatNum;// 座位序号，从0开始
 	private boolean isFirststart;
@@ -30,6 +31,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private String bigId;
 	private int smallJetton;
 	private int bigJetton;
+	private static int count = 0;
 
 	@Override
 	public void seat(Person[] person) {
@@ -40,16 +42,19 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// 初始位置为小盲注后面一个人
 		if (person.length > 3) {
 			seatNum = 3;
-		} else if (person.length == 3) {
-			seatNum = 0;
 		} else {
-			seatNum = 1;
+			seatNum = 0;
 		}
 
 		isPersonAlive = new boolean[person.length];
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			isPersonAlive[i] = true;
 		}
+
+		Log.Log("record", "---------------jushu: " + (count++)
+				+ ";person.length: " + person.length);
+		Log.Log("record", "person[0] name: " + person[0].getName()
+				+ ";person[1] name: " + person[1].getName());
 	}
 
 	@Override
@@ -80,15 +85,15 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		inquireIncident = action;
 		this.total = total;
 
-		Log.Log("record", "--------------"+action[0].getPerson().getName()+ "" + action[0].getAction());
+		Log.Log("record", "" + action[0].getPerson().getName() + " "
+				+ action[0].getAction() + "; person.length:" + person.length);
 
 		if (isFirststart) {// 下大小盲注时，不用改变位置
 			isFirststart = false;
 		} else {
 			// 如果上一个人弃牌，则把他的isPersonAlive置为false
 
-			if (inquireIncident[0].getAction().equals(
-					Action.fold)) {
+			if (inquireIncident[0].getAction().equals(Action.fold)) {
 				isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
 			}
 			seatNum++;
@@ -98,7 +103,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			}
 			// 如果位置+1后，后面的人已经弃牌，则继续+1
 			while (!isPersonAlive[seatNum]) {
-				Log.Log("check",seatNum+"");
 				seatNum++;
 				if (seatNum == person.length) {
 					seatNum = 0;
@@ -109,25 +113,36 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 	}
 
+	private int getAlivePersonCount() {
+		int count = 0;
+		for (int i = 0; i < isPersonAlive.length; i++) {
+			if (isPersonAlive[i]) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	@Override
 	public void flop(Poker[] poker) {
 		// TODO Auto-generated method stub
-		commonPocker = new Poker[5];
-		for (int i = 0; i < 3; i++) {
-			commonPocker[i] = poker[i];
+		commonPocker = new ArrayList<Poker>();
+		for (int i = 0; i < poker.length; i++) {
+			commonPocker.add(poker[i]);
 		}
+		
 	}
 
 	@Override
 	public void turn(Poker poker) {
 		// TODO Auto-generated method stub
-		commonPocker[3] = poker;
+		commonPocker.add(poker);
 	}
 
 	@Override
 	public void river(Poker poker) {
 		// TODO Auto-generated method stub
-		commonPocker[4] = poker;
+		commonPocker.add(poker);
 	}
 
 	@Override
@@ -183,8 +198,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 
 		// 当上一个人跟牌，所以操作都可以
-		if (inquireIncident[0].getAction().equals(
-				Action.check)) {
+		if (inquireIncident[0].getAction().equals(Action.check)) {
 			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
@@ -206,7 +220,9 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public Poker[] common() {
 		// TODO Auto-generated method stub
-		return commonPocker;
+		Poker poker[] = new Poker[commonPocker.size()];
+		commonPocker.toArray(poker);
+		return poker;
 	}
 
 	@Override
@@ -218,8 +234,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		int tempJetton = inquireIncident[0]
-				.getPerson().getJetton();
+		int tempJetton = inquireIncident[0].getPerson().getJetton();
 		return tempJetton - callJetton();
 	}
 
