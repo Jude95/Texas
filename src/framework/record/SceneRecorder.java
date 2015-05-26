@@ -50,6 +50,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			isPersonAlive[i] = true;
 		}
+		
+		commonPocker = new ArrayList<Poker>();
 
 	}
 
@@ -122,7 +124,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public void flop(Poker[] poker) {
 		// TODO Auto-generated method stub
-		commonPocker = new ArrayList<Poker>();
+		
 		for (int i = 0; i < poker.length; i++) {
 			commonPocker.add(poker[i]);
 		}
