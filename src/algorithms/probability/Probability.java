@@ -32,7 +32,6 @@ public class Probability{
 		return mAction;
 	}
 	
-	
 	private float getWins(Poker[] poker){
 		IRate mIRate = new RateImpl(poker);
 		return  combine(mIAllPoker.getAllPoker(poker),poker,2,mIRate.getCode());
@@ -55,7 +54,6 @@ public class Probability{
 		return res;
 	}
 
-	
 	
 	private float combine(List<Poker> list, Poker[] poker,int n,int code) {
 		int t = 0;
@@ -116,6 +114,7 @@ public class Probability{
 	}
 	
 	
+	
 //	public static void main(String[] args) {
 //		Probability probability   = new Probability();
 //		Poker[][] poker = getPoker();
@@ -138,5 +137,6 @@ public class Probability{
 //		return poker;
 //	}
 //	
+	
 }
 
