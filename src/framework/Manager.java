@@ -35,7 +35,7 @@ public class Manager{
 		mClient.registerObserver(mTranslator);
 		
 		//初始化统计记录器
-		mTranslator.registerObserver(new HandStatistics());
+		mTranslator.registerObserver(HandStatistics.getInstance());
 		
 		//初始化场景记录器
 		mSceneRecorder = new SceneRecorder();
