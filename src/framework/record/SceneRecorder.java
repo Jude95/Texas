@@ -111,7 +111,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 	}
 
-	private int getAlivePersonCount() {
+	public int getAlivePersonCount() {
 		int count = 0;
 		for (int i = 0; i < isPersonAlive.length; i++) {
 			if (isPersonAlive[i]) {
