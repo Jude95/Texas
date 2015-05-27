@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.MissingFormatArgumentException;
 import java.util.Objects;
 import java.util.Random;
 
@@ -14,6 +15,7 @@ import util.FileUtil;
 import util.Log;
 import util.ObjectSave;
 import net.Client;
+import bean.Color;
 import bean.Combination;
 import bean.Incident;
 import bean.Person;
@@ -241,4 +243,13 @@ public class HandStatistics implements IActionObserver{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+//	public static void main(String[] args) {
+//		Poker []poker = {new Poker(Color.HEARTS,14),new Poker(Color.CLUBS,14)};
+//		float win = HandStatistics.getInstance().getProbability(poker,2);
+//		System.out.println(win);
+//	}
+	
+	
 }

@@ -184,9 +184,9 @@ public class StateJudger {
 		return res;
 	}
 
-	public Poker[][] combine(Poker[] poker, int n) {
+	public Poker[][] combine(Poker[] poker, int n,int length) {
 		int t = 0;
-		Poker[][] res = new Poker[21][n];
+		Poker[][] res = new Poker[length][n];
 		boolean find = false;
 		// 初始化移位法需要的数组
 		byte[] bits = new byte[poker.length];
@@ -235,7 +235,7 @@ public class StateJudger {
 		int win = 0;
 		int s = 0;
 		for(int i=0;i<poker.length;i++){
-			res = combine(poker[i], 5);
+			res = combine(poker[i], 5,21);
 			for(int j=0;j<res.length;j++){
 				s = getCode(res[j]);
 				if(temp<s){
