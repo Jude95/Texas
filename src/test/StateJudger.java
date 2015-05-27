@@ -27,7 +27,7 @@ public class StateJudger {
 
 	}
 
-	private int getCode(Poker[] poker) {
+	public int getCode(Poker[] poker) {
 		initMap(poker);
 		Arrays.sort(poker);
 		int sum = 0;
@@ -184,7 +184,7 @@ public class StateJudger {
 		return res;
 	}
 
-	private Poker[][] combine(Poker[] poker, int n) {
+	public Poker[][] combine(Poker[] poker, int n) {
 		int t = 0;
 		Poker[][] res = new Poker[21][n];
 		boolean find = false;
@@ -227,6 +227,8 @@ public class StateJudger {
 		return res;
 	}
 
+	
+	
 	public int getResult(Poker[][] poker) {
 		Poker [][] res;
 		int temp =0;

@@ -3,6 +3,7 @@ package algorithms.probability;
 import java.util.ArrayList;
 import java.util.List;
 
+import test.StateJudger;
 import framework.record.ISceneReader;
 import bean.*;
 
@@ -13,21 +14,42 @@ public class Probability{
 	
 	
 	private IAllPoker mIAllPoker;
+	private StateJudger mStateJudger;
+	
+	
 	public Probability(){
 		mIAllPoker = new AllPokerImpl();
+		mStateJudger = new StateJudger();
 	}
-	
+
 	
 	public Action getProbabilityAction(ISceneReader reader){
 		Action mAction= null;
 		Poker[] poker = reader.common();
 		if(poker.length ==5){
+			
 			if(getWins(poker)>0.5){
 				mAction = Action.call;
 			}else{
 				mAction = Action.fold;
 			}
-			
+
+		}else{
+			Poker[][] pokers = mStateJudger.combine(poker, 5);//6选5  或者 7选5
+			int temp = 0;
+			int max = 0;
+			for(int i=0;i<pokers.length;i++){
+				int tempCode = mStateJudger.getCode(pokers[i]);
+				if(temp < tempCode ){
+					temp = mStateJudger.getCode(pokers[i]);
+					max =i;
+				}
+			}
+			if(getWins(pokers[max])>0.5){
+				mAction = Action.call;
+			}else{
+				mAction = Action.fold;
+			}
 		}
 		return mAction;
 	}
@@ -36,6 +58,7 @@ public class Probability{
 		IRate mIRate = new RateImpl(poker);
 		return  combine(mIAllPoker.getAllPoker(poker),poker,2,mIRate.getCode());
 	}
+	
 	
 	
 	
@@ -112,6 +135,7 @@ public class Probability{
 		
 		return win/(fail+win);
 	}
+	
 	
 	
 	

@@ -7,7 +7,7 @@ import framework.record.ISceneReader;
 import framework.translate.IActionPoster;
 
 public class AlgorithmDeciders extends Deciders {
-	private AlgorithmManager algorithmManager;
+	AlgorithmManager algorithmManager;
 	public AlgorithmDeciders(IActionPoster actionPoster,
 			ISceneReader sceneReader) {
 		super(actionPoster, sceneReader);

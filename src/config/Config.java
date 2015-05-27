@@ -8,8 +8,5 @@ public class Config {
 	public static class AlgorithmConfig{
 		//技巧的配置权重
 		public static final double SKILL_WEIGHT = 1; 
-			
-		
 	}
-	
 }

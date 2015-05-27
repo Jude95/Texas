@@ -10,7 +10,7 @@ public class AlgorithmManager implements IAlgorithm{
 
 	private Skill mSkill;
 	private Probability mProbability;
-	Action action = null;
+	
 	public AlgorithmManager() {
 		init();
 	}
@@ -20,15 +20,8 @@ public class AlgorithmManager implements IAlgorithm{
 		Poker[] poker = reader.common();
 		if(poker.length == 2){
 			return mSkill.getSkillAction(reader);
-		}else if(poker.length == 5){
-			action = mProbability.getProbabilityAction(reader);
-			return action;
-		}
-		
-		if(action == Action.call){
-			return action;
 		}else{
-			return Action.fold;
+			return mProbability.getProbabilityAction(reader);
 		}
 		
 	}
