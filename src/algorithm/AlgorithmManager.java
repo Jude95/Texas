@@ -1,5 +1,6 @@
 package algorithm;
 
+import util.Log;
 import algorithms.probability.Probability;
 import algorithms.skill.Skill;
 import bean.Action;
@@ -18,6 +19,7 @@ public class AlgorithmManager implements IAlgorithm{
 	@Override
 	public Action calculate(ISceneReader reader) {
 		int length = 2+reader.common().length;
+		Log.Log("length", "length: "+length);
 		if(length == 2){
 			return mSkill.getSkillAction(reader);
 		}else{

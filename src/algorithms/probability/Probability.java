@@ -3,8 +3,11 @@ package algorithms.probability;
 import java.util.ArrayList;
 import java.util.List;
 
+import config.Config;
 import test.StateJudger;
+import util.Log;
 import framework.record.ISceneReader;
+import algorithms.statistics.HandStatistics;
 import bean.*;
 
 /*二手牌计算算法
@@ -21,6 +24,7 @@ public class Probability {
 	}
 
 	public Action getProbabilityAction(ISceneReader reader) {
+		
 		Action mAction = Action.fold;
 		Poker[] holdPoker = reader.hold();
 		Poker[] commonPoker = reader.common();
@@ -28,11 +32,8 @@ public class Probability {
 		System.arraycopy(holdPoker, 0, poker, 0, 2);
 		System.arraycopy(commonPoker, 0, poker, 2, commonPoker.length);
 		if (poker.length == 5) {
-			if (getWins(poker) > 0.5) {
-				mAction = Action.call;
-			} else {
-				mAction = Action.fold;
-			}
+			float win = getWins(poker);
+			mAction = getDecideAction(win, reader);
 
 		} else {
 			Poker[][] pokers = null;
@@ -53,11 +54,8 @@ public class Probability {
 						max = i;
 					}
 				}
-				if (getWins(pokers[max]) > 0.5) {
-					mAction = Action.call;
-				} else {
-					mAction = Action.fold;
-				}
+				float win = getWins(pokers[max]);
+				mAction = getDecideAction(win, reader);
 			}
 		}
 		return mAction;
@@ -163,5 +161,26 @@ public class Probability {
 	// return poker;
 	// }
 	//
-
+	
+	private Action getDecideAction(float win,ISceneReader reader){
+		
+		if (win >= Config.AlgorithmConfig.SKILL_RAISE) {
+			Action action = Action.raise;
+			int money = (int) (Config.AlgorithmConfig.PRO_WEIGHT
+					* reader.lastJetton() * win);
+			action.setNum(money);
+			return action;
+		}
+		
+		if (win >= Config.AlgorithmConfig.SHILL_CALL ) {
+			return Action.call;
+		}
+		
+		if (win < Config.AlgorithmConfig.PRO_CALL ) {
+			return Action.fold;
+		}
+		return null;
+	}
+	
+	
 }

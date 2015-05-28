@@ -141,6 +141,7 @@ public class HandStatistics implements IActionObserver{
 		for(int i = 2;i<9;i++){
 			HashMap<String, Float> bag = getBagByCount(i);
 			for(Entry<String,Float> entry:bag.entrySet()){
+				System.out.println(entry.getKey()+"  :  "+entry.getValue());
 				if(debug){
 					System.out.println(entry.getKey()+"  :  "+entry.getValue());
 				}else{
@@ -150,6 +151,9 @@ public class HandStatistics implements IActionObserver{
 		}
 	}
 	
+	public static void main(String args[]){
+		HandStatistics.getInstance().showBag();
+	}
 
 
 	@Override
