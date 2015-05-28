@@ -1,3 +1,4 @@
+
 package algorithms.statistics;
 
 import java.io.File;
@@ -147,7 +148,7 @@ public class HandStatistics implements IActionObserver{
 					System.out.println(entry.getKey()+"  :  "+entry.getValue());
 				}else{
 					File hand = new File(bagDir,"hand"+i);
-					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue()+"\n");
+					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue());
 				}
 			}
 		}
@@ -173,7 +174,7 @@ public class HandStatistics implements IActionObserver{
 			prob = flag?1.1f:1.0f;
 		}else{
 			prob = PROB;
-			prob=((flag?1f:0)+Math.round((prob-(int)prob)*10*(int)prob))/(((int)prob+1)*10)+(int)prob+1;
+			prob=((flag?Config.Statistics.Gradient:0)+Math.round((prob-(int)prob)*10*(int)prob))/(((int)prob+Config.Statistics.Gradient)*10)+(int)prob+Config.Statistics.Gradient;
 		}
 		curBag.put(key.toString(), prob);
 	}

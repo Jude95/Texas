@@ -11,4 +11,8 @@ public class Config {
 		public static final double SKILL_RAISE = 0.8;//当大于最大概率的0.8倍的时候raise
 		public static final double SHILL_CALL = 0.65;//当大于最大概率的0.65倍的时候call
 	}
+	public static class Statistics{
+		public static final int Gradient = 100 ;
+	} 
 }
+
