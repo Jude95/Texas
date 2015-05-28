@@ -147,7 +147,7 @@ public class HandStatistics implements IActionObserver{
 					System.out.println(entry.getKey()+"  :  "+entry.getValue());
 				}else{
 					File hand = new File(bagDir,"hand"+i);
-					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue());
+					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue()+"\n");
 				}
 			}
 		}
