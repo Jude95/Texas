@@ -12,7 +12,7 @@ public class Skill {
 	public Action getSkillAction(ISceneReader reader){
 		Action action = Action.call;
 		float win = HandStatistics.getInstance().getProbability(reader.hold(),reader.person().length);
-		
+		Log.Log("probability", reader.hold()[0].getPoint()+" , "+reader.hold()[1].getPoint()+"----->"+win+"");
 		Log.Log(reader.hold()[0].getPoint()+" , "+reader.hold()[1].getPoint()+"----->",win+"");
 		if(win >= 0.39){
 			action = Action.raise;

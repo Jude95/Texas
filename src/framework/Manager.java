@@ -2,11 +2,9 @@ package framework;
 
 import java.util.Random;
 
-import config.Config;
-import util.Log;
-import algorithm.AlgorithmManager;
-import algorithm.IAlgorithm;
+import net.Client;
 import algorithms.statistics.HandStatistics;
+import config.Config;
 import framework.deciders.AlgorithmDeciders;
 import framework.deciders.AlwaysAllinDeciders;
 import framework.deciders.AlwaysCallDeciders;
@@ -15,7 +13,6 @@ import framework.deciders.Deciders;
 import framework.deciders.HandAllinDeciders;
 import framework.record.SceneRecorder;
 import framework.translate.Translator;
-import net.Client;
 
 public class Manager {
 	private static Manager instance;
@@ -49,28 +46,28 @@ public class Manager {
 	}
 
 	private Deciders birth() {
-//		Random random = new Random(Integer.parseInt(Client.ID));
-//		switch (random.nextInt(5)) {
-//		case 0:
-//			Config.NAME = "CallGod";
-//			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 1:
-//			Config.NAME = "FlodFather";
-//			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 2:
-//			Config.NAME = "HandDog";
-//			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 3:
+		Random random = new Random(Integer.parseInt(Client.ID));
+		switch (random.nextInt(5)) {
+		case 0:
+			Config.NAME = "CallGod";
+			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		case 1:
+			Config.NAME = "FlodFather";
+			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		case 2:
+			Config.NAME = "HandDog";
+			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		case 3:
 			Config.NAME = "Algorithm";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
-//		default:
-//			Config.NAME = "AllinBoss";
-//			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		}
+		default:
+			Config.NAME = "AllinBoss";
+			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		}
 	}
 }

@@ -17,8 +17,8 @@ public class AlgorithmManager implements IAlgorithm{
 	
 	@Override
 	public Action calculate(ISceneReader reader) {
-		Poker[] poker = reader.common();
-		if(poker.length == 2){
+		int length = 2+reader.common().length;
+		if(length == 2){
 			return mSkill.getSkillAction(reader);
 		}else{
 			return mProbability.getProbabilityAction(reader);

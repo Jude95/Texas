@@ -246,8 +246,8 @@ public class HandStatistics implements IActionObserver{
 	
 	
 //	public static void main(String[] args) {
-//		Poker []poker = {new Poker(Color.HEARTS,14),new Poker(Color.CLUBS,14)};
-//		float win = HandStatistics.getInstance().getProbability(poker,2);
+//		Poker []poker = {new Poker(Color.HEARTS,10),new Poker(Color.CLUBS,10)};
+//		float win = HandStatistics.getInstance().getProbability(poker,8);
 //		System.out.println(win);
 //	}
 	

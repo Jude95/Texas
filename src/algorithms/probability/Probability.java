@@ -22,7 +22,11 @@ public class Probability {
 
 	public Action getProbabilityAction(ISceneReader reader) {
 		Action mAction = Action.fold;
-		Poker[] poker = reader.common();
+		Poker[] holdPoker = reader.hold();
+		Poker[] commonPoker = reader.common();
+		Poker[] poker = new Poker[2+commonPoker.length];
+		System.arraycopy(holdPoker, 0, poker, 0, 2);
+		System.arraycopy(commonPoker, 0, poker, 2, commonPoker.length);
 		if (poker.length == 5) {
 			if (getWins(poker) > 0.5) {
 				mAction = Action.call;
