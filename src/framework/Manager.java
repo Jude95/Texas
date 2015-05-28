@@ -47,7 +47,7 @@ public class Manager {
 
 	private Deciders birth() {
 		Random random = new Random(Integer.parseInt(Client.ID));
-		switch (random.nextInt(5)) {
+		switch (random.nextInt(7)) {
 		case 0:
 			Config.NAME = "CallGod";
 			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
@@ -61,6 +61,8 @@ public class Manager {
 			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		case 3:
+		case 4:
+		case 5:
 			Config.NAME = "Algorithm";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);

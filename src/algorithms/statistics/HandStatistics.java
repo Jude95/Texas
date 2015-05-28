@@ -138,13 +138,16 @@ public class HandStatistics implements IActionObserver{
 	
 	
 	private void showBag(){
+		File bagDir = new File(FileUtil.getUserDir(), "hand");
+		bagDir.mkdir();
 		for(int i = 2;i<9;i++){
 			HashMap<String, Float> bag = getBagByCount(i);
 			for(Entry<String,Float> entry:bag.entrySet()){
 				if(debug){
 					System.out.println(entry.getKey()+"  :  "+entry.getValue());
 				}else{
-					Log.Log("statistics",entry.getKey()+"  :  "+entry.getValue());
+					File hand = new File(bagDir,"hand"+i);
+					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue());
 				}
 			}
 		}
