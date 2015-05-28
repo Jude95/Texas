@@ -2,6 +2,8 @@
 package algorithms.statistics;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -143,18 +145,28 @@ public class HandStatistics implements IActionObserver{
 		bagDir.mkdir();
 		for(int i = 2;i<9;i++){
 			HashMap<String, Float> bag = getBagByCount(i);
-			for(Entry<String,Float> entry:bag.entrySet()){
+			ArrayList<Entry<String,Float>> arr = new ArrayList<Map.Entry<String,Float>>();
+			arr.addAll(bag.entrySet());
+			arr.sort(new Comparator<Entry<String,Float>>() {
+
+				@Override
+				public int compare(Entry<String,Float> o1, Entry<String,Float> o2) {
+					float pro1 = (float)o1.getValue();
+					float pro2 = (float)o2.getValue();
+					return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
+				}
+			});
+			for(Entry<String,Float> e:arr){
 				if(debug){
-					System.out.println(entry.getKey()+"  :  "+entry.getValue());
+					System.out.println(e.getKey()+"  :  "+e.getValue());
 				}else{
 					File hand = new File(bagDir,"hand"+i);
-					FileUtil.writeToFile(hand, entry.getKey()+"  :  "+entry.getValue());
+					FileUtil.writeToFile(hand, e.getKey()+"  :  "+e.getValue());
 				}
 			}
 		}
 	}
 	
-
 
 	@Override
 	public void showdown(Result[] results) {

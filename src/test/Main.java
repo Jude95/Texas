@@ -10,3 +10,4 @@ public class Main {
 //		System.out.println(HandStatistics.getInstance().getProbability(pokers, 8));
 //	}
 }
+

@@ -12,6 +12,7 @@ public class Config {
 		public static final double SHILL_CALL = 0.65;//当大于最大概率的0.65倍的时候call
 	}
 	public static class Statistics{
+		//概率记录时的比率。越高学习的越快，同时越不稳定。
 		public static final int Gradient = 100 ;
 	} 
 }
