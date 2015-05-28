@@ -9,4 +9,9 @@ public class Config {
 		//技巧的配置权重
 		public static final double SKILL_WEIGHT = 1; 
 	}
+	
+	public static class Statistics{
+		public static final int Gradient = 100 ;
+	} 
+
 }
