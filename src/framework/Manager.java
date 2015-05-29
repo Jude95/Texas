@@ -31,8 +31,7 @@ public class Manager {
 		mTranslator = new Translator(client.obtainMessagePoster());
 		mClient.registerObserver(mTranslator);
 
-		
-		//初始化统计记录器
+		// 初始化统计记录器
 		mTranslator.registerObserver(HandStatistics.getInstance());
 
 		// 初始化场景记录器
@@ -46,28 +45,25 @@ public class Manager {
 	}
 
 	private Deciders birth() {
-//		Random random = new Random(Integer.parseInt(Client.ID));
-//		switch (random.nextInt(5)) {
-//		case 0:
-//			Config.NAME = "CallGod";
-//			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 1:
-//			Config.NAME = "FlodFather";
-//			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 2:
-//			Config.NAME = "HandDog";
-//			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-//		case 3:
+		Random random = new Random(Integer.parseInt(Client.ID));
+		switch (random.nextInt(4)) {
+		case 0:
+			Config.NAME = "CallGod";
+			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		case 1:
+			Config.NAME = "FlodFather";
+			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		case 2:
+			Config.NAME = "HandDog";
+			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder);
+		
+		default:
 			Config.NAME = "Algorithm";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
-//		default:
-//			Config.NAME = "AllinBoss";
-//			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-//					mSceneRecorder);
-	//	}
+		}
 	}
 }

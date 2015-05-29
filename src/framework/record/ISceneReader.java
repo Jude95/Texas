@@ -27,6 +27,7 @@ public interface ISceneReader {
 	public int lastJetton();
 	//押注的总筹码
 	public int totalCallJetton();
+	//当前玩儿家之前的操作
 	public Incident[] preAction();
 	
 	

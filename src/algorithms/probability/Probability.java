@@ -26,7 +26,7 @@ public class Probability {
 	public Action getProbabilityAction(ISceneReader reader) {
 		
 		Action mAction = Action.fold;
-		Poker[] holdPoker = reader.hold();
+		/*Poker[] holdPoker = reader.hold();
 		Poker[] commonPoker = reader.common();
 		Poker[] poker = new Poker[2+commonPoker.length];
 		System.arraycopy(holdPoker, 0, poker, 0, 2);
@@ -57,7 +57,7 @@ public class Probability {
 				float win = getWins(pokers[max]);
 				mAction = getDecideAction(win, reader);
 			}
-		}
+		}*/
 		return mAction;
 	}
 

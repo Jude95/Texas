@@ -21,8 +21,10 @@ public class AlgorithmManager implements IAlgorithm{
 		int length = 2+reader.common().length;
 		Log.Log("length", "length: "+length);
 		if(length == 2){
+			Log.Log("algorithmManager", "mSkill.getSkillAction(reader): "+mSkill.getSkillAction(reader));
 			return mSkill.getSkillAction(reader);
 		}else{
+			Log.Log("algorithmManager", "mProbability.getProbabilityAction(reader): "+mProbability.getProbabilityAction(reader));
 			return mProbability.getProbabilityAction(reader);
 		}
 		
