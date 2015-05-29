@@ -3,6 +3,8 @@ package algorithms.statistics;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +17,7 @@ import javax.swing.text.html.parser.Entity;
 
 import config.Config;
 import util.FileUtil;
-import util.Log;
 import util.ObjectSave;
-import net.Client;
-import bean.Color;
-import bean.Combination;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
@@ -145,29 +143,28 @@ public class HandStatistics implements IActionObserver{
 		bagDir.mkdir();
 		for(int i = 2;i<9;i++){
 			HashMap<String, Float> bag = getBagByCount(i);
-			ArrayList<Entry<String,Float>> arr = new ArrayList<Map.Entry<String,Float>>();
-			arr.addAll(bag.entrySet());
-			arr.sort(new Comparator<Entry<String,Float>>() {
-
-				@Override
-				public int compare(Entry<String,Float> o1, Entry<String,Float> o2) {
-					float pro1 = (float)o1.getValue();
-					float pro2 = (float)o2.getValue();
-					return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
-				}
-			});
-			for(Entry<String,Float> e:arr){
+//			ArrayList<Entry<String,Float>> arr = new ArrayList<Map.Entry<String,Float>>();
+//			arr.addAll(bag.entrySet());
+//			Collections.sort(arr, new Comparator<Entry<String,Float>>() {
+//				@Override
+//				public int compare(Entry<String,Float> o1, Entry<String,Float> o2) {
+//					float pro1 = (float)o1.getValue();
+//					float pro2 = (float)o2.getValue();
+//					return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
+//				}
+//			});
+			
+			for(Entry<String,Float> e:bag.entrySet()){
 				if(debug){
-					System.out.println(e.getKey()+"  :  "+e.getValue());
+					//System.out.println(e.getKey()+"  :  "+e.getValue());
 				}else{
 					File hand = new File(bagDir,"hand"+i);
-					FileUtil.writeToFile(hand, e.getKey()+"  :  "+e.getValue());
+					FileUtil.writeToFile(hand, e.getKey()+"  :  "+e.getValue()+"\n");
 				}
 			}
 		}
 	}
 	
-
 	@Override
 	public void showdown(Result[] results) {
 		boolean flag = false;

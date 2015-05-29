@@ -2,6 +2,7 @@ package framework.record;
 
 import bean.Action;
 import bean.Combination;
+import bean.Incident;
 import bean.Person;
 import bean.Poker;
 
@@ -24,5 +25,7 @@ public interface ISceneReader {
 	public int callJetton();
 	//取剩余筹码
 	public int lastJetton();
+	
+	public Incident[] preAction();
 	
 }

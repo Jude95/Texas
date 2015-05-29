@@ -255,4 +255,12 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 
 	}
 
+	@Override
+	public Incident[] preAction() {
+		
+		return inquireIncident;
+	}
+	
+	
+
 }

@@ -47,43 +47,43 @@ public class Manager {
 
 	private Deciders birth() {
 
-		switch (Integer.parseInt(Client.ID)) {
-		case 1111:
-			Config.NAME = "CallGod";
-			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 2222:
-			Config.NAME = "FlodFather";
-			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 3333:
-			Config.NAME = "HandDog";
-			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 4444:
-			Config.NAME = "CallGod";
-			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 5555:
-			Config.NAME = "FlodFather";
-			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 6666:
-			Config.NAME = "HandDog";
-			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 7777:
-			Config.NAME = "AllinBoss";
-			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 8888:
+//		switch (Integer.parseInt(Client.ID)) {
+//		case 1111:
+//			Config.NAME = "CallGod";
+//			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 2222:
+//			Config.NAME = "FlodFather";
+//			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 3333:
+//			Config.NAME = "HandDog";
+//			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 4444:
+//			Config.NAME = "CallGod";
+//			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 5555:
+//			Config.NAME = "FlodFather";
+//			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 6666:
+//			Config.NAME = "HandDog";
+//			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 7777:
+//			Config.NAME = "AllinBoss";
+//			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 8888:
 			Config.NAME = "Algorithm";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
-		default:
-			Config.NAME = "AllinBoss";
-			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		}
+//		default:
+//			Config.NAME = "AllinBoss";
+//			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		}
 	}
 }
