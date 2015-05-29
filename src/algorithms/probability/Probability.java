@@ -13,9 +13,11 @@ import bean.*;
 
 public class Probability {
 
+	
 	private IAllPoker mIAllPoker;
 	private StateJudger mStateJudger;
 
+	
 	public Probability() {
 		mIAllPoker = new AllPokerImpl();
 		mStateJudger = new StateJudger();
