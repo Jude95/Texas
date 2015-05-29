@@ -235,7 +235,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		return inquireIncident[0].getPerson().getJetton() - totalCallJetton[seatNum];
+		return inquireIncident[0].getPerson().getJetton()
+				- totalCallJetton[seatNum];
 	}
 
 	@Override

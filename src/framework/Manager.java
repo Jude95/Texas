@@ -1,22 +1,16 @@
 package framework;
 
-import java.util.Random;
-
 import net.Client;
 import algorithms.statistics.HandStatistics;
 import config.Config;
 import framework.deciders.AlgorithmDeciders;
-import framework.deciders.AlwaysAllinDeciders;
-import framework.deciders.AlwaysCallDeciders;
-import framework.deciders.AlwaysFlodDeciders;
 import framework.deciders.Deciders;
-import framework.deciders.HandAllinDeciders;
 import framework.record.SceneRecorder;
 import framework.translate.Translator;
 
 public class Manager {
-	private static Manager instance;
 
+	private static Manager instance;
 	private Client mClient;
 	private Translator mTranslator;
 	private SceneRecorder mSceneRecorder;
@@ -45,25 +39,44 @@ public class Manager {
 	}
 
 	private Deciders birth() {
-		Random random = new Random(Integer.parseInt(Client.ID));
-		switch (random.nextInt(4)) {
-		case 0:
-			Config.NAME = "CallGod";
-			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 1:
-			Config.NAME = "FlodFather";
-			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 2:
-			Config.NAME = "HandDog";
-			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		
-		default:
-			Config.NAME = "Algorithm";
-			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		}
+
+		// switch (Integer.parseInt(Client.ID)) {
+		// case 1111:
+		// Config.NAME = "CallGod";
+		// return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 2222:
+		// Config.NAME = "FlodFather";
+		// return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 3333:
+		// Config.NAME = "HandDog";
+		// return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 4444:
+		// Config.NAME = "CallGod";
+		// return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 5555:
+		// Config.NAME = "FlodFather";
+		// return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 6666:
+		// Config.NAME = "HandDog";
+		// return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 7777:
+		// Config.NAME = "AllinBoss";
+		// return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// case 8888:
+		Config.NAME = "Algorithm";
+		return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+				mSceneRecorder);
+		// default:
+		// Config.NAME = "AllinBoss";
+		// return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+		// mSceneRecorder);
+		// }
 	}
 }

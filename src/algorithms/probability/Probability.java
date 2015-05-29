@@ -1,3 +1,4 @@
+
 package algorithms.probability;
 
 import java.util.ArrayList;
@@ -10,14 +11,14 @@ import framework.record.ISceneReader;
 import algorithms.statistics.HandStatistics;
 import bean.*;
 
-/*二手牌计算算法
- * */
 
 public class Probability {
 
+	
 	private IAllPoker mIAllPoker;
 	private StateJudger mStateJudger;
 
+	
 	public Probability() {
 		mIAllPoker = new AllPokerImpl();
 		mStateJudger = new StateJudger();
@@ -26,7 +27,7 @@ public class Probability {
 	public Action getProbabilityAction(ISceneReader reader) {
 		
 		Action mAction = Action.fold;
-		/*Poker[] holdPoker = reader.hold();
+		Poker[] holdPoker = reader.hold();
 		Poker[] commonPoker = reader.common();
 		Poker[] poker = new Poker[2+commonPoker.length];
 		System.arraycopy(holdPoker, 0, poker, 0, 2);
@@ -38,10 +39,10 @@ public class Probability {
 		} else {
 			Poker[][] pokers = null;
 			if (poker.length == 6) {
-				pokers = mStateJudger.combine(poker, 5, 6);// 6选5 或者 7选5
+				pokers = mStateJudger.combine(poker, 5, 6);// 6选5 
 			}
 			if (poker.length == 7) {
-				pokers = mStateJudger.combine(poker, 5, 21);// 6选5 或者 7选5
+				pokers = mStateJudger.combine(poker, 5, 21);// 7选5
 			}
 			int temp = 0;
 			int max = 0;
@@ -57,7 +58,7 @@ public class Probability {
 				float win = getWins(pokers[max]);
 				mAction = getDecideAction(win, reader);
 			}
-		}*/
+		}
 		return mAction;
 	}
 
@@ -139,48 +140,62 @@ public class Probability {
 		return win / (fail + win);
 	}
 
-	// public static void main(String[] args) {
-	// Probability probability = new Probability();
-	// Poker[][] poker = getPoker();
-	// System.out.println(probability.getWins(poker[0]));
-	// System.out.println(probability.getWins(poker[1]));
-	// }
-	//
-	//
-	// public static Poker[][] getPoker(){
-	// Poker[][] poker = new Poker[10][5];
-	// for(int i=10;i<=14;i++){
-	// poker[0][i-10] = new Poker(Color.HEARTS,i);
-	// }
-	//
-	// for(int i=6;i>=2;i--){
-	// poker[1][6-i] = new Poker(Color.HEARTS,i);
-	// }
-	//
-	//
-	// return poker;
-	// }
-	//
 	
 	private Action getDecideAction(float win,ISceneReader reader){
-		
-		if (win >= Config.AlgorithmConfig.SKILL_RAISE) {
+		//牌的胜利的可能性 -------win
+		//下注的大小
+		//剩余的人数
+		//自己的已经下注的多少以及池子里有的钱数
+		int callJetton = reader.callJetton();
+		int lastJetton = reader.lastJetton();
+		int pot = reader.pot();
+		int roundNum = reader.roundNum();
+		boolean canCheck = canCheck(reader.availableAction());
+		Person[] person = reader.person();
+		int callNum = callNum(reader.preAction());
+		if (win >= Config.AlgorithmConfig.PRO_RAISE*(roundNum/10 + 1)) {//如果这时候胜利的可能性已经超过了80%
 			Action action = Action.raise;
-			int money = (int) (Config.AlgorithmConfig.PRO_WEIGHT
-					* reader.lastJetton() * win);
-			action.setNum(money);
+			action.setNum(300);
 			return action;
+		}else{
+			if(canCheck){//可以check吗
+				return Action.check;
+			}
+			if(win >= Config.AlgorithmConfig.PRO_CALL * (roundNum/10 + 1)){//胜利的可能性大于40%
+				if(callNum < person.length/2){
+					if(callJetton < pot*win  && callJetton < lastJetton * win){
+						return Action.call;
+					}
+				}
+				if(lastJetton > callJetton*10){
+					if(callJetton < pot*win  && callJetton < lastJetton * win){
+						return Action.call;
+					}
+				}
+			}	
 		}
-		
-		if (win >= Config.AlgorithmConfig.SHILL_CALL ) {
+		if(true){
+			//投入很多了，就一定要坚持到最后开牌，不惜all_in
 			return Action.call;
 		}
-		
-		if (win < Config.AlgorithmConfig.PRO_CALL ) {
-			return Action.fold;
-		}
-		return null;
+		return Action.fold;
 	}
-	
-	
+	private int callNum(Incident[] incident){
+		int count=0;
+		for(int i =0;i<incident.length;i++){
+			if(incident[i].getAction().equals(Action.raise) || incident[i].getAction().equals(Action.call)){
+				count++;
+			}
+		}
+		return count;
+	}
+	boolean canCheck(Action[] actions){
+		boolean flag =false;
+		for(int i=0;i<actions.length;i++){
+			if(actions[i].equals(Action.check)){
+				flag = true;
+			}
+		}
+		return flag;
+	}
 }
