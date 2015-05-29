@@ -17,7 +17,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private Person[] person;
 	private Poker[] holdPoker;// 手牌
 
-	private List<Poker> commonPocker;//公牌
+	private List<Poker> commonPocker;// 公牌
 	private int total;// 奖池
 	private int seatNum;// 座位序号，从0开始
 	private boolean isFirststart;
@@ -32,6 +32,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int smallJetton;
 	private int bigJetton;
 	private static int count = 0;
+	private int totalCallJetton[];
 
 	@Override
 	public void seat(Person[] person) {
@@ -47,10 +48,11 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 
 		isPersonAlive = new boolean[person.length];
-		for (int i = 0; i < isPersonAlive.length; i++) {
+		totalCallJetton = new int[person.length];
+		for (int i = 0; i < person.length; i++) {
 			isPersonAlive[i] = true;
+			totalCallJetton[i] = 0;
 		}
-		
 		commonPocker = new ArrayList<Poker>();
 
 	}
@@ -82,7 +84,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		inquireIncident = action;
 		this.total = total;
-
+		totalCallJetton[seatNum] += action[0].getBet();
 		Log.Log("record", "" + action[0].getPerson().getName() + " "
 				+ action[0].getAction() + "; person.length:" + person.length);
 
@@ -124,11 +126,11 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public void flop(Poker[] poker) {
 		// TODO Auto-generated method stub
-		
+
 		for (int i = 0; i < poker.length; i++) {
 			commonPocker.add(poker[i]);
 		}
-		
+
 	}
 
 	@Override
@@ -190,6 +192,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public Action[] availableAction() {
 		// TODO Auto-generated method stub
 		Action[] availableAtion;
+
 		// 开局，还没下完盲注时
 		if (inquireIncident.length < 2) {
 			return null;
@@ -232,8 +235,13 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		int tempJetton = inquireIncident[0].getPerson().getJetton();
-		return tempJetton - callJetton();
+		return inquireIncident[0].getPerson().getJetton() - totalCallJetton[seatNum];
+	}
+
+	@Override
+	public int totalCallJetton() {
+		// TODO Auto-generated method stub
+		return totalCallJetton[seatNum];
 	}
 
 	@Override
@@ -260,7 +268,5 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return inquireIncident;
 	}
-
-	
 
 }

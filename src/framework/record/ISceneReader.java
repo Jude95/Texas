@@ -25,7 +25,9 @@ public interface ISceneReader {
 	public int callJetton();
 	//取剩余筹码
 	public int lastJetton();
-	
+	//押注的总筹码
+	public int totalCallJetton();
 	public Incident[] preAction();
+	
 	
 }
