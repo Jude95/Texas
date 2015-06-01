@@ -5,15 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import util.Log;
-//import util.MyLog;
-import util.Log;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
 import bean.Poker;
 import bean.Result;
 import framework.translate.IActionObserver;
+//import util.MyLog;
 
 public class SceneRecorder implements IActionObserver, ISceneReader {
 	private Person[] person;
@@ -224,7 +222,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// >>>>>>> 9b7989652f487729642aea0a0d7484dd89938b90
 
 	}
-
+	@Override
 	public int getAlivePersonCount() {
 		int count = 0;
 		for (int i = 0; i < isPersonAlive.length; i++) {
