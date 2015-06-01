@@ -4,7 +4,7 @@ import util.Log;
 import algorithms.probability.Probability;
 import algorithms.skill.ISkill;
 import algorithms.skill.NewSkill;
-import algorithms.skill.Skill;
+import algorithms.skill.OldSkill;
 import algorithms.skill.TestSkill;
 import bean.Action;
 import bean.Poker;
@@ -38,7 +38,7 @@ public class AlgorithmManager implements IAlgorithm {
 	private void init() {
 		switch (style) {
 		case 1:
-			mSkill = new Skill();
+			mSkill = new OldSkill();
 			break;
 		case 2:
 			mSkill = new NewSkill();
