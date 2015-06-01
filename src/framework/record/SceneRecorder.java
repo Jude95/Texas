@@ -367,4 +367,16 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return raisedCount[seatNum];
 	}
+
+	@Override
+	public int getBlind() {
+		// TODO Auto-generated method stub
+		int blind = bigJetton; 
+		if(bigJetton==0){
+			blind = smallJetton;
+		}
+		return blind;
+	}
+	
+	
 }

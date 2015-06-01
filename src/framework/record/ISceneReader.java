@@ -31,6 +31,6 @@ public interface ISceneReader {
 	public int raiseCount();
 	//当前玩儿家之前的操作
 	public Incident[] preAction();
-	
+	public int getBlind();
 	
 }
