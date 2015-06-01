@@ -1,10 +1,12 @@
-
 package framework.record;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import util.Log;
+//import util.MyLog;
 import util.Log;
 import bean.Action;
 import bean.Incident;
@@ -21,6 +23,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int total;// 奖池
 
 	private int roundNum;// 圈数，从1开始
+	private boolean isRoundNumInited;
 	private int seatNum;// 座位序号，从0开始
 	private boolean isPersonAlive[];// 本局是否存活
 	private boolean isPersonCanInquire[];// 本局中是否可以
@@ -34,6 +37,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int betJetton[];
 	private int totalCallJetton[];
 	private int raisedCount[];
+
 	private String smallId;
 	private String bigId;
 	private int smallJetton;
@@ -41,13 +45,11 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private static int count = 0;
 	private int timesNum = 0;
 
-
 	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
 	private Incident[] notifyIncident;
 	private Result[] results;
 	private Map<String, Integer> pot_win_map;
 	private Map<String, Integer> seatMap;
-
 
 	@Override
 	public void seat(Person[] person) {
@@ -58,7 +60,9 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		for (int i = 0; i < person.length; i++) {
 			seatMap.put(person[i].getName(), i);
 		}
-		//MyLog.d("three", "seat");
+//		MyLog.d("three", "seat");
+		isRoundNumInited = false;
+		// MyLog.d("three", "seat");
 		roundNum = 1;
 
 		isPersonAlive = new boolean[person.length];
@@ -112,6 +116,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		inquireIncident = action;
 		this.total = total;
+
 		seatNum = seatMap.get(inquireIncident[0].getPerson().getName()) + 1;
 
 		for (int i = 0; i < inquireIncident.length; i++) {
@@ -139,48 +144,84 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 
 		if (seatNum == person.length) {
 			seatNum = 0;
-			roundNum++;// 再次轮到庄家的时候，新的一圈开始
 		}
 		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
 		while (!isPersonCanInquire[seatNum]) {
 			seatNum++;
 			if (seatNum == person.length) {
 				seatNum = 0;
-				roundNum++;// 再次轮到庄家的时候，新的一圈开始
 			}
 		}
-//		MyLog.d("three", "inquire " + person[seatNum].getName()
-//				+ "     roundNum: " + roundNum);
-		String flag = "default";
-		if (isInPreflop)
-			flag = "isInPreflop";
-		if (isInFlop)
-			flag = "isInFlop";
-		if (isInTurn)
-			flag = "isInTurn";
-		if (isInRiver)
-			flag = "isInRiver";
-//		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
-//				+ "       person.length: " + person.length + "  alived person:"
-//				+ getAlivePersonCount() + "  canInquirePersonCount:"
-//				+ getCanInquirePersonCount() + "  action.length: "
-//				+ action.length);
-//		MyLog.d("three", flag + "     seatNum: " + seatNum
-//				+ "       person.length: " + person.length + "  alived person:"
-//				+ getAlivePersonCount() + "  canInquirePersonCount:"
-//				+ getCanInquirePersonCount() + "  action.length: "
-//				+ action.length);
-		for (int i = 0; i < action.length; i++) {
-			String content = "" + action[i].getPerson().getName() + " "
-					+ action[i].getPerson().getJetton() + " "
-					+ action[i].getPerson().getMoney() + " "
-					+ action[i].getBet() + " " + action[i].getAction();
-//			MyLog.d(person[seatNum].getName(), content);
-//			MyLog.d("three", content);
-
+		if (!isRoundNumInited) {
+			if (person.length > 3 && seatNum < 3) {// 如果是庄家、小盲注、大盲注
+				roundNum = 1;
+			} else {
+				roundNum = 0;
+			}
+			isRoundNumInited = true;
 		}
-//		MyLog.d(person[seatNum].getName(), " \n");
-//		MyLog.d("three", " \n");
+		roundNum++;
+		/*
+		 * MyLog.d("three", "inquire " + person[seatNum].getName() +
+		 * "     roundNum: " + roundNum); MyLog.d(person[seatNum].getName(),
+		 * "inquire " + person[seatNum].getName() + "     roundNum: " +
+		 * roundNum); roundNum++;// 再次轮到庄家的时候，新的一圈开始 } }
+		 */
+		// MyLog.d("three", "inquire " + person[seatNum].getName()
+		// + "     roundNum: " + roundNum);
+		// String flag = "default";
+		// if (isInPreflop)
+		// flag = "isInPreflop";
+		// if (isInFlop)
+		// flag = "isInFlop";
+		// if (isInTurn)
+		// flag = "isInTurn";
+		// if (isInRiver)
+		// flag = "isInRiver";
+		// <<<<<<< HEAD
+		// MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
+		// + "       person.length: " + person.length + "  alived person:"
+		// + getAlivePersonCount() + "  canInquirePersonCount:"
+		// + getCanInquirePersonCount() + "  action.length: "
+		// + action.length);
+		// MyLog.d("three", flag + "     seatNum: " + seatNum
+		// + "       person.length: " + person.length + "  alived person:"
+		// + getAlivePersonCount() + "  canInquirePersonCount:"
+		// + getCanInquirePersonCount() + "  action.length: "
+		// + action.length);
+		// =======
+		// // MyLog.d(person[seatNum].getName(), flag + "     seatNum: " +
+		// seatNum
+		// // + "       person.length: " + person.length + "  alived person:"
+		// // + getAlivePersonCount() + "  canInquirePersonCount:"
+		// // + getCanInquirePersonCount() + "  action.length: "
+		// // + action.length);
+		// // MyLog.d("three", flag + "     seatNum: " + seatNum
+		// // + "       person.length: " + person.length + "  alived person:"
+		// // + getAlivePersonCount() + "  canInquirePersonCount:"
+		// // + getCanInquirePersonCount() + "  action.length: "
+		// // + action.length);
+		// >>>>>>> 9b7989652f487729642aea0a0d7484dd89938b90
+		// for (int i = 0; i < action.length; i++) {
+		// String content = "" + action[i].getPerson().getName() + " "
+		// + action[i].getPerson().getJetton() + " "
+		// + action[i].getPerson().getMoney() + " "
+		// + action[i].getBet() + " " + action[i].getAction();
+		// <<<<<<< HEAD
+		// MyLog.d(person[seatNum].getName(), content);
+		// MyLog.d("three", content);
+		//
+		// }
+		// MyLog.d(person[seatNum].getName(), " \n");
+		// MyLog.d("three", " \n");
+		// =======
+		// // MyLog.d(person[seatNum].getName(), content);
+		// // MyLog.d("three", content);
+		//
+		// }
+		// // MyLog.d(person[seatNum].getName(), " \n");
+		// // MyLog.d("three", " \n");
+		// >>>>>>> 9b7989652f487729642aea0a0d7484dd89938b90
 
 	}
 
@@ -344,19 +385,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void notifly(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		this.notifyIncident = action;
-		/*seatNum = seatMap.get(notifyIncident[0].getPerson().getName()) + 1;
-		if (seatNum == person.length) {
-			seatNum = 0;
-			roundNum++;// 再次轮到庄家的时候，新的一圈开始
-		}
-		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
-		while (!isPersonCanInquire[seatNum]) {
-			seatNum++;
-			if (seatNum == person.length) {
-				seatNum = 0;
-				roundNum++;// 再次轮到庄家的时候，新的一圈开始
-			}
-		}*/
 
 	}
 
@@ -366,19 +394,26 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return inquireIncident;
 	}
 
-
-	
-	@Override
-	public int timesNum() {
-		
-		return timesNum;
-	}
-	
-
 	@Override
 	public int raiseCount() {
 		// TODO Auto-generated method stub
 		return raisedCount[seatNum];
+	}
+
+	@Override
+	public int getBlind() {
+		// TODO Auto-generated method stub
+		int blind = bigJetton;
+		if (bigJetton == 0) {
+			blind = smallJetton;
+		}
+		return blind;
+	}
+
+	@Override
+	public int timesNum() {
+
+		return timesNum;
 	}
 
 }
