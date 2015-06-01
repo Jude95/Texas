@@ -25,10 +25,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int seatNum;// 座位序号，从0开始
 	private boolean isPersonAlive[];// 本局是否存活
 	private boolean isPersonCanInquire[];// 本局中是否可以
-	private boolean isStartOfPreflop;// 是否为每一局的开始
-	private boolean isStartOfFlop;
-	private boolean isStartOfTurn;
-	private boolean isStartOfRiver;
 
 	private boolean isInPreflop;
 	private boolean isInFlop;
@@ -61,13 +57,9 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		}
 		MyLog.d("three", "seat");
 		roundNum = 1;
-		
+
 		isPersonAlive = new boolean[person.length];
 		isPersonCanInquire = new boolean[person.length];
-		isStartOfPreflop = true;
-		isStartOfFlop = false;
-		isStartOfTurn = false;
-		isStartOfRiver = false;
 
 		isInPreflop = true;
 		isInFlop = false;
@@ -154,7 +146,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 				roundNum++;// 再次轮到庄家的时候，新的一圈开始
 			}
 		}
-		MyLog.d("three", "inquire " +person[seatNum].getName()+"     roundNum: "+roundNum);
+		MyLog.d("three", "inquire " + person[seatNum].getName()
+				+ "     roundNum: " + roundNum);
 		String flag = "default";
 		if (isInPreflop)
 			flag = "isInPreflop";
@@ -166,10 +159,14 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			flag = "isInRiver";
 		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
 				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount()+ "  canInquirePersonCount:"+ getCanInquirePersonCount() + "  action.length: " + action.length);
+				+ getAlivePersonCount() + "  canInquirePersonCount:"
+				+ getCanInquirePersonCount() + "  action.length: "
+				+ action.length);
 		MyLog.d("three", flag + "     seatNum: " + seatNum
 				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount() + "  canInquirePersonCount:"+ getCanInquirePersonCount()+ "  action.length: " + action.length);
+				+ getAlivePersonCount() + "  canInquirePersonCount:"
+				+ getCanInquirePersonCount() + "  action.length: "
+				+ action.length);
 		for (int i = 0; i < action.length; i++) {
 			String content = "" + action[i].getPerson().getName() + " "
 					+ action[i].getPerson().getJetton() + " "
@@ -194,20 +191,20 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return count;
 	}
 
-	public int getCanInquirePersonCount(){
-		int count=0;
-		for(int i=0; i<isPersonCanInquire.length; i++){
-			if(isPersonCanInquire[i]){
+	public int getCanInquirePersonCount() {
+		int count = 0;
+		for (int i = 0; i < isPersonCanInquire.length; i++) {
+			if (isPersonCanInquire[i]) {
 				count++;
 			}
 		}
 		return count;
 	}
+
 	@Override
 	public void flop(Poker[] poker) {
 		// TODO Auto-generated method stub
 		isInPreflop = false;
-		isStartOfFlop = true;
 		isInFlop = true;
 		for (int i = 0; i < poker.length; i++) {
 			commonPocker.add(poker[i]);
@@ -219,7 +216,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void turn(Poker poker) {
 		// TODO Auto-generated method stub
 		isInFlop = false;
-		isStartOfTurn = true;
 		isInTurn = true;
 		commonPocker.add(poker);
 
@@ -229,7 +225,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void river(Poker poker) {
 		// TODO Auto-generated method stub
 		isInTurn = false;
-		isStartOfRiver = true;
 		isInRiver = true;
 		commonPocker.add(poker);
 	}
@@ -267,7 +262,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return person;
 	}
 
-	//圈数读取有问题
+	// 圈数读取有问题
 	@Override
 	public int roundNum() {
 		// TODO Auto-generated method stub
@@ -284,7 +279,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public Action[] availableAction() {
 		// TODO Auto-generated method stub
 		Action[] availableAtion;
-		if(betJetton[seatNum]>=currentJetton){
+		if (betJetton[seatNum] >= currentJetton) {
 			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
@@ -317,7 +312,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return currentJetton;
 	}
-	
 
 	@Override
 	public int lastJetton() {
