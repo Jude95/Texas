@@ -1,10 +1,11 @@
+
 package framework.record;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import util.MyLog;
+import util.Log;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -57,7 +58,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		for (int i = 0; i < person.length; i++) {
 			seatMap.put(person[i].getName(), i);
 		}
-		MyLog.d("three", "seat");
+		//MyLog.d("three", "seat");
 		roundNum = 1;
 
 		isPersonAlive = new boolean[person.length];
@@ -148,8 +149,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 				roundNum++;// 再次轮到庄家的时候，新的一圈开始
 			}
 		}
-		MyLog.d("three", "inquire " + person[seatNum].getName()
-				+ "     roundNum: " + roundNum);
+//		MyLog.d("three", "inquire " + person[seatNum].getName()
+//				+ "     roundNum: " + roundNum);
 		String flag = "default";
 		if (isInPreflop)
 			flag = "isInPreflop";
@@ -159,27 +160,27 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			flag = "isInTurn";
 		if (isInRiver)
 			flag = "isInRiver";
-		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
-				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount() + "  canInquirePersonCount:"
-				+ getCanInquirePersonCount() + "  action.length: "
-				+ action.length);
-		MyLog.d("three", flag + "     seatNum: " + seatNum
-				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount() + "  canInquirePersonCount:"
-				+ getCanInquirePersonCount() + "  action.length: "
-				+ action.length);
+//		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
+//				+ "       person.length: " + person.length + "  alived person:"
+//				+ getAlivePersonCount() + "  canInquirePersonCount:"
+//				+ getCanInquirePersonCount() + "  action.length: "
+//				+ action.length);
+//		MyLog.d("three", flag + "     seatNum: " + seatNum
+//				+ "       person.length: " + person.length + "  alived person:"
+//				+ getAlivePersonCount() + "  canInquirePersonCount:"
+//				+ getCanInquirePersonCount() + "  action.length: "
+//				+ action.length);
 		for (int i = 0; i < action.length; i++) {
 			String content = "" + action[i].getPerson().getName() + " "
 					+ action[i].getPerson().getJetton() + " "
 					+ action[i].getPerson().getMoney() + " "
 					+ action[i].getBet() + " " + action[i].getAction();
-			MyLog.d(person[seatNum].getName(), content);
-			MyLog.d("three", content);
+//			MyLog.d(person[seatNum].getName(), content);
+//			MyLog.d("three", content);
 
 		}
-		MyLog.d(person[seatNum].getName(), " \n");
-		MyLog.d("three", " \n");
+//		MyLog.d(person[seatNum].getName(), " \n");
+//		MyLog.d("three", " \n");
 
 	}
 
@@ -364,6 +365,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return inquireIncident;
 	}
+
 
 	
 	@Override

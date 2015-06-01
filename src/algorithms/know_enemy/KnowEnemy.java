@@ -18,7 +18,7 @@ public class KnowEnemy {
 	private KnowEnemy(){
 	}
 	
-	public KnowEnemy getInstance(){
+	public KnowEnemy getInstance(ISceneReader reader){
 		if(instance == null){
 			instance = new KnowEnemy();
 			map =  new HashMap<String,Integer[]>();

@@ -82,5 +82,6 @@ public class Manager {
 			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		}
+
 	}
 }

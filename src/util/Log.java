@@ -1,7 +1,7 @@
 package util;
 
 import java.io.File;
-import java.io.IOException;
+
 
 public class Log {
 	private static String defaultTag = "Log";
@@ -17,15 +17,15 @@ public class Log {
 	}
 	
 	public static void Log(String tag,String content){
-		File file = new File(Log,tag);
-		try {
-			file.createNewFile();
-			FileUtil.writeToFile(file, content+"\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		FileUtil.writeToFile(new File(Log,tag), content+"\n");
+	}
+	
+	public static void Log(String parentStr,String tag,String content){
+		File parent = new File(Log,"parent");
+		if(!parent.exists()){
+			parent.mkdir();
 		}
-		
+		FileUtil.writeToFile(new File(parent,tag), content+"\n");
 	}
 
 }

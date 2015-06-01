@@ -1,6 +1,7 @@
 package bean;
 
 public enum Action {
+
 	blind, check, call, raise, all_in, fold;
 
 	private int num;
@@ -28,5 +29,4 @@ public enum Action {
 			return fold;
 		}
 	}
-
-}
+	}

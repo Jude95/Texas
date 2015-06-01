@@ -103,6 +103,23 @@ public class HandStatistics implements IActionObserver {
 			return bag8;
 		}
 	}
+	
+	private ArrayList<Entry<String,Float>> getArrayByCount(int count){
+		ArrayList<Entry<String,Float>> arr = new ArrayList<Map.Entry<String,Float>>();
+		arr.addAll(getBagByCount(count).entrySet());
+		arr.sort(new Comparator<Entry<String,Float>>() {
+
+			@Override
+			public int compare(Entry<String,Float> o1, Entry<String,Float> o2) {
+				float pro1 = (float)o1.getValue();
+				float pro2 = (float)o2.getValue();
+				return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
+			}
+		});
+		return arr;
+	}
+	
+	
 
 	public float getProbability(Poker[] poker, int count) {
 		HashMap<String, Float> tempBag = getBagByCount(count);
@@ -120,6 +137,7 @@ public class HandStatistics implements IActionObserver {
 		}
 	}
 
+
 	public float getMaxProbability(int count) {
 		HashMap<String, Float> tempBag = getBagByCount(count);
 		Float PROB = tempBag.get("AAo");
@@ -131,14 +149,39 @@ public class HandStatistics implements IActionObserver {
 		}
 	}
 
+	
+	public float getMinProbability(int count){
+		ArrayList<Entry<String,Float>> arr = getArrayByCount(count);
+		if(arr.size()==0)return 0;
+		Float PROB = arr.get(0).getValue();
+		if(PROB!=null){
+			float prob = PROB;
+			return (prob-(int)prob)*10;
+		}else{
+			return 0;
+		}
+	}
+	
+	public float getAverageProbability(int count){
+		ArrayList<Entry<String,Float>> arr = getArrayByCount(count);
+		if(arr.size()==0)return 0;
+		float total = 0;
+		for(Entry<String,Float> e:arr){
+			total +=(e.getValue()-(int)(float)e.getValue())*10;
+		}
+		return total/arr.size();
+	}
+
 	@Override
 	public void seat(Person[] person) {
 		curBag = getBagByCount(person.length);
 	}
 
+
 	private void showBag() {
 		File bagDir = new File(FileUtil.getUserDir(), "hand");
-		bagDir.mkdir();
+		if(!bagDir.exists())
+			bagDir.mkdir();
 		for (int i = 2; i < 9; i++) {
 			HashMap<String, Float> bag = getBagByCount(i);
 			for (Entry<String, Float> entry : bag.entrySet()) {

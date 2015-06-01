@@ -18,7 +18,9 @@ public class HandAllinDeciders extends Deciders {
 	public void inquire(Incident[] actions, int total) {
 		float mine = HandStatistics.getInstance().getProbability(mSceneReader.hold(), mSceneReader.person().length);
 		float max = HandStatistics.getInstance().getMaxProbability(mSceneReader.person().length);
+
 		//Log.Log("hand", "mine:"+mine+"    max"+max);
+
 		if(mine>max*0.55){
 			mActionPoster.all_in();
 		}else{

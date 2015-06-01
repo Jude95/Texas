@@ -27,7 +27,9 @@ public class AlgorithmDeciders extends Deciders {
 			mActionPoster.call();
 			break;
 		case raise:
-			mActionPoster.raise(200);
+
+			mActionPoster.raise(action.getNum());
+
 			break;
 		case all_in:
 			mActionPoster.all_in();
