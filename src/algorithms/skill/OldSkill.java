@@ -6,7 +6,7 @@ import framework.record.ISceneReader;
 import algorithms.statistics.HandStatistics;
 import bean.*;
 
-public class Skill implements ISkill{
+public class OldSkill implements ISkill{
 
 	public Action getSkillAction(ISceneReader reader) {
 
@@ -49,7 +49,7 @@ public class Skill implements ISkill{
 
 			
 			
-			if (win >= Config.AlgorithmConfig.SHILL_CALL_TOAVG * avhWin) {//多少概率起手
+			if (win >= 0.6 * AAwin) {//多少概率起手
 				int callJetton = reader.callJetton();
 				Incident[] incident = reader.preAction();
 	
