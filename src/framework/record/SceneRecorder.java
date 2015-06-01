@@ -109,7 +109,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		inquireIncident = action;
 		this.total = total;
-		seatNum = seatMap.get(action[0].getPerson().getName()) + 1;
+		seatNum = seatMap.get(inquireIncident[0].getPerson().getName()) + 1;
 
 		for (int i = 0; i < inquireIncident.length; i++) {
 			int currentSeat = seatMap.get(inquireIncident[i].getPerson()
@@ -138,8 +138,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			seatNum = 0;
 			roundNum++;// 再次轮到庄家的时候，新的一圈开始
 		}
-		// 如果位置+1后，后面的人已经弃牌，则继续+1
-		while (!isPersonAlive[seatNum]) {
+		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
+		while (!isPersonCanInquire[seatNum]) {
 			seatNum++;
 			if (seatNum == person.length) {
 				seatNum = 0;
@@ -341,6 +341,19 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void notifly(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		this.notifyIncident = action;
+		/*seatNum = seatMap.get(notifyIncident[0].getPerson().getName()) + 1;
+		if (seatNum == person.length) {
+			seatNum = 0;
+			roundNum++;// 再次轮到庄家的时候，新的一圈开始
+		}
+		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
+		while (!isPersonCanInquire[seatNum]) {
+			seatNum++;
+			if (seatNum == person.length) {
+				seatNum = 0;
+				roundNum++;// 再次轮到庄家的时候，新的一圈开始
+			}
+		}*/
 
 	}
 
