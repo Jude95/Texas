@@ -7,7 +7,8 @@ import bean.Color;
 import bean.Poker;
 
 public class AllPokerImpl implements IAllPoker {
-	
+
+
 	@Override
 	public List<Poker> getAllPoker() {
 		return getAllPoker(null);

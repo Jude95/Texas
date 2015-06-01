@@ -18,9 +18,11 @@ public class Person implements Comparable<Person>{
 	public void setName(String name) {
 		this.id = name;
 	}
+	//剩余筹码
 	public int getJetton() {
 		return jetton;
 	}
+	
 	public void setJetton(int jetton) {
 		this.jetton = jetton;
 	}
