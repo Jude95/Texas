@@ -73,7 +73,7 @@ public class TestSkill implements ISkill{
 				return Action.fold;
 			} else {
 				if ((sceneReader.callJetton() < sceneReader.getBlind() * 1.35)
-						|| sceneReader.person().length <= 4)
+						&& sceneReader.getAlivePersonCount() <= 6)
 					return Action.call;
 				else
 					return Action.fold;
