@@ -17,6 +17,7 @@ public class TestSkill {
 		color0 = holdPoker[0].getColor();
 		point1 = holdPoker[1].getPoint();
 		color1 = holdPoker[1].getColor();
+
 		if (leastPriority()) {
 			if (isCanCheck()) {
 				return Action.check;
@@ -63,8 +64,22 @@ public class TestSkill {
 				return Action.call;
 			}
 		}
-		
-		//预防意外
+
+		if (priority4()) {
+			if (isCanCheck()) {
+				return Action.check;
+			} else if (onlyAllin()) {
+				return Action.fold;
+			} else {
+				if ((sceneReader.callJetton() < sceneReader.getBlind() * 1.35)
+						|| sceneReader.person().length <= 4)
+					return Action.call;
+				else
+					return Action.fold;
+			}
+		}
+
+		// 预防意外
 		if (isCanCheck()) {
 			return Action.check;
 		}
@@ -144,6 +159,17 @@ public class TestSkill {
 			}
 		}
 
+		return false;
+	}
+
+	private boolean priority4() {
+		if (point0 == point1 && point0 == 9)
+			return true;
+		int max = point0 > point1 ? point0 : point1;
+		int min = point0 < point1 ? point0 : point1;
+		if ((max == 14 && min <= 3) || (max >= 13 && min >= 10)) {
+			return true;
+		}
 		return false;
 	}
 
