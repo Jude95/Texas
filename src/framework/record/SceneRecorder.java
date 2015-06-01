@@ -22,6 +22,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int total;// 奖池
 
 	private int roundNum;// 圈数，从1开始
+	private boolean isRoundNumInited;
 	private int seatNum;// 座位序号，从0开始
 	private boolean isPersonAlive[];// 本局是否存活
 	private boolean isPersonCanInquire[];// 本局中是否可以
@@ -56,7 +57,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			seatMap.put(person[i].getName(), i);
 		}
 		MyLog.d("three", "seat");
-		roundNum = 1;
+		isRoundNumInited = false;
 
 		isPersonAlive = new boolean[person.length];
 		isPersonCanInquire = new boolean[person.length];
@@ -109,8 +110,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		inquireIncident = action;
 		this.total = total;
-		seatNum = seatMap.get(inquireIncident[0].getPerson().getName()) + 1;
 
+		seatNum = seatMap.get(inquireIncident[0].getPerson().getName()) + 1;
 		for (int i = 0; i < inquireIncident.length; i++) {
 			int currentSeat = seatMap.get(inquireIncident[i].getPerson()
 					.getName());
@@ -136,18 +137,28 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 
 		if (seatNum == person.length) {
 			seatNum = 0;
-			roundNum++;// 再次轮到庄家的时候，新的一圈开始
 		}
 		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
 		while (!isPersonCanInquire[seatNum]) {
 			seatNum++;
 			if (seatNum == person.length) {
 				seatNum = 0;
-				roundNum++;// 再次轮到庄家的时候，新的一圈开始
 			}
 		}
+		if (!isRoundNumInited) {
+			if (person.length > 3 && seatNum < 3) {//如果是庄家、小盲注、大盲注
+				roundNum = 1;
+			}else{
+				roundNum = 0;
+			}
+			isRoundNumInited = true;
+		}
+		roundNum++;
 		MyLog.d("three", "inquire " + person[seatNum].getName()
 				+ "     roundNum: " + roundNum);
+		MyLog.d(person[seatNum].getName(),
+				"inquire " + person[seatNum].getName() + "     roundNum: "
+						+ roundNum);
 		String flag = "default";
 		if (isInPreflop)
 			flag = "isInPreflop";
@@ -341,19 +352,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void notifly(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		this.notifyIncident = action;
-		/*seatNum = seatMap.get(notifyIncident[0].getPerson().getName()) + 1;
-		if (seatNum == person.length) {
-			seatNum = 0;
-			roundNum++;// 再次轮到庄家的时候，新的一圈开始
-		}
-		// 如果位置+1后，后面的人已经弃牌或all in，则继续+1
-		while (!isPersonCanInquire[seatNum]) {
-			seatNum++;
-			if (seatNum == person.length) {
-				seatNum = 0;
-				roundNum++;// 再次轮到庄家的时候，新的一圈开始
-			}
-		}*/
+		
 
 	}
 
