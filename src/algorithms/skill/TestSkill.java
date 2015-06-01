@@ -45,7 +45,7 @@ public class TestSkill implements ISkill{
 			if (isCanCheck()) {
 				return Action.check;
 			} else if (onlyAllin()) {
-				if (sceneReader.person().length <= 5) {
+				if (sceneReader.getAlivePersonCount() <= 5) {
 					return Action.all_in;
 				}
 				return Action.fold;
@@ -57,7 +57,7 @@ public class TestSkill implements ISkill{
 			if (isCanCheck()) {
 				return Action.check;
 			} else if (onlyAllin()) {
-				if (sceneReader.person().length <= 3) {
+				if (sceneReader.getAlivePersonCount() <= 3) {
 					return Action.all_in;
 				}
 				return Action.fold;
