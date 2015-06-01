@@ -74,7 +74,7 @@ public class Manager {
 			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		case 8888:
-			Config.NAME = "Algorithm";
+			Config.NAME = "XIAOYONG";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		default:

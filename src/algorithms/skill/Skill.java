@@ -11,7 +11,7 @@ public class Skill {
 
 	public Action getSkillAction(ISceneReader reader) {
 		
-		/*if(isContainAK(reader.hold())){
+		if(isContainAK(reader.hold())){
 			Action action = Action.raise;
 			action.setNum(300);
 			return action;
@@ -65,7 +65,7 @@ public class Skill {
 				
 			}
 		}
-		*/
+		
 		return Action.fold;
 		
 	}
