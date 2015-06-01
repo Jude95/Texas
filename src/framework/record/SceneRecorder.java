@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import util.Log;
-import util.MyLog;
+//import util.MyLog;
+import util.Log;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -41,6 +42,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private String bigId;
 	private int smallJetton;
 	private int bigJetton;
+	private static int count = 0;
+	private int timesNum = 0;
 
 	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
 	private Incident[] notifyIncident;
@@ -51,13 +54,16 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
+		timesNum++;
 		this.person = person;
 		seatMap = new HashMap<String, Integer>();
 		for (int i = 0; i < person.length; i++) {
 			seatMap.put(person[i].getName(), i);
 		}
-		MyLog.d("three", "seat");
+//		MyLog.d("three", "seat");
 		isRoundNumInited = false;
+		// MyLog.d("three", "seat");
+		roundNum = 1;
 
 		isPersonAlive = new boolean[person.length];
 		isPersonCanInquire = new boolean[person.length];
@@ -112,6 +118,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		this.total = total;
 
 		seatNum = seatMap.get(inquireIncident[0].getPerson().getName()) + 1;
+
 		for (int i = 0; i < inquireIncident.length; i++) {
 			int currentSeat = seatMap.get(inquireIncident[i].getPerson()
 					.getName());
@@ -146,49 +153,75 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			}
 		}
 		if (!isRoundNumInited) {
-			if (person.length > 3 && seatNum < 3) {//如果是庄家、小盲注、大盲注
+			if (person.length > 3 && seatNum < 3) {// 如果是庄家、小盲注、大盲注
 				roundNum = 1;
-			}else{
+			} else {
 				roundNum = 0;
 			}
 			isRoundNumInited = true;
 		}
 		roundNum++;
-		MyLog.d("three", "inquire " + person[seatNum].getName()
-				+ "     roundNum: " + roundNum);
-		MyLog.d(person[seatNum].getName(),
-				"inquire " + person[seatNum].getName() + "     roundNum: "
-						+ roundNum);
-		String flag = "default";
-		if (isInPreflop)
-			flag = "isInPreflop";
-		if (isInFlop)
-			flag = "isInFlop";
-		if (isInTurn)
-			flag = "isInTurn";
-		if (isInRiver)
-			flag = "isInRiver";
-		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
-				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount() + "  canInquirePersonCount:"
-				+ getCanInquirePersonCount() + "  action.length: "
-				+ action.length);
-		MyLog.d("three", flag + "     seatNum: " + seatNum
-				+ "       person.length: " + person.length + "  alived person:"
-				+ getAlivePersonCount() + "  canInquirePersonCount:"
-				+ getCanInquirePersonCount() + "  action.length: "
-				+ action.length);
-		for (int i = 0; i < action.length; i++) {
-			String content = "" + action[i].getPerson().getName() + " "
-					+ action[i].getPerson().getJetton() + " "
-					+ action[i].getPerson().getMoney() + " "
-					+ action[i].getBet() + " " + action[i].getAction();
-			MyLog.d(person[seatNum].getName(), content);
-			MyLog.d("three", content);
-
-		}
-		MyLog.d(person[seatNum].getName(), " \n");
-		MyLog.d("three", " \n");
+		/*
+		 * MyLog.d("three", "inquire " + person[seatNum].getName() +
+		 * "     roundNum: " + roundNum); MyLog.d(person[seatNum].getName(),
+		 * "inquire " + person[seatNum].getName() + "     roundNum: " +
+		 * roundNum); roundNum++;// 再次轮到庄家的时候，新的一圈开始 } }
+		 */
+		// MyLog.d("three", "inquire " + person[seatNum].getName()
+		// + "     roundNum: " + roundNum);
+		// String flag = "default";
+		// if (isInPreflop)
+		// flag = "isInPreflop";
+		// if (isInFlop)
+		// flag = "isInFlop";
+		// if (isInTurn)
+		// flag = "isInTurn";
+		// if (isInRiver)
+		// flag = "isInRiver";
+		// <<<<<<< HEAD
+		// MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
+		// + "       person.length: " + person.length + "  alived person:"
+		// + getAlivePersonCount() + "  canInquirePersonCount:"
+		// + getCanInquirePersonCount() + "  action.length: "
+		// + action.length);
+		// MyLog.d("three", flag + "     seatNum: " + seatNum
+		// + "       person.length: " + person.length + "  alived person:"
+		// + getAlivePersonCount() + "  canInquirePersonCount:"
+		// + getCanInquirePersonCount() + "  action.length: "
+		// + action.length);
+		// =======
+		// // MyLog.d(person[seatNum].getName(), flag + "     seatNum: " +
+		// seatNum
+		// // + "       person.length: " + person.length + "  alived person:"
+		// // + getAlivePersonCount() + "  canInquirePersonCount:"
+		// // + getCanInquirePersonCount() + "  action.length: "
+		// // + action.length);
+		// // MyLog.d("three", flag + "     seatNum: " + seatNum
+		// // + "       person.length: " + person.length + "  alived person:"
+		// // + getAlivePersonCount() + "  canInquirePersonCount:"
+		// // + getCanInquirePersonCount() + "  action.length: "
+		// // + action.length);
+		// >>>>>>> 9b7989652f487729642aea0a0d7484dd89938b90
+		// for (int i = 0; i < action.length; i++) {
+		// String content = "" + action[i].getPerson().getName() + " "
+		// + action[i].getPerson().getJetton() + " "
+		// + action[i].getPerson().getMoney() + " "
+		// + action[i].getBet() + " " + action[i].getAction();
+		// <<<<<<< HEAD
+		// MyLog.d(person[seatNum].getName(), content);
+		// MyLog.d("three", content);
+		//
+		// }
+		// MyLog.d(person[seatNum].getName(), " \n");
+		// MyLog.d("three", " \n");
+		// =======
+		// // MyLog.d(person[seatNum].getName(), content);
+		// // MyLog.d("three", content);
+		//
+		// }
+		// // MyLog.d(person[seatNum].getName(), " \n");
+		// // MyLog.d("three", " \n");
+		// >>>>>>> 9b7989652f487729642aea0a0d7484dd89938b90
 
 	}
 
@@ -352,7 +385,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void notifly(Incident[] action, int total) {
 		// TODO Auto-generated method stub
 		this.notifyIncident = action;
-		
 
 	}
 
@@ -371,12 +403,17 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int getBlind() {
 		// TODO Auto-generated method stub
-		int blind = bigJetton; 
-		if(bigJetton==0){
+		int blind = bigJetton;
+		if (bigJetton == 0) {
 			blind = smallJetton;
 		}
 		return blind;
 	}
-	
-	
+
+	@Override
+	public int timesNum() {
+
+		return timesNum;
+	}
+
 }
