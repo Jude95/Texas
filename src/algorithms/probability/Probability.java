@@ -3,12 +3,9 @@ package algorithms.probability;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import config.Config;
 import test.StateJudger;
-import util.Log;
 import framework.record.ISceneReader;
-import algorithms.statistics.HandStatistics;
 import bean.*;
 
 
@@ -18,7 +15,6 @@ public class Probability {
 	private IAllPoker mIAllPoker;
 	private StateJudger mStateJudger;
 
-	
 	public Probability() {
 		mIAllPoker = new AllPokerImpl();
 		mStateJudger = new StateJudger();
@@ -35,7 +31,6 @@ public class Probability {
 		if (poker.length == 5) {
 			float win = getWins(poker);
 			mAction = getDecideAction(win, reader);
-
 		} else {
 			Poker[][] pokers = null;
 			if (poker.length == 6) {
@@ -94,7 +89,6 @@ public class Probability {
 		for (int i = 0; i < bits.length; i++) {
 			bits[i] = i < n ? (byte) 1 : (byte) 0;
 		}
-
 		do {
 			Poker[] printTemp = printCombination(list, bits);
 			for (int k = 0; k < otherPoker.length; k++) {
@@ -150,6 +144,7 @@ public class Probability {
 		int lastJetton = reader.lastJetton();
 		int pot = reader.pot();
 		int roundNum = reader.roundNum();
+		int total = reader.totalCallJetton();
 		boolean canCheck = canCheck(reader.availableAction());
 		Person[] person = reader.person();
 		int callNum = callNum(reader.preAction());
@@ -167,14 +162,14 @@ public class Probability {
 						return Action.call;
 					}
 				}
-				if(lastJetton > callJetton*10){
+				if(lastJetton > callJetton*20/roundNum){
 					if(callJetton < pot*win  && callJetton < lastJetton * win){
 						return Action.call;
 					}
 				}
 			}	
 		}
-		if(true){
+		if(total > 2000){
 			//投入很多了，就一定要坚持到最后开牌，不惜all_in
 			return Action.call;
 		}

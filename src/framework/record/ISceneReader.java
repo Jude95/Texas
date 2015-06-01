@@ -30,5 +30,7 @@ public interface ISceneReader {
 	//当前玩儿家之前的操作
 	public Incident[] preAction();
 	
+	//当前第几局
+	public int timesNum();
 	
 }

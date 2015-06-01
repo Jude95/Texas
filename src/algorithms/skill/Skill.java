@@ -11,9 +11,9 @@ public class Skill {
 
 	public Action getSkillAction(ISceneReader reader) {
 		
-		/*if(isContainAK(reader.hold())){
+		
+		if(isContainAK(reader.hold())){
 			Action action = Action.raise;
-			action.setNum(300);
 			return action;
 		}
 		
@@ -26,7 +26,6 @@ public class Skill {
 					return Action.call;
 				}else{
 					Action action = Action.raise;
-					action.setNum(200);
 					return action;
 				}
 			}
@@ -65,16 +64,17 @@ public class Skill {
 				
 			}
 		}
-		*/
-		return Action.fold;
 		
+		return Action.fold;
 	}
 
 	boolean canCheck(Action[] actions){
 		boolean flag =false;
-		for(int i=0;i<actions.length;i++){
-			if(actions[i].equals(Action.check)){
-				flag = true;
+		if(actions != null){
+			for(int i=0;i<actions.length;i++){
+				if(actions[i].equals(Action.check)){
+					flag = true;
+				}
 			}
 		}
 		return flag;
@@ -133,5 +133,4 @@ public class Skill {
 		}
 		return count;
 	}
-	
 }

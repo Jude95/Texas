@@ -33,10 +33,12 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int bigJetton;
 	private static int count = 0;
 	private int totalCallJetton[];
+	private int timesNum = 0;
 
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
+		timesNum++;
 		this.person = person;
 		isFirststart = true;
 		roundNum = 1;
@@ -269,5 +271,13 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return inquireIncident;
 	}
+
+	
+	@Override
+	public int timesNum() {
+		
+		return timesNum;
+	}
+	
 
 }
