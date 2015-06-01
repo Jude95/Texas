@@ -3,12 +3,9 @@ package algorithms.probability;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import config.Config;
 import test.StateJudger;
-import util.Log;
 import framework.record.ISceneReader;
-import algorithms.statistics.HandStatistics;
 import bean.*;
 
 
@@ -61,10 +58,10 @@ public class Probability {
 		}
 		return mAction;
 	}
-
+	
 	private float getWins(Poker[] poker) {
 		IRate mIRate = new RateImpl(poker);
-		return combine(mIAllPoker.getAllPoker(poker), poker, 2,
+		return combine(mIAllPoker.getAllPoker(poker), poker,2,
 				mIRate.getCode());
 	}
 

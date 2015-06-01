@@ -38,7 +38,28 @@ public class KnowEnemy {
 	public Type getEnemyType(String id){
 		Integer[] s = map.get(id);
 		int k = getTypeMax(id);
-		return Type.AllInBoss;
+		int temp = reader.timesNum();
+		if(s[k] > temp){
+			switch (k) {
+			case 0:
+				return Type.FoldDog;
+			case 1:
+				return Type.CheckPig;
+			case 2:
+				return Type.CallGod;
+			case 3:
+				return Type.RaiseFather;
+			case 4:
+				return Type.AllInBoss;
+			}
+		}else if(s[k] > temp/3*2){
+			if(k == 0||k == 1){
+				return Type.KeepGhost;
+			}else{
+				return Type.RadicalLord;
+			}
+		}
+		return null;
 	}
 	
 	
@@ -86,9 +107,10 @@ public class KnowEnemy {
 	
 	enum Type{
 		
+		CheckPig,
 		AllInBoss,//全压
 		HandDog,//手牌狗
-		FoldDOg,//弃牌狗
+		FoldDog,//弃牌狗
 		RaiseFather,//加注
 		CallGod,//跟注帝
 		KeepGhost,//保守鬼
