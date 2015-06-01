@@ -15,7 +15,10 @@ public class NewSkill  implements ISkill{
 		float max = HandStatistics.getInstance().getNumProbability(count, 10);
 		float win = HandStatistics.getInstance().getProbability(reader.hold(),reader.person().length);
 		
-		
+		if(reader.getAlivePersonCount() <=1 ){
+			Log.Log("skill","第"+reader.timesNum()+"局"+"  无人存活,我跟牌");
+			return Action.call;
+		}
 		if(win <= mid){
 			Log.Log("skill","第"+reader.timesNum()+"局"+"  小于中值，弃牌");
 			return Action.fold;

@@ -9,7 +9,10 @@ import bean.*;
 public class OldSkill implements ISkill{
 
 	public Action getSkillAction(ISceneReader reader) {
-
+		if(reader.getAlivePersonCount() <=1 ){
+			//Log.Log("skill","第"+reader.timesNum()+"局"+"  无人存活,我跟牌");
+			return Action.call;
+		}
 		if (isContainAK(reader.hold())) {
 			Action action = Action.raise;
 			return action;
