@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import util.Log;
 import util.MyLog;
 import bean.Action;
 import bean.Incident;
@@ -366,7 +364,6 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		return inquireIncident;
 	}
-
 
 	
 	@Override
