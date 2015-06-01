@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import util.Log;
+import util.MyLog;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -19,39 +20,69 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 
 	private List<Poker> commonPocker;// 公牌
 	private int total;// 奖池
-	private int seatNum;// 座位序号，从0开始
-	private boolean isFirststart;
-	private boolean isPersonAlive[];// 本局是否存活
+
 	private int roundNum;// 圈数，从1开始
-	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
-	private Incident[] notifyIncident;
-	private Result[] results;
-	private Map<String, Integer> pot_win_map;
+	private int seatNum;// 座位序号，从0开始
+	private boolean isPersonAlive[];// 本局是否存活
+	private boolean isPersonCanInquire[];// 本局中是否可以
+	private boolean isStartOfPreflop;// 是否为每一局的开始
+	private boolean isStartOfFlop;
+	private boolean isStartOfTurn;
+	private boolean isStartOfRiver;
+
+	private boolean isInPreflop;
+	private boolean isInFlop;
+	private boolean isInTurn;
+	private boolean isInRiver;
+
+	private int currentJetton;
+	private int betJetton[];
+	private int totalCallJetton[];
+	private int raisedCount[];
+
 	private String smallId;
 	private String bigId;
 	private int smallJetton;
 	private int bigJetton;
-	private static int count = 0;
-	private int totalCallJetton[];
+
+	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
+	private Incident[] notifyIncident;
+	private Result[] results;
+	private Map<String, Integer> pot_win_map;
+	private Map<String, Integer> seatMap;
 
 	@Override
 	public void seat(Person[] person) {
 		// TODO Auto-generated method stub
 		this.person = person;
-		isFirststart = true;
-		roundNum = 1;
-		// 初始位置为小盲注后面一个人
-		if (person.length > 3) {
-			seatNum = 3;
-		} else {
-			seatNum = 0;
+		seatMap = new HashMap<String, Integer>();
+		for (int i = 0; i < person.length; i++) {
+			seatMap.put(person[i].getName(), i);
 		}
-
+		MyLog.d("three", "seat");
+		roundNum = 1;
+		
 		isPersonAlive = new boolean[person.length];
+		isPersonCanInquire = new boolean[person.length];
+		isStartOfPreflop = true;
+		isStartOfFlop = false;
+		isStartOfTurn = false;
+		isStartOfRiver = false;
+
+		isInPreflop = true;
+		isInFlop = false;
+		isInTurn = false;
+		isInRiver = false;
+
+		betJetton = new int[person.length];
 		totalCallJetton = new int[person.length];
+		raisedCount = new int[person.length];
 		for (int i = 0; i < person.length; i++) {
 			isPersonAlive[i] = true;
+			isPersonCanInquire[i] = true;
+			betJetton[i] = 0;
 			totalCallJetton[i] = 0;
+			raisedCount[i] = 0;
 		}
 		commonPocker = new ArrayList<Poker>();
 
@@ -64,6 +95,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		this.smallJetton = smallJetton;
 		this.bigId = bigId;
 		this.bigJetton = bigJetton;
+		currentJetton = bigJetton;
 	}
 
 	@Override
@@ -71,6 +103,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		this.smallId = smallId;
 		this.smallJetton = smallJetton;
+		currentJetton = smallJetton;
 	}
 
 	@Override
@@ -84,33 +117,71 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		inquireIncident = action;
 		this.total = total;
-		totalCallJetton[seatNum] += action[0].getBet();
-		Log.Log("record", "" + action[0].getPerson().getName() + " "
-				+ action[0].getAction() + "; person.length:" + person.length);
+		seatNum = seatMap.get(action[0].getPerson().getName()) + 1;
 
-		if (isFirststart) {// 下大小盲注时，不用改变位置
-			isFirststart = false;
-		} else {
-			// 如果上一个人弃牌，则把他的isPersonAlive置为false
-
-			if (inquireIncident[0].getAction().equals(Action.fold)) {
-				isPersonAlive[seatNum] = false;// 现在位置还没有+1，所以是上一个人的
+		for (int i = 0; i < inquireIncident.length; i++) {
+			int currentSeat = seatMap.get(inquireIncident[i].getPerson()
+					.getName());
+			betJetton[currentSeat] = inquireIncident[i].getBet();
+			if (inquireIncident[i].getAction().equals(Action.fold)) {
+				isPersonAlive[currentSeat] = false;
 			}
+
+			if (inquireIncident[i].getAction().equals(Action.fold)
+					|| inquireIncident[i].getAction().equals(Action.all_in)) {
+				isPersonCanInquire[currentSeat] = false;
+			}
+
+			if (inquireIncident[i].getAction().equals(Action.raise)) {
+				raisedCount[currentSeat]++;
+			}
+
+			if (inquireIncident[i].getBet() > currentJetton) {
+				currentJetton = inquireIncident[i].getBet();
+			}
+
+		}
+
+		if (seatNum == person.length) {
+			seatNum = 0;
+			roundNum++;// 再次轮到庄家的时候，新的一圈开始
+		}
+		// 如果位置+1后，后面的人已经弃牌，则继续+1
+		while (!isPersonAlive[seatNum]) {
 			seatNum++;
 			if (seatNum == person.length) {
 				seatNum = 0;
 				roundNum++;// 再次轮到庄家的时候，新的一圈开始
 			}
-			// 如果位置+1后，后面的人已经弃牌，则继续+1
-			while (!isPersonAlive[seatNum]) {
-				seatNum++;
-				if (seatNum == person.length) {
-					seatNum = 0;
-					roundNum++;// 再次轮到庄家的时候，新的一圈开始
-				}
-			}
+		}
+		MyLog.d("three", "inquire " +person[seatNum].getName()+"     roundNum: "+roundNum);
+		String flag = "default";
+		if (isInPreflop)
+			flag = "isInPreflop";
+		if (isInFlop)
+			flag = "isInFlop";
+		if (isInTurn)
+			flag = "isInTurn";
+		if (isInRiver)
+			flag = "isInRiver";
+		MyLog.d(person[seatNum].getName(), flag + "     seatNum: " + seatNum
+				+ "       person.length: " + person.length + "  alived person:"
+				+ getAlivePersonCount()+ "  canInquirePersonCount:"+ getCanInquirePersonCount() + "  action.length: " + action.length);
+		MyLog.d("three", flag + "     seatNum: " + seatNum
+				+ "       person.length: " + person.length + "  alived person:"
+				+ getAlivePersonCount() + "  canInquirePersonCount:"+ getCanInquirePersonCount()+ "  action.length: " + action.length);
+		for (int i = 0; i < action.length; i++) {
+			String content = "" + action[i].getPerson().getName() + " "
+					+ action[i].getPerson().getJetton() + " "
+					+ action[i].getPerson().getMoney() + " "
+					+ action[i].getBet() + " " + action[i].getAction();
+			MyLog.d(person[seatNum].getName(), content);
+			MyLog.d("three", content);
 
 		}
+		MyLog.d(person[seatNum].getName(), " \n");
+		MyLog.d("three", " \n");
+
 	}
 
 	public int getAlivePersonCount() {
@@ -123,10 +194,21 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return count;
 	}
 
+	public int getCanInquirePersonCount(){
+		int count=0;
+		for(int i=0; i<isPersonCanInquire.length; i++){
+			if(isPersonCanInquire[i]){
+				count++;
+			}
+		}
+		return count;
+	}
 	@Override
 	public void flop(Poker[] poker) {
 		// TODO Auto-generated method stub
-
+		isInPreflop = false;
+		isStartOfFlop = true;
+		isInFlop = true;
 		for (int i = 0; i < poker.length; i++) {
 			commonPocker.add(poker[i]);
 		}
@@ -136,12 +218,19 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public void turn(Poker poker) {
 		// TODO Auto-generated method stub
+		isInFlop = false;
+		isStartOfTurn = true;
+		isInTurn = true;
 		commonPocker.add(poker);
+
 	}
 
 	@Override
 	public void river(Poker poker) {
 		// TODO Auto-generated method stub
+		isInTurn = false;
+		isStartOfRiver = true;
+		isInRiver = true;
 		commonPocker.add(poker);
 	}
 
@@ -149,6 +238,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public void pot_win(Map<String, Integer> pot) {
 		// TODO Auto-generated method stub
 		this.pot_win_map = pot;
+		inquireIncident = null;
+		notifyIncident = null;
 
 	}
 
@@ -176,6 +267,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return person;
 	}
 
+	//圈数读取有问题
 	@Override
 	public int roundNum() {
 		// TODO Auto-generated method stub
@@ -192,21 +284,15 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	public Action[] availableAction() {
 		// TODO Auto-generated method stub
 		Action[] availableAtion;
-
-		// 开局，还没下完盲注时
-		if (inquireIncident.length < 2) {
-			return null;
-		}
-
-		// 当上一个人跟牌，所以操作都可以
-		if (inquireIncident[0].getAction().equals(Action.check)) {
+		if(betJetton[seatNum]>=currentJetton){
 			availableAtion = new Action[5];
 			availableAtion[0] = Action.call;
 			availableAtion[1] = Action.raise;
-			availableAtion[2] = Action.fold;
+			availableAtion[2] = Action.all_in;
 			availableAtion[3] = Action.check;
-			availableAtion[4] = Action.all_in;
+			availableAtion[4] = Action.fold;
 			return availableAtion;
+
 		}
 
 		availableAtion = new Action[4];
@@ -229,14 +315,14 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	@Override
 	public int callJetton() {
 		// TODO Auto-generated method stub
-		return inquireIncident[0].getBet();
+		return currentJetton;
 	}
+	
 
 	@Override
 	public int lastJetton() {
 		// TODO Auto-generated method stub
-		return inquireIncident[0].getPerson().getJetton()
-				- totalCallJetton[seatNum];
+		return person[seatNum].getJetton();
 	}
 
 	@Override
@@ -270,4 +356,9 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		return inquireIncident;
 	}
 
+	@Override
+	public int raiseCount() {
+		// TODO Auto-generated method stub
+		return raisedCount[seatNum];
+	}
 }

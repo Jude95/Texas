@@ -2,7 +2,7 @@ package bean;
 
 public class Incident {
 	private Person person;
-	private int bet;
+	private int bet;//押注
 	
 	public Incident(Person person, int bet, Action action) {
 		super();

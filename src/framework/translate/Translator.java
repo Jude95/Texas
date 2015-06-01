@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.Log;
+import util.MyLog;
 import framework.translate.SimpleOrderFitter.OrderCallback;
 import bean.Action;
 import bean.Color;
@@ -130,11 +131,17 @@ public class Translator implements IMessageObserver , OrderCallback{
 		ArrayList<Incident> incidents = new ArrayList<Incident>();
 		for(int i = 0;i<content.length-1;i++){
 			String[] params = content[i].split(" ");
+			MyLog.d("one",params[0]+" "+params[1]+" "+params[2]+ " "+params[3]+" "+params[4]+"     Action.params[4]: "+Action.params(params[4]));
 			Incident incident = new Incident(new Person(params[0], Integer.parseInt(params[1]), Integer.parseInt(params[2])),Integer.parseInt(params[3]),Action.params(params[4]));
 			incidents.add(incident);
 		}
 		String[] params1 = content[content.length-1].split(" ");
 		int total = Integer.parseInt(params1[params1.length-1]);
+		Incident incident[] = incidents.toArray(new Incident[0]);
+		for(int i=0; i<incident.length; i++){
+			MyLog.d("two", ""+incident[i].getPerson().getName()+" "+incident[i].getPerson().getJetton()+" "+incident[i].getPerson().getMoney()+" "+incident[i].getBet()+" "+incident[i].getAction());
+		}
+		MyLog.d("two", "/n");
 		dispatcher.inquire(incidents.toArray(new Incident[0]),total);
 	}
 	
