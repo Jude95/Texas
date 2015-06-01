@@ -9,10 +9,9 @@ import framework.translate.IActionPoster;
 public class AlgorithmDeciders extends Deciders {
 	private AlgorithmManager algorithmManager;
 	public AlgorithmDeciders(IActionPoster actionPoster,
-			ISceneReader sceneReader) {
+			ISceneReader sceneReader,int style) {
 		super(actionPoster, sceneReader);
-		// TODO Auto-generated constructor stub
-		algorithmManager = new AlgorithmManager();
+		algorithmManager = new AlgorithmManager(style);
 	}
 
 	@Override

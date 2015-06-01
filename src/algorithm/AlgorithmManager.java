@@ -2,17 +2,22 @@ package algorithm;
 
 import util.Log;
 import algorithms.probability.Probability;
+import algorithms.skill.ISkill;
+import algorithms.skill.NewSkill;
 import algorithms.skill.Skill;
+import algorithms.skill.TestSkill;
 import bean.Action;
 import bean.Poker;
 import framework.record.ISceneReader;
 
 public class AlgorithmManager implements IAlgorithm {
-
-	private Skill mSkill;
+	private int style;
+	private ISkill mSkill;
+	
 	private Probability mProbability;
-
-	public AlgorithmManager() {
+	
+	
+	public AlgorithmManager(int style) {
 		init();
 	}
 
@@ -34,7 +39,18 @@ public class AlgorithmManager implements IAlgorithm {
 	}
 
 	private void init() {
-		mSkill = new Skill();
+		switch (style) {
+		case 1:
+			mSkill = new Skill();
+			break;
+		case 2:
+			mSkill = new NewSkill();
+			break;
+		default:
+			mSkill = new TestSkill();
+			break;
+		}
+		mSkill = new NewSkill();
 		mProbability = new Probability();
 	}
 

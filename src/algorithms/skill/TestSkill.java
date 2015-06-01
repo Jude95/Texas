@@ -1,140 +1,159 @@
 package algorithms.skill;
 
-import util.Log;
-import algorithms.statistics.HandStatistics;
 import bean.Action;
 import bean.Color;
-import bean.Incident;
 import bean.Poker;
-import config.Config;
 import framework.record.ISceneReader;
 
-public class TestSkill {
-	public Action getSkillAction(ISceneReader reader) {
+public class TestSkill  implements ISkill{
+	private ISceneReader sceneReader;
+	private int point0, point1;
+	private Color color0, color1;
 
-		if (isContainAK(reader.hold())) {
-			Action action = Action.raise;
-			action.setNum(300);
-			return action;
+	public Action getSkillAction(ISceneReader sceneReader) {
+		this.sceneReader = sceneReader;
+		Poker holdPoker[] = sceneReader.hold();
+		point0 = holdPoker[0].getPoint();
+		color0 = holdPoker[0].getColor();
+		point1 = holdPoker[1].getPoint();
+		color1 = holdPoker[1].getColor();
+		if (leastPriority()) {
+			if (isCanCheck()) {
+				return Action.check;
+			}
+			return Action.fold;
 		}
 
-		if (isContainJJ(reader.hold())) {
-			Incident[] incident = reader.preAction();
-			if (isPreRaise(incident)) {
-				return Action.call;
+		if (priority1()) {
+			if (onlyAllin()) {
+				return Action.all_in;
+			}
+			if (sceneReader.raiseCount() == 0) {
+				Action tempAction = Action.raise;
+				tempAction.setNum(2);// 无限盲注，加注必须是两倍
+				return tempAction;
+			} else if (isCanCheck()) {
+				return Action.check;
 			} else {
-				if (callNum(incident) > incident.length - 2) {
-					return Action.call;
-				} else {
-					Action action = Action.raise;
-					action.setNum(200);
-					return action;
-				}
+				return Action.call;
 			}
 		}
 
-		if (canCheck(reader.availableAction())) {
+		if (priority2()) {
+			if (isCanCheck()) {
+				return Action.check;
+			} else if (onlyAllin()) {
+				if (sceneReader.person().length <= 5) {
+					return Action.all_in;
+				}
+				return Action.fold;
+			} else {
+				return Action.call;
+			}
+		}
+		if (priority3()) {
+			if (isCanCheck()) {
+				return Action.check;
+			} else if (onlyAllin()) {
+				if (sceneReader.person().length <= 3) {
+					return Action.all_in;
+				}
+				return Action.fold;
+			} else {
+				return Action.call;
+			}
+		}
+		
+		//预防意外
+		if (isCanCheck()) {
 			return Action.check;
-		} else {
-			float win = HandStatistics.getInstance().getProbability(
-					reader.hold(), reader.person().length);
-			Log.Log("log2", reader.hold()[0].getPoint() + ","
-					+ reader.hold()[1].getPoint() + "----->" + win + "");
-			Poker[] poker = { new Poker(Color.CLUBS, 14),
-					new Poker(Color.DIAMONDS, 14) };
-			float AAwin = HandStatistics.getInstance().getProbability(poker,
-					reader.person().length);
-			if (win >= Config.AlgorithmConfig.SHILL_CALL * AAwin) {
-				int callJetton = reader.callJetton();
-				Incident[] incident = reader.preAction();
-				if (callNum(incident) < incident.length / 2) {// call或者raise的人数少于一半
-					if (callJetton < Config.AlgorithmConfig.SHILL_CALLJETTON
-							* reader.lastJetton()) {
-						return Action.call;
-					} else {
-						return Action.fold;
-					}
-				} else {
-					if (win >= Config.AlgorithmConfig.SKILL_RAISE * AAwin) {
-						if (callJetton < Config.AlgorithmConfig.SHILL_CALLJETTON
-								* reader.lastJetton()) {
-							return Action.call;
-						} else {
-							return Action.fold;
-						}
-					} else {
-						return Action.fold;
-					}
-				}
-
-			}
 		}
-
 		return Action.fold;
 
 	}
 
-	boolean canCheck(Action[] actions) {
-		boolean flag = false;
-		for (int i = 0; i < actions.length; i++) {
-			if (actions[i].equals(Action.check)) {
-				flag = true;
-			}
+	private boolean onlyAllin() {
+		if (sceneReader.lastJetton() <= sceneReader.callJetton()) {
+			return true;
 		}
-		return flag;
+		return false;
 	}
 
-	private boolean isContainAK(Poker[] poker) {
-		boolean flag = false;
-
-		if (poker[0].getColor().equals(poker[1].getColor())) {
-			int point0 = poker[0].getPoint();
-			int point1 = poker[1].getPoint();
-			if ((point0 == point1 && point0 >= 12)
-					|| (point0 >= 13 && point1 >= 13)) {
-				flag = true;
-			}
+	private int getPriority() {
+		if (leastPriority()) {
+			return 0;
 		}
-		return flag;
+		if (priority1()) {
+			return 10;
+		}
+
+		if (priority2()) {
+			return 8;
+		}
+
+		return 0;
 	}
 
-	private boolean isContainJJ(Poker[] poker) {
-		boolean flag = false;
-		Poker[][] pokers = {
-				{ new Poker(Color.CLUBS, 11), new Poker(Color.DIAMONDS, 11) },
-				{ new Poker(Color.CLUBS, 14), new Poker(Color.DIAMONDS, 12) },
-				{ new Poker(Color.CLUBS, 12), new Poker(Color.DIAMONDS, 14) },
-				{ new Poker(Color.CLUBS, 10), new Poker(Color.DIAMONDS, 10) },
-				{ new Poker(Color.CLUBS, 8), new Poker(Color.DIAMONDS, 8) },
-				{ new Poker(Color.CLUBS, 7), new Poker(Color.DIAMONDS, 7) },
-				{ new Poker(Color.CLUBS, 9), new Poker(Color.DIAMONDS, 9) }, };
-		for (int i = 0; i < pokers.length; i++) {
-			if (poker[0].getPoint() == pokers[i][0].getPoint()
-					&& poker[1].getPoint() == pokers[i][1].getPoint()) {
-				flag = true;
-			}
+	// 最低优先级 <9
+	private boolean leastPriority() {
+		if (point0 < 9 || point1 < 9) {
+			return true;
 		}
-		return flag;
+		return false;
 	}
 
-	private boolean isPreRaise(Incident[] incident) {
-		boolean flag = false;
-		for (int i = 0; i < incident.length; i++) {
-			if (incident[i].getAction().equals(Action.raise)) {
-				flag = true;
-			}
+	// 第一优先级 AA KK
+	private boolean priority1() {
+		if (point0 == point1 && point0 >= 13) {
+			return true;
 		}
-		return flag;
+		return false;
 	}
 
-	private int callNum(Incident[] incident) {
-		int count = 0;
-		for (int i = 0; i < incident.length; i++) {
-			if (incident[i].getAction().equals(Action.raise)
-					|| incident[i].getAction().equals(Action.call)) {
-				count++;
+	// 第二优先级（排除了第一优先级）
+	private boolean priority2() {
+		// QQ JJ
+		if (point0 == point1 && point0 >= 11) {
+			return true;
+		}
+
+		// 不管颜色的AK KQ AQ
+		if (point0 >= 12 && point1 >= 12) {
+			return true;
+		}
+		return false;
+	}
+
+	// 第三优先级（排除了第二优先级）
+	private boolean priority3() {
+		// 1010
+		if (point0 == point1 && point0 == 10) {
+			return true;
+		}
+
+		// 不管颜色的AJ KQ KJ QJ
+		if (((point0 > point1 ? point0 : point1) >= 11)
+				&& (point0 < point1 ? point0 : point1) >= 11) {
+			return true;
+		}
+
+		// 同色的J10
+		if (color0.equals(color1) && point0 >= 10 && point1 >= 10) {
+			if ((Math.abs(point0 - point1) == 1)) {
+				return true;
 			}
 		}
-		return count;
+
+		return false;
+	}
+
+	private boolean isCanCheck() {
+		Action availableAction[] = sceneReader.availableAction();
+		for (int i = 0; i < availableAction.length; i++) {
+			if (availableAction[i].equals(Action.check)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

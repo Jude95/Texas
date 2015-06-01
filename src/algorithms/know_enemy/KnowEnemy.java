@@ -103,13 +103,10 @@ public class KnowEnemy {
 	}
 	
 	
-	
-	
 	enum Type{
 		
 		CheckPig,
 		AllInBoss,//全压
-		HandDog,//手牌狗
 		FoldDog,//弃牌狗
 		RaiseFather,//加注
 		CallGod,//跟注帝

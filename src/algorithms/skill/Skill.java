@@ -7,7 +7,7 @@ import framework.record.ISceneReader;
 import algorithms.statistics.HandStatistics;
 import bean.*;
 
-public class Skill {
+public class Skill implements ISkill{
 
 	public Action getSkillAction(ISceneReader reader) {
 		
@@ -16,6 +16,7 @@ public class Skill {
 			Action action = Action.raise;
 			return action;
 		}
+		
 		
 		if(isContainJJ(reader.hold())){
 			  Incident[] incident = reader.preAction();
@@ -39,11 +40,19 @@ public class Skill {
 			Log.Log("log2",reader.hold()[0].getPoint()+","+reader.hold()[1].getPoint() + "----->"+win+"");
 			Poker[] poker = { new Poker(Color.CLUBS, 14),
 					new Poker(Color.DIAMONDS, 14) };
-			float AAwin = HandStatistics.getInstance().getProbability(poker,
-					reader.person().length);
-			if (win >= Config.AlgorithmConfig.SHILL_CALL * AAwin) {
+			float AAwin = HandStatistics.getInstance().getMaxProbability(reader.person().length);
+			float avhWin = HandStatistics.getInstance().getAverageProbability(reader.person().length);
+			
+			
+
+
+			
+			
+			if (win >= Config.AlgorithmConfig.SHILL_CALL_TOAVG * avhWin) {//多少概率起手
 				int callJetton = reader.callJetton();
 				Incident[] incident = reader.preAction();
+				
+				
 				if(callNum(incident) < incident.length/2){//call或者raise的人数少于一半
 					if(callJetton<Config.AlgorithmConfig.SHILL_CALLJETTON * reader.lastJetton()){
 						return Action.call;
@@ -127,7 +136,7 @@ public class Skill {
 	private int callNum(Incident[] incident){
 		int count=0;
 		for(int i =0;i<incident.length;i++){
-			if(incident[i].getAction().equals(Action.raise) || incident[i].getAction().equals(Action.call)){
+			if(incident[i].getAction().equals(Action.raise)||incident[i].getAction().equals(Action.all_in) || incident[i].getAction().equals(Action.call)){
 				count++;
 			}
 		}
