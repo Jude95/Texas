@@ -44,40 +44,40 @@ public class Manager {
 	}
 
 	private Deciders birth() {
-		switch (Integer.parseInt(Client.ID)) {
-		case 1111:
-			Config.NAME = "CallGod";
-			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 2222:
-			Config.NAME = "FlodFather";
-			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 3333:
-			Config.NAME = "RaiseBoss";
-			return new AlwaysRaiseDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 4444:
-			Config.NAME = "AllinBoss";
-			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 5555:
-			Config.NAME = "HandDog";
-			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 6666:
-			Config.NAME = "AlgorithmOld";
+//		switch (Integer.parseInt(Client.ID)) {
+//		case 1111:
+//			Config.NAME = "CallGod";
+//			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 2222:
+//			Config.NAME = "FlodFather";
+//			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 3333:
+//			Config.NAME = "RaiseBoss";
+//			return new AlwaysRaiseDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 4444:
+//			Config.NAME = "AllinBoss";
+//			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 5555:
+//			Config.NAME = "HandDog";
+//			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder);
+//		case 6666:
+			Config.NAME = "Miracle";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder,1);
-		case 7777:
-			Config.NAME = "AlgorithmNew";
-			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder,2);
-		default:
-			Config.NAME = "AlgorithmOther";
-			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder,3);
-		}
+//		case 7777:
+//			Config.NAME = "Miracle";
+//			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder,2);
+//		default:
+//			Config.NAME = "Miracle";
+//			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+//					mSceneRecorder,3);
+		//}
 
 	}
 }

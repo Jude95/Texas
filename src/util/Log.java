@@ -17,15 +17,15 @@ public class Log {
 	}
 	
 	public static void Log(String tag,String content){
-		FileUtil.writeToFile(new File(Log,tag), content+"\n");
+		//FileUtil.writeToFile(new File(Log,tag), content+"\n");
 	}
 	
 	public static void Log(String parentStr,String tag,String content){
-		File parent = new File(Log,"parent");
-		if(!parent.exists()){
-			parent.mkdir();
-		}
-		FileUtil.writeToFile(new File(parent,tag), content+"\n");
+//		File parent = new File(Log,"parent");
+//		if(!parent.exists()){
+//			parent.mkdir();
+//		}
+//		FileUtil.writeToFile(new File(parent,tag), content+"\n");
 	}
 
 }

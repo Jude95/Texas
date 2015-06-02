@@ -14,7 +14,7 @@ public class Config {
 		public static final double SHILL_CALL_TOAVG = 1;// 当大于最大概率的0.65倍的时候call
 		
 		public static final double SHILL_CALLJETTON = 0.3;// 下注阈值
-		public static final int SKILL_DANGER = 50; // 危险状态跟的界限
+		public static final int SKILL_DANGER = 40; // 危险状态跟的界限
 		
 		public static final double PRO_WEIGHT = 1; // raise的时候的阈值
 		public static final double PRO_ALLIN = 0.8;

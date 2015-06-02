@@ -1,6 +1,7 @@
 package algorithms.statistics;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -249,13 +250,34 @@ public class HandStatistics implements IActionObserver {
 			prob = flag ? 1.1f : 1.0f;
 		} else {
 			prob = PROB;
-			prob = ((flag ? Config.Statistics.Gradient : 0) + Math
-					.round((prob - (int) prob) * 10 * (int) prob))
-					/ (((int) prob + Config.Statistics.Gradient) * 10)
-					+ (int) prob + Config.Statistics.Gradient;
+			int win = ((flag ? Config.Statistics.Gradient : 0) + Math
+					.round((prob - (int) prob) * 10 * (int) prob));
+			int total = (((int) prob + Config.Statistics.Gradient));
+			prob = ((float)win/total/10+total);
 		}
 		curBag.put(key.toString(), prob);
 	}
+	
+//	public static void main(String[] args) {
+//		boolean flag = false;
+//		FileUtil.init("1111");
+//		Float PROB = HandStatistics.getInstance().readMapByCount(8).get("J2o");
+//		float prob;
+//		
+//		
+//		if (PROB == null) {
+//			prob = flag ? 1.1f : 1.0f;
+//		} else {
+//			prob = PROB;
+//
+//			int win = ((flag ? Config.Statistics.Gradient : 0) + Math
+//					.round((prob - (int) prob) * 10 * (int) prob));
+//			int total = (((int) prob + Config.Statistics.Gradient));
+//			prob = ((float)win/total/10+total);
+//
+//		}
+//		
+//	}
 
 	@Override
 	public void regist() {

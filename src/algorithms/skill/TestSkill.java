@@ -1,6 +1,7 @@
 
 package algorithms.skill;
 
+import util.Log;
 import bean.Action;
 import bean.Color;
 import bean.Poker;
@@ -18,6 +19,9 @@ public class TestSkill implements ISkill{
 		color0 = holdPoker[0].getColor();
 		point1 = holdPoker[1].getPoint();
 		color1 = holdPoker[1].getColor();
+		if (sceneReader.getAlivePersonCount() <= 1) {
+			return Action.call;
+		}
 
 		if (leastPriority()) {
 			if (isCanCheck()) {

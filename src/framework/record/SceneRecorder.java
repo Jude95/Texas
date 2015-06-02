@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.Log;
 import bean.Action;
 import bean.Incident;
 import bean.Person;
@@ -42,7 +43,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 	private int bigJetton;
 	private static int count = 0;
 	private int timesNum = 0;
-
+	private int newCurrent = 0;
 	private Incident[] inquireIncident;// 当前玩家之前其他玩家的操作
 	private Incident[] notifyIncident;
 	private Result[] results;
@@ -54,6 +55,7 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 		// TODO Auto-generated method stub
 		timesNum++;
 		this.person = person;
+		currentJetton = 0;
 		seatMap = new HashMap<String, Integer>();
 		for (int i = 0; i < person.length; i++) {
 			seatMap.put(person[i].getName(), i);
@@ -135,6 +137,8 @@ public class SceneRecorder implements IActionObserver, ISceneReader {
 			}
 
 			if (inquireIncident[i].getBet() > currentJetton) {
+				newCurrent = inquireIncident[i].getBet() - currentJetton;
+				Log.Log("current","newCurrent"+newCurrent+"    currentJetton"+currentJetton);
 				currentJetton = inquireIncident[i].getBet();
 			}
 

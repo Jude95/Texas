@@ -186,15 +186,7 @@ public class Probability {
 		}
 		return Action.fold;
 	}
-	private int callNum(Incident[] incident){
-		int count=0;
-		for(int i =0;i<incident.length;i++){
-			if(incident[i].getAction().equals(Action.raise) || incident[i].getAction().equals(Action.call)){
-				count++;
-			}
-		}
-		return count;
-	}
+
 	boolean canCheck(Action[] actions){
 		boolean flag =false;
 		for(int i=0;i<actions.length;i++){
