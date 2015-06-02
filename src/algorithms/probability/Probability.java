@@ -151,29 +151,36 @@ public class Probability {
 		int roundNum = reader.roundNum();
 		boolean canCheck = canCheck(reader.availableAction());
 		Person[] person = reader.person();
-		int callNum = callNum(reader.preAction());
-		if (win >= Config.AlgorithmConfig.PRO_RAISE*(roundNum/10 + 1)) {//如果这时候胜利的可能性已经超过了80%
-			Action action = Action.raise;
-			action.setNum(300);
+		int last = reader.getAlivePersonCount();
+		if (win >= Config.AlgorithmConfig.PRO_ALLIN*(roundNum/30 + 1)) {//如果这时候胜利的可能性已经超过了80%
+			Action action = Action.all_in;//TODO
 			return action;
-		}else{
-			if(canCheck){//可以check吗
-				return Action.check;
-			}
-			if(win >= Config.AlgorithmConfig.PRO_CALL * (roundNum/10 + 1)){//胜利的可能性大于40%
-				if(callNum < person.length/2){
-					if(callJetton < pot*win  && callJetton < lastJetton * win){
-						return Action.call;
-					}
-				}
-				if(lastJetton > callJetton*10){
-					if(callJetton < pot*win  && callJetton < lastJetton * win){
-						return Action.call;
-					}
-				}
-			}	
 		}
-		if(true){
+		
+		if (win >= Config.AlgorithmConfig.PRO_CALL*(roundNum/30 + 1)) {//如果这时候胜利的可能性已经超过了65%
+			Action action = Action.call;//TODO
+			return action;
+		}
+		
+		if(canCheck){//可以check吗
+			return Action.check;
+		}
+		
+		if(win >= Config.AlgorithmConfig.PRO_DANGER * (roundNum/30 + 1)){//胜利的可能性大于40%
+			if(last < person.length/2){
+				if(callJetton < pot*win  && callJetton < lastJetton * win){
+					return Action.call;
+				}
+			}
+			if(lastJetton > callJetton*5){
+				if(callJetton < pot*win  && callJetton < lastJetton * win){
+					return Action.call;
+				}
+			}
+			
+		}
+		
+		if(reader.totalCallJetton()>3000){
 			//投入很多了，就一定要坚持到最后开牌，不惜all_in
 			return Action.call;
 		}

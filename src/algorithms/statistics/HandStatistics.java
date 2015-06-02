@@ -107,7 +107,7 @@ public class HandStatistics implements IActionObserver {
 	private ArrayList<Entry<String,Float>> getArrayByCount(int count){
 		ArrayList<Entry<String,Float>> arr = new ArrayList<Map.Entry<String,Float>>();
 		arr.addAll(getBagByCount(count).entrySet());
-		arr.sort(new Comparator<Entry<String,Float>>() {
+		Collections.sort(arr,new Comparator<Entry<String,Float>>() {
 
 			@Override
 			public int compare(Entry<String,Float> o1, Entry<String,Float> o2) {
@@ -116,6 +116,7 @@ public class HandStatistics implements IActionObserver {
 				return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
 			}
 		});
+
 		return arr;
 	}
 	
@@ -172,6 +173,36 @@ public class HandStatistics implements IActionObserver {
 		return total/arr.size();
 	}
 
+	public float getMidProbability(int count){
+		ArrayList<Entry<String,Float>> arr = getArrayByCount(count);
+		if(arr.size()==0)return 0;
+		Float PROB = arr.get(arr.size()/2).getValue();
+		if(PROB!=null){
+			float prob = PROB;
+			return (prob-(int)prob)*10;
+		}else{
+			return 0;
+		}
+	}
+	
+	public float getNumProbability(int count,int index){
+		ArrayList<Entry<String,Float>> arr = getArrayByCount(count);
+		if(arr.size()==0)return 0;
+		Float PROB;
+		if(index>arr.size()-1){
+			PROB = arr.get(arr.size()-1).getValue();
+		}else{
+			PROB = arr.get(arr.size()-1-index).getValue();
+		}
+		if(PROB!=null){
+			float prob = PROB;
+			return (prob-(int)prob)*10;
+		}else{
+			return 0;
+		}
+	}
+	
+	
 	@Override
 	public void seat(Person[] person) {
 		curBag = getBagByCount(person.length);
@@ -184,36 +215,16 @@ public class HandStatistics implements IActionObserver {
 			bagDir.mkdir();
 		for (int i = 2; i < 9; i++) {
 			HashMap<String, Float> bag = getBagByCount(i);
-			for (Entry<String, Float> entry : bag.entrySet()) {
-				System.out.println(entry.getKey() + "  :  " + entry.getValue());
-				// ArrayList<Entry<String,Float>> arr = new
-				// ArrayList<Map.Entry<String,Float>>();
-				// arr.addAll(bag.entrySet());
-				// Collections.sort(arr, new Comparator<Entry<String,Float>>() {
-				// @Override
-				// public int compare(Entry<String,Float> o1,
-				// Entry<String,Float> o2) {
-				// float pro1 = (float)o1.getValue();
-				// float pro2 = (float)o2.getValue();
-				// return (int)( ((pro1-(int)pro1)-(pro2-(int)pro2))*10000);
-				// }
-				// });
-
-				for (Entry<String, Float> e : bag.entrySet()) {
-					if (debug) {
-						// System.out.println(e.getKey()+"  :  "+e.getValue());
-					} else {
-						File hand = new File(bagDir, "hand" + i);
-						FileUtil.writeToFile(hand,
-								e.getKey() + "  :  " + e.getValue() + "\n");
-					}
+			for (Entry<String, Float> e : bag.entrySet()) {
+				if (debug) {
+					// System.out.println(e.getKey()+"  :  "+e.getValue());
+				} else {
+					File hand = new File(bagDir, "hand" + i);
+					FileUtil.writeToFile(hand,
+							e.getKey() + "  :  " + e.getValue() + "\n");
 				}
 			}
 		}
-	}
-
-	public static void main(String args[]) {
-		HandStatistics.getInstance().showBag();
 	}
 
 	@Override
@@ -312,11 +323,5 @@ public class HandStatistics implements IActionObserver {
 		// TODO Auto-generated method stub
 
 	}
-
-	// public static void main(String[] args) {
-	// Poker []poker = {new Poker(Color.HEARTS,10),new Poker(Color.CLUBS,10)};
-	// float win = HandStatistics.getInstance().getProbability(poker,8);
-	// System.out.println(win);
-	// }
 
 }

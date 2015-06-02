@@ -41,7 +41,7 @@ public class Skill {
 					new Poker(Color.DIAMONDS, 14) };
 			float AAwin = HandStatistics.getInstance().getProbability(poker,
 					reader.person().length);
-			if (win >= Config.AlgorithmConfig.SHILL_CALL * AAwin) {
+			if (win >= Config.AlgorithmConfig.SHILL_CALL_TOAVG * AAwin) {
 				int callJetton = reader.callJetton();
 				Incident[] incident = reader.preAction();
 				if(callNum(incident) < incident.length/2){//call或者raise的人数少于一半

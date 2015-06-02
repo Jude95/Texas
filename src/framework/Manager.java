@@ -7,6 +7,7 @@ import framework.deciders.AlgorithmDeciders;
 import framework.deciders.AlwaysAllinDeciders;
 import framework.deciders.AlwaysCallDeciders;
 import framework.deciders.AlwaysFlodDeciders;
+import framework.deciders.AlwaysRaiseDeciders;
 import framework.deciders.Deciders;
 import framework.deciders.HandAllinDeciders;
 import framework.record.SceneRecorder;
@@ -43,7 +44,6 @@ public class Manager {
 	}
 
 	private Deciders birth() {
-
 		switch (Integer.parseInt(Client.ID)) {
 		case 1111:
 			Config.NAME = "CallGod";
@@ -54,33 +54,29 @@ public class Manager {
 			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		case 3333:
-			Config.NAME = "HandDog";
-			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
+			Config.NAME = "RaiseBoss";
+			return new AlwaysRaiseDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		case 4444:
-			Config.NAME = "CallGod";
-			return new AlwaysCallDeciders(mTranslator.obtainActionPoster(),
+			Config.NAME = "AllinBoss";
+			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
 		case 5555:
-			Config.NAME = "FlodFather";
-			return new AlwaysFlodDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 6666:
 			Config.NAME = "HandDog";
 			return new HandAllinDeciders(mTranslator.obtainActionPoster(),
 					mSceneRecorder);
-		case 7777:
-			Config.NAME = "AllinBoss";
-			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
-		case 8888:
-			Config.NAME = "Algorithm";
+		case 6666:
+			Config.NAME = "AlgorithmOld";
 			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
+					mSceneRecorder,1);
+		case 7777:
+			Config.NAME = "AlgorithmNew";
+			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder,2);
 		default:
-			Config.NAME = "AllinBoss";
-			return new AlwaysAllinDeciders(mTranslator.obtainActionPoster(),
-					mSceneRecorder);
+			Config.NAME = "AlgorithmOther";
+			return new AlgorithmDeciders(mTranslator.obtainActionPoster(),
+					mSceneRecorder,3);
 		}
 
 	}

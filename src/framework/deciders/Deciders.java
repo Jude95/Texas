@@ -23,7 +23,6 @@ public class Deciders implements IActionObserver{
 	public Deciders(IActionPoster actionPoster,ISceneReader sceneReader) {
 		mActionPoster = actionPoster;
 		mSceneReader = sceneReader;
-		mAlgorithmManager = new AlgorithmManager();
 	}
 
 	@Override
