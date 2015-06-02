@@ -3,9 +3,11 @@ package algorithms.probability;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import config.Config;
 import test.StateJudger;
 import framework.record.ISceneReader;
+import algorithms.know_enemy.KnowEnemy;
 import bean.*;
 
 
@@ -22,7 +24,7 @@ public class Probability {
 	}
 
 	public Action getProbabilityAction(ISceneReader reader) {
-		
+		KnowEnemy.getInstance().setReader(reader);
 		Action mAction = Action.fold;
 		Poker[] holdPoker = reader.hold();
 		Poker[] commonPoker = reader.common();

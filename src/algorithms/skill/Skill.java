@@ -4,14 +4,14 @@ package algorithms.skill;
 import util.Log;
 import config.Config;
 import framework.record.ISceneReader;
+import algorithms.know_enemy.KnowEnemy;
 import algorithms.statistics.HandStatistics;
 import bean.*;
 
 public class Skill {
 
 	public Action getSkillAction(ISceneReader reader) {
-		
-		
+		KnowEnemy.getInstance().setReader(reader);		
 		if(isContainAK(reader.hold())){
 			Action action = Action.raise;
 			return action;

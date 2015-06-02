@@ -8,17 +8,20 @@ import framework.record.ISceneReader;
 
 public class KnowEnemy {
 
-	private KnowEnemy instance;
-	private HashMap<String,Integer[]> map; 
+	private static KnowEnemy instance;
+	private static HashMap<String,Integer[]> map; 
 	private Action action;
 	private String id;
 	private ISceneReader reader;
 	
+	public void setReader(ISceneReader reader){
+		this.reader = reader;
+	}
 	
 	private KnowEnemy(){
 	}
 	
-	public KnowEnemy getInstance(ISceneReader reader){
+	public static KnowEnemy getInstance(){
 		if(instance == null){
 			instance = new KnowEnemy();
 			map =  new HashMap<String,Integer[]>();
@@ -31,7 +34,6 @@ public class KnowEnemy {
 			map.put("7777",new Integer[5]);
 			map.put("8888",new Integer[5]);
 		}
-		this.reader = reader;
 		return instance;
 	}
 	
@@ -90,6 +92,7 @@ public class KnowEnemy {
 		}
 	}
 	
+	
 	private int getTypeMax(String key){
 		int temp =-1;
 		int k = 0;
@@ -101,9 +104,6 @@ public class KnowEnemy {
 		}
 		return k;
 	}
-	
-	
-	
 	
 	enum Type{
 		
